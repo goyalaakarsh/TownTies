@@ -10,19 +10,19 @@ const ExpressError = require("./utils/ExpressErrors.js");
 const { productSchema } = require("./models/product.js");
 // const { reviewSchema } = require("./schema.js");
 // const Review = require("./models/review.js");
-// const MONGO_URL = "";
+const MONGO_URL = "mongodb://127.0.0.1:27017/townties";
 
-// main()
-//     .then(() => {
-//         console.log("Connected to Database.");
-//     })
-//     .catch((err) => {
-//         console.log(err);
-//     })
+main()
+    .then(() => {
+        console.log("Connected to Database.");
+    })
+    .catch((err) => {
+        console.log(err);
+    })
 
-// async function main() {
-//     await mongoose.connect(MONGO_URL);
-// }
+async function main() {
+    await mongoose.connect(MONGO_URL);
+}
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -31,14 +31,22 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 
+// app.get("/", (req, res) => {
+//     // res.send("Hello, I am root.");
+// });
+
 app.get("/", (req, res) => {
-    res.send("Hello, I am root.");
+    res.render("layouts/home.ejs");
 });
 
-app.use((err, req, res, next) => {
-    let { statusCode, message } = err;
-    res.render("error.ejs");
+app.get("/profile", (req, res) => {
+    res.render("layouts/profile/profile.ejs");
 });
+
+// app.use((err, req, res, next) => {
+//     let { statusCode, message } = err;
+//     res.render("error.ejs");
+// });
 
 app.listen(3000, () => {
     console.log("Server is listening to port 3000!");
