@@ -1,0 +1,19 @@
+.navbar {
+    height: 4.5rem;
+    background-color: rgb(46, 90, 233); /* Set the background color to the desired RGB value */
+}
+
+.navbar-brand {
+    color: white !important; /* Adjust the color of the navbar brand as needed */
+    font-weight: 600;
+}
+
+#navbar-logo {
+    color: rgb(233, 46, 46);
+    margin-right: 10px;
+    font-size: 25px;
+}
+
+.nav-link {
+    color: white !important;
+}

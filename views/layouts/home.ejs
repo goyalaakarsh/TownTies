@@ -1,1 +1,46 @@
 <% layout("/layouts/boilerplate.ejs"); %>
+
+<div class="container center-content">
+    <form class="col-6 offset-3" id="forumForm">
+        <h3 class="text-center mt-4">Join or Create a Forum</h3>
+        <div class="mb-3">
+            <label for="forumType" class="form-label">Select Option</label>
+            <select class="form-control" id="forumType">
+                <option value="join">Join Forum</option>
+                <option value="create">Create Forum</option>
+            </select>
+        </div>
+        <div id="joinForumInput" class="mb-3" style="display: none;">
+            <label for="joinforum" class="form-label">Join Forum</label>
+            <input type="text" class="form-control" id="joinforum" placeholder="Enter a referral code">
+        </div>
+        <div id="createForumInput" class="mb-3" style="display: none;">
+            <label for="createforum" class="form-label">Create Forum</label>
+            <input type="text" class="form-control" id="createforum" placeholder="Enter forum name">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block text-center col-2 offset-5">Submit</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('forumType').addEventListener('change', function () {
+        var joinInput = document.getElementById('joinForumInput');
+        var createInput = document.getElementById('createForumInput');
+
+        if (this.value === 'join') {
+            joinInput.style.display = 'block';
+            createInput.style.display = 'none';
+        } else if (this.value === 'create') {
+            joinInput.style.display = 'none';
+            createInput.style.display = 'block';
+        }
+    });
+
+    // Show the join input initially if "Join Forum" is selected by default
+    window.onload = function () {
+        var defaultOption = document.getElementById('forumType').value;
+        if (defaultOption === 'join') {
+            document.getElementById('joinForumInput').style.display = 'block';
+        }
+    };
+</script>

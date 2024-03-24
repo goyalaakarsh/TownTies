@@ -27,7 +27,7 @@ async function main() {
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "/public")));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 
@@ -43,10 +43,24 @@ app.get("/profile", (req, res) => {
     res.render("layouts/profile/profile.ejs");
 });
 
-// app.use((err, req, res, next) => {
-//     let { statusCode, message } = err;
-//     res.render("error.ejs");
-// });
+app.get("/login", (req, res) => {
+    res.render("layouts/users/login.ejs");
+});
+app.get("/signup", (req, res) => {
+    res.render("layouts/users/signup.ejs");
+});
+
+app.get("/new-product", (req, res) => {
+    res.render("layouts/product/new-product.ejs");
+});
+app.get("/edit-product", (req, res) => {
+    res.render("layouts/product/edit-product.ejs");
+});
+
+app.use((err, req, res, next) => {
+    let { statusCode, message } = err;
+    res.render("error.ejs");
+});
 
 app.listen(3000, () => {
     console.log("Server is listening to port 3000!");
