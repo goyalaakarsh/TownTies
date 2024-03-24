@@ -1,30 +1,33 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const productSchema = new Schema({
+const productSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true,
+        required: true
     },
-    description: String,
-    image: {
+    description: {
         type: String,
-        default: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        set: (v) =>
-            v === ""
-                ? "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                : v,
+        required: true
     },
-    price: Number,
-    contact: Number,
-    // location: String,
-    // country: String,
-    // reviews: [
-    //     {
-    //         type:Schema.Types.ObjectId,
-    //         ref: "Review",
-    //     }
-    // ]
+    category: {
+        type: String,
+        required: true
+    },
+    image: {
+        data: Buffer, // Store the image data as a Buffer
+        contentType: String // Store the content type of the image
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    contactNumber: {
+        type: String,
+        required: true
+    },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Reference to the user who posted the product
+    forum: { type: mongoose.Schema.Types.ObjectId, ref: 'Forum' } // Reference to the forum where the product is posted
 });
 
 const Product = mongoose.model("Product", productSchema);

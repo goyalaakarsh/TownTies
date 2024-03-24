@@ -1,6 +1,6 @@
 <% layout("/layouts/boilerplate.ejs"); %>
 
-    <div class="new-product col-8 offset-2 mt-4">
+    <div class="new-product col-8 offset-2 mt-4 mb-4">
         <div id="new-form-container">
             <h3 id="new-heading" class="text-center">Edit Your Product</h3>
             <form action="/listings" method="POST" novalidate class="needs-validation">
@@ -41,10 +41,14 @@
                         <option>Other</option>
                     </select>
                 </div>
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label for="image">Image</label>
                     <input class="form-control" type="text" name="listing[image]" placeholder="Enter image URL"
                         id="image">
+                </div> -->
+                <div class="mb-3">
+                    <label for="imageInput" class="form-label">Upload Image</label>
+                    <input class="form-control" type="file" id="imageInput" name="image" accept="image/*">
                 </div>
                 <div class="mb-3">
                     <label for="price">Price</label>

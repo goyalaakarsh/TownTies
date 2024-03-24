@@ -1,6 +1,5 @@
 <% layout("/layouts/boilerplate.ejs"); %>
-
-    <div class="new-product col-8 offset-2 mt-4">
+    <div class="new-product col-8 offset-2 mt-4 mb-4">
         <div id="new-form-container">
             <h3 id="new-heading" class="text-center">Add New Product</h3>
             <form action="/listings" method="POST" novalidate class="needs-validation">
@@ -8,13 +7,11 @@
                     <label for="title">Title</label>
                     <input class="form-control" type="text" name="listing[title]" placeholder="Write a catchy title"
                         id="title" required>
-                    <!-- <div class="valid-feedback">Looks good!</div> -->
                 </div>
                 <div class="mb-3">
                     <label for="description">Description</label>
                     <textarea class="form-control" name="listing[description]" id="description" cols="5" rows="2"
                         placeholder="Describe your product in detail" required></textarea>
-                    <!-- <div class="invalid-feedback">Plese enter a short description</div> -->
                 </div>
                 <div class="mb-3">
                     <label for="category">Category</label>
@@ -41,33 +38,25 @@
                         <option>Other</option>
                     </select>
                 </div>
+                <div id="customCategoryInput" class="mb-3" style="display: none;">
+                    <!-- <label for="customCategory">Custom Category</label> -->
+                    <input class="form-control" type="text" name="listing[customCategory]" id="customCategory"
+                        placeholder="Enter category">
+                </div>
                 <div class="mb-3">
-                    <label for="image">Image</label>
-                    <input class="form-control" type="text" name="listing[image]" placeholder="Enter image URL"
-                        id="image">
+                    <label for="imageInput" class="form-label">Upload Image</label>
+                    <input class="form-control" type="file" id="imageInput" name="image" accept="image/*">
                 </div>
                 <div class="mb-3">
                     <label for="price">Price</label>
                     <input class="form-control" type="number" name="listing[price]" placeholder="Enter price" id="price"
                         required>
-                    <!-- <div class="invalid-feedback">Please enter a valid price</div> -->
                 </div>
                 <div class="mb-3">
-                    <label for="price">Contact Number</label>
-                    <input class="form-control" type="number" name="listing[price]"
-                        placeholder="Enter your contact number" id="price" required>
-                    <!-- <div class="invalid-feedback">Please enter a valid price</div> -->
+                    <label for="contactNumber">Contact Number</label>
+                    <input class="form-control" type="number" name="listing[contactNumber]"
+                        placeholder="Enter your contact number" id="contactNumber" required>
                 </div>
-                <!-- <div class="mb-3">
-                <label for="location">Location</label>
-                <input class="form-control" type="text" name="listing[location]" placeholder="Enter location"
-                    id="location" required>
-            </div> -->
-                <!-- <div class="mb-3">
-                <label for="country">Country</label>
-                <input class="form-control" type="text" name="listing[country]" placeholder="Enter country" id="country"
-                    required>
-            </div> -->
                 <div id="new-form-btn-div">
                     <button type="submit" class="btn btn-primary btn-block text-center col-4 offset-4"
                         id="new-form-btn">Add</button>
@@ -75,3 +64,20 @@
             </form>
         </div>
     </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var categorySelect = document.getElementById('category');
+            var customCategoryInput = document.getElementById('customCategoryInput');
+
+            categorySelect.addEventListener('change', function () {
+                if (categorySelect.value === 'Other') {
+                    customCategoryInput.style.display = 'block';
+                } else {
+                    customCategoryInput.style.display = 'none';
+                }
+            });
+        });
+
+    </script>
