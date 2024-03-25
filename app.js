@@ -31,22 +31,23 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 
-// app.get("/", (req, res) => {
-//     // res.send("Hello, I am root.");
-// });
-
 app.get("/", (req, res) => {
-    res.render("layouts/home.ejs");
+    // res.send("Hello, I am root.");
 });
 
-app.get("/profile", (req, res) => {
+app.get("/forums/join", (req, res) => {
+    res.render("forum/joinforum.ejs");
+});
+
+app.get("/users/profile", (req, res) => {
     res.render("layouts/profile/profile.ejs");
 });
 
-app.get("/login", (req, res) => {
+app.get("/users/login", (req, res) => {
     res.render("layouts/users/login.ejs");
 });
-app.get("/signup", (req, res) => {
+
+app.get("/users/signup", (req, res) => {
     res.render("layouts/users/signup.ejs");
 });
 
@@ -56,11 +57,17 @@ app.get("/new-product", (req, res) => {
 app.get("/edit-product", (req, res) => {
     res.render("layouts/product/edit-product.ejs");
 });
-
-app.use((err, req, res, next) => {
-    let { statusCode, message } = err;
-    res.render("error.ejs");
+app.get("/product", (req, res) => {
+    res.render("layouts/product/product.ejs");
 });
+app.get("/mart", (req, res) => {
+    res.render("forum/mart.ejs");
+});
+
+// app.use((err, req, res, next) => {
+//     let { statusCode, message } = err;
+//     res.render("error.ejs");
+// });
 
 app.listen(3000, () => {
     console.log("Server is listening to port 3000!");

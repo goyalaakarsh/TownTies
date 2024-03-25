@@ -1,21 +1,23 @@
 <% layout("/layouts/boilerplate.ejs"); %>
 
-    <div class="container center-content">
-        <form class="col-6 offset-3">
-            <h3 class="text-center mt-4">Log In</h3>
-            <div class="mb-3">
-                <label for="exampleInputUsername1" class="form-label">Username</label>
-                <input type="text" class="form-control" id="exampleInputUsername1">
-                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-            </div>
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1">
-            </div>
-            <!-- <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1">
-          <label class="form-check-label" for="exampleCheck1">Check me out</label>
+<div class="container center-content">
+    <form class="col-4 offset-4">
+        <h3 class="text-center mt-4">Log In</h3>
+        <div class="mb-3">
+            <label for="exampleInputUsername1" class="form-label">Username</label>
+            <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Enter your username">
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter your password">
+        </div>
+        <!-- <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
         </div> -->
-            <button type="submit" class="btn btn-primary btn-block text-center col-4 offset-4">Login</button>
-        </form>
-    </div>
+        <button type="submit" class="btn btn-primary btn-block text-center col-4 offset-4">Login</button>
+        <div class="text-center mt-3">
+            <p>Don't have an account? <a href="/users/signup">Sign Up</a></p>
+        </div>
+    </form>
+</div>

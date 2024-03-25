@@ -1,0 +1,115 @@
+#mart-container {
+    flex: 2;
+    overflow-y: auto;
+    max-height: 90vh;
+}
+
+#mart-chat-container {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 90vh;
+}
+
+#mart-parent {
+    display: flex;
+}
+
+#mart {
+    background-color: aliceblue;
+    flex: 2;
+    min-height: 90vh;
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    padding-bottom: 1rem;
+}
+
+#mart-forum-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 4rem;
+    background-color: aqua;
+    text-align: center;
+    gap: 0.3rem;
+}
+
+#mart-forum-name h5 {
+    margin: 0;
+    padding: 0;
+}
+
+#mart-forum-name h6 {
+    margin: 0;
+    padding: 0;
+}
+
+#products {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0 2.5rem;
+}
+
+#all-products {
+    margin: 2rem 0;
+}
+
+#product-listing {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 1em;
+}
+
+#price-btn {
+    max-width: 8rem;
+}
+
+#product-image {
+    /* max-height: 25rem; */
+    max-width: 35rem;
+    background-size: cover;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+}
+
+#mart-chat {
+    background-color: aquamarine;
+    flex: 1;
+    min-height: 90vh;
+    overflow-y: auto;
+    max-height: calc(90vh - 4rem);
+}
+
+#chat-forum-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 4rem;
+    background-color: bisque;
+    text-align: center;
+    gap: 0.3rem;
+}
+
+#chat-forum-name h5 {
+    margin: 0;
+    padding: 0;
+}
+
+#chat-area {
+    margin: 1rem;
+    background-color: blueviolet;
+    border-radius: 1rem;
+    padding: 1rem;
+    color: white;
+}
+
+#chat-input {
+    margin: 0 1rem 1rem 1rem;
+}
+
+#chat-input input {
+    border-radius: 3rem;
+}

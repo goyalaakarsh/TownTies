@@ -1,5 +1,23 @@
 <% layout("/layouts/boilerplate.ejs"); %>
 
-<div class="profile">
-    
+<div class="container center-content mb-4">
+    <div class="col-6 offset-3">
+        <h3 class="text-center mt-4">User Profile</h3>
+        <div class="mb-3">
+            <label for="profileName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="profileName" value="<%= user.name %>" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="profileUsername" class="form-label">Username</label>
+            <input type="text" class="form-control" id="profileUsername" value="<%= user.username %>" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="profileEmail" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="profileEmail" value="<%= user.email %>" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="profilePassword" class="form-label">Password</label>
+            <input type="password" class="form-control" id="profilePassword" value="**********" readonly>
+        </div>
+    </div>
 </div>
