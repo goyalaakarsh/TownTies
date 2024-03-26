@@ -2,6 +2,9 @@
     flex: 2;
     overflow-y: auto;
     max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
 }
 
 #mart-chat-container {
@@ -99,4 +102,66 @@
 
 #chat-input input {
     border-radius: 3rem;
+}
+
+
+
+
+
+#mart-chat-container {
+    display: flex;
+    flex-direction: column;
+    position: relative; 
+}
+
+#mart-chat {
+    background-color: aquamarine;
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 3rem; /* Adjusted for chat input height */
+    max-height: calc(90vh - 4rem);
+    position: relative; /* Added */
+}
+
+#chat-input {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 1rem;
+    /* background-color: white; */
+}
+
+#chat-input input {
+    width: 100%;
+    border-radius: 3rem;
+    padding: 0.5rem 1.2rem;
+    box-sizing: border-box; /* Added to include padding in width calculation */
+}
+
+
+#chat-forum-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 4rem;
+    background-color: bisque;
+    text-align: center;
+    gap: 0.3rem;
+    position: sticky; /* Make the div sticky */
+    top: 0rem; 
+    z-index: 1000; /* Ensure it's above other content */
+}
+#mart-forum-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 4rem;
+    text-align: center;
+    gap: 0.3rem;
+    position: sticky; /* Make the div sticky */
+    top: 0rem; 
+    z-index: 1000; /* Ensure it's above other content */
 }

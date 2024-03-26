@@ -32,7 +32,7 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 
 app.get("/", (req, res) => {
-    // res.send("Hello, I am root.");
+    res.send("Hello, I am groot.");
 });
 
 app.get("/forums/join", (req, res) => {
