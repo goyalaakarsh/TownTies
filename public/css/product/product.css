@@ -1,5 +1,3 @@
-
-
 #mart-chat-container {
     flex: 1;
     overflow-y: auto;
@@ -100,6 +98,9 @@
     border-radius: 1rem;
     padding: 1rem;
     color: white;
+    position: relative;
+    overflow-y: auto;
+    
 }
 
 #chat-input {
@@ -189,4 +190,25 @@
     display: flex;
     flex-direction: column;
     position: relative;
+}
+
+.message {
+    padding: 1rem;
+    margin: 1rem;
+    background-color: rgba(255, 255, 255, 0.218);
+    border: 0.01rem solid white;
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.left {
+    float: left;
+    clear: both;
+}
+
+.right {
+    float: right;
+    clear: both;
 }
