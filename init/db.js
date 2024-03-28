@@ -19,14 +19,14 @@ async function main() {
     }
 }
 
-async function initDB() {
-    try {
-        await Product.deleteMany({});
-        const insertedProducts = await Product.insertMany(initData.data);
-        console.log(`${insertedProducts.length} products inserted into the database.`);
-    } catch (err) {
-        console.error("Error initializing data:", err);
-    }
-}
+// async function initDB() {
+//     try {
+//         await Product.deleteMany({});
+//         const insertedProducts = await Product.insertMany(initData.data);
+//         console.log(`${insertedProducts.length} products inserted into the database.`);
+//     } catch (err) {
+//         console.error("Error initializing data:", err);
+//     }
+// }
 
 main();
