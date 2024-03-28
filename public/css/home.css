@@ -1,0 +1,70 @@
+body {
+    overflow-x: hidden;
+}
+
+.home-bg {
+    min-height: calc(100vh - 5rem);
+    background-image: linear-gradient(45deg, #e7eeff, #7E9FEB);
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+}
+
+.intro-container {
+    display: flex;
+    /* flex-direction: column; */
+    align-items: center;
+}
+
+.welcome {
+    /* padding: 10rem; */
+    min-width: 40rem;
+    margin-left: 8rem;
+    box-sizing: border-box;
+    /* flex: 1.2; */
+    /* text-align: center; */
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    /* justify-content: center; */
+}
+
+#welcometo {
+    font-size: 3rem;
+}
+
+#welcometo strong {
+    color: #537FE5;
+    font-size: 3.5rem;
+}
+
+#welcomep2 {
+    font-size: 1.6rem;
+    margin-top: -1rem;
+}
+
+.welcome a {
+    text-decoration: none;
+    background-color: #537FE5;
+    color: white;
+    font-weight: 500;
+    padding: 0.8rem 1.2rem;
+    border-radius: 2.5rem;
+    max-width: 15rem;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.home-illus {
+    /* flex: 1; */
+    /* height: 15rem; */
+    /* background-color: blue; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-illus svg {
+    height: 20rem;
+    margin-left: -6rem;
+}

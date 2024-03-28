@@ -32,10 +32,10 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 
 app.get("/", (req, res) => {
-    res.send("Hello, I am groot.");
+    res.render("layouts/home.ejs");
 });
 
-app.get("/forums/join", (req, res) => {
+app.get("/newforum", (req, res) => {
     res.render("forum/joinforum.ejs");
 });
 

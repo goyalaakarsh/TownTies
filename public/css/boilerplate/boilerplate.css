@@ -16,16 +16,16 @@ body {
 
 /* Target the scrollbar track */
 ::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Change the background color of the scrollbar track */
+    background: #ABC4FF; /* Change the background color of the scrollbar track */
 }
 
 /* Target the scrollbar handle/thumb */
 ::-webkit-scrollbar-thumb {
-    background: #c1c1c1; /* Change the color of the scrollbar handle/thumb */
+    background: #7E9FEB; /* Change the color of the scrollbar handle/thumb */
     border-radius: 3px; /* Optional: Add rounded corners to the scrollbar handle/thumb */
 }
 
 /* Optional: Change the color on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #9f9f9f;
+    background: #537FE5;
 }
