@@ -1,0 +1,262 @@
+#mart-container {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+
+#mart-forum-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 4rem;
+    text-align: center;
+    gap: 0.3rem;
+    position: sticky; /* Make the div sticky */
+    top: 0rem; 
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+#mart-chat-container {
+    flex: 2;
+    overflow-y: auto;
+    max-height: 90vh;
+}
+
+#mart-parent {
+    display: flex;
+}
+
+#mart {
+    background-color: #E2EAFC;
+    flex: 2;
+    min-height: 90vh;
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    padding-bottom: 1rem;
+}
+
+#mart-forum-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 4rem;
+    background-color: #B6CCFE;
+    text-align: center;
+    gap: 0.3rem;
+}
+
+#mart-forum-name h5 {
+    margin: 0;
+    padding: 0;
+}
+
+#mart-forum-name h6 {
+    margin: 0;
+    padding: 0;
+}
+
+#products {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0 1rem;
+}
+
+#all-products {
+    margin: 1rem 0;
+}
+
+#product-listing {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
+
+
+#mart-chat {
+    background-color: aquamarine;
+    flex: 1;
+    min-height: 90vh;
+    overflow-y: auto;
+    max-height: calc(90vh - 4rem);
+}
+
+#chat-forum-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 4rem;
+    background-color: #7E9FEB;
+    text-align: center;
+    gap: 0.3rem;
+    position: sticky; 
+    top: 0rem; 
+    z-index: 1000; 
+    
+}
+
+#chat-forum-name a {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.551);
+}
+
+
+#chat-forum-name h5 {
+    margin: 0;
+    padding: 0;
+}
+
+#chat-area {
+    margin: 1rem;
+    background-color: #537FE5;
+    border-radius: 1rem;
+    padding: 1rem;
+    color: white;
+    position: relative;
+    overflow-y: auto;
+    
+}
+
+#chat-input {
+    margin: 0 1rem 1rem 1rem;
+}
+
+#chat-input input {
+    border-radius: 3rem;
+}
+
+
+
+
+
+
+#mart-chat-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    /* Added */
+}
+
+#mart-chat {
+    background-color: #C1D3FE;
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 3rem;
+    /* Adjusted for chat input height */
+    max-height: calc(90vh - 4rem);
+    position: relative;
+    /* Added */
+}
+
+#chat-input {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 1rem;
+    /* background-color: white; */
+}
+
+#chat-input input {
+    width: 100%;
+    border-radius: 3rem;
+    box-sizing: border-box;
+    padding: 0.5rem 1.2rem;
+    /* Added to include padding in width calculation */
+}
+
+
+
+
+
+#mart-forum-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 4rem;
+    text-align: center;
+    gap: 0.3rem;
+    position: sticky; 
+    top: 0rem;
+    z-index: 1000; 
+}
+
+
+
+
+#mart-container {
+    flex: 2;
+    overflow-y: auto;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.message {
+    padding: 1rem;
+    margin: 1rem;
+    background-color: rgba(255, 255, 255, 0.218);
+    border: 0.01rem solid white;
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.left {
+    float: left;
+    clear: both;
+}
+
+.right {
+    float: right;
+    clear: both;
+}
+
+#chat-input form {
+    display: flex;
+    gap: 1rem;
+}
+
+#send-btn {
+    border: 0;
+    border-radius: 4rem;
+    padding: 0rem 1rem;
+}
+
+
+#mart-container {
+    flex: 1;
+}
+
+
+#mart-chat-container {
+    flex: 2;
+}
+
+.chat {
+    cursor: pointer;
+    display: flex;
+    /* flex-direction: column; */
+    align-items: center;
+    height: 5rem;
+    border-bottom: 1px solid #7e9feb23;
+}
+
+.chat img {
+    height: 3rem;
+    width: 3rem;
+    background-size: cover;
+    border-radius: 50%;
+    margin: 0rem 1rem;
+}

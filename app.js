@@ -39,6 +39,10 @@ app.get("/newforum", (req, res) => {
     res.render("forum/joinforum.ejs");
 });
 
+app.get("/chats", (req, res) => {
+    res.render("forum/discussion.ejs");
+});
+
 app.get("/users/profile", (req, res) => {
     res.render("layouts/profile/profile.ejs");
 });
