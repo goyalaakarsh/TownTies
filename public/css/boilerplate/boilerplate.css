@@ -7,8 +7,6 @@ body {
     margin: 0;
 }
 
-
-
 /* Target the scrollbar */
 ::-webkit-scrollbar {
     width: 6px; /* Set the width of the scrollbar */

@@ -1,0 +1,24 @@
+body {
+    background-color: #E2EAFC;
+}
+
+#product-listing {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    row-gap: 3rem;
+}
+
+/* .card {
+    background-color: #abc4ff3f;
+    border: 2px solid #ABC4FF;
+    backdrop-filter: blur(10px);
+} */
+
+#my-listings {
+    margin: 2rem;
+}
+
+#container {
+    padding-bottom: 3rem;
+}

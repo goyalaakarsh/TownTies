@@ -68,7 +68,7 @@ app.get("/", (req, res) => {
     res.render("layouts/home.ejs");
 });
 
-app.get("/newforum", (req, res) => {
+app.get("/joinforum", (req, res) => {
     res.render("forum/joinforum.ejs");
 });
 
@@ -78,6 +78,10 @@ app.get("/chats", (req, res) => {
 
 app.get("/users/profile", (req, res) => {
     res.render("layouts/profile/profile.ejs");
+});
+
+app.get("/mylistings", (req, res) => {
+    res.render("layouts/profile/mylistings.ejs");
 });
 
 app.get("/users/login", (req, res) => {

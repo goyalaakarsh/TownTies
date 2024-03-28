@@ -5,11 +5,6 @@
     align-items: center;
 }
 
-#form-container {
-    
-
-}
-
 .joinillus {
     flex: 0.8;
 }
@@ -30,8 +25,6 @@ form {
     display: flex;
     flex-direction: column;
 }
-
-#submit-btn {}
 
 /* joinforum.css */
 
@@ -102,7 +95,3 @@ form input[type="file"]::-webkit-file-upload-button {
 form input[type="file"]::-webkit-file-upload-button:hover {
     background-color: rgb(255, 255, 255); /* White background with alpha 0.8 on hover */
 }
-
-
-
-

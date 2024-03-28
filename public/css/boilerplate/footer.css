@@ -7,7 +7,7 @@ body {
 
 footer {
     background-color: #D7E3FC;
-    height: 200px;
+    height: 10rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
