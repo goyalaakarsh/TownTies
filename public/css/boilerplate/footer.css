@@ -13,35 +13,29 @@ footer {
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin-top: auto; /* This ensures the footer sticks to the bottom */
+    margin-top: auto; 
 }
 
 .f-info {
     max-width: 800px;
-    /* Adjust max-width as needed */
 }
 
 .f-info-socials {
     margin-bottom: 10px;
-    /* Adjust margin as needed */
 }
 
 .f-info-socials i {
     font-size: 20px;
-    /* Increased font size */
     margin: 0 10px;
-    /* Adjust margin between social icons */
     cursor: pointer;
 }
 
 .f-info-links {
     margin-top: 10px;
-    /* Increased margin between text and links */
 }
 
 .f-info-links a {
     margin: 0 10px;
-    /* Adjust margin as needed */
     text-decoration: none;
     cursor: pointer;
 }

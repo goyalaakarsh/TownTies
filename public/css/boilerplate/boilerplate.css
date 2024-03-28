@@ -7,23 +7,19 @@ body {
     margin: 0;
 }
 
-/* Target the scrollbar */
 ::-webkit-scrollbar {
-    width: 6px; /* Set the width of the scrollbar */
+    width: 6px; 
 }
 
-/* Target the scrollbar track */
 ::-webkit-scrollbar-track {
-    background: #ABC4FF; /* Change the background color of the scrollbar track */
+    background: #ABC4FF; 
 }
 
-/* Target the scrollbar handle/thumb */
 ::-webkit-scrollbar-thumb {
-    background: #7E9FEB; /* Change the color of the scrollbar handle/thumb */
-    border-radius: 3px; /* Optional: Add rounded corners to the scrollbar handle/thumb */
+    background: #7E9FEB; 
+    border-radius: 3px; 
 }
 
-/* Optional: Change the color on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #537FE5;
 }
