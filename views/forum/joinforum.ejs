@@ -3,9 +3,6 @@
     <link rel="stylesheet" href="/css/forum/joinforum.css">
 
     <div class="gradbg">
-
-
-        <!-- <div id="form-container"> -->
         <div class="joinillus">
 
             <img src="/images/undraw_add_friends_re_3xte.svg" id="svg" alt="">
@@ -32,12 +29,7 @@
 
                         <label for="imageInput" class="form-label">Set Forum Icon</label>
                         <input class="form-control" type="file" id="imageInput" name="image" accept="image/*">
-
-                        <!-- <div class="mb-3">
-                            
-                        </div> -->
                     </div>
-                    <!-- <button type="submit" class="btn btn-outline-primary btn-block text-center col-4 offset-4">Submit</button> -->
                     <button type="submit" id="submit-btn">Submit</button>
                 </form>
             </div>
@@ -54,15 +46,14 @@
             if (this.value === 'join') {
                 joinInput.style.display = 'block';
                 createInput.style.display = 'none';
-                imageInput.style.display = 'none'; // Hide image input for "Join Forum"
+                imageInput.style.display = 'none';
             } else if (this.value === 'create') {
                 joinInput.style.display = 'none';
                 createInput.style.display = 'block';
-                imageInput.style.display = 'block'; // Show image input for "Create Forum"
+                imageInput.style.display = 'block';
             }
         });
 
-        // Show the join input initially if "Join Forum" is selected by default
         window.onload = function () {
             var defaultOption = document.getElementById('forumType').value;
             if (defaultOption === 'join') {

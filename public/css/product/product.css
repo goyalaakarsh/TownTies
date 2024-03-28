@@ -4,7 +4,6 @@
 }
 
 #mart {
-    /* background-color: aliceblue; */
     background-color: #E2EAFC;
     flex: 2;
     min-height: 90vh;
@@ -46,7 +45,6 @@
 }
 
 #product-image {
-    /* max-height: 25rem; */
     max-width: 35rem;
     background-size: cover;
     border-radius: 1rem;
@@ -89,7 +87,6 @@
     flex: 1;
     overflow-y: auto;
     padding-bottom: 3rem;
-    /* Adjusted for chat input height */
     max-height: calc(90vh - 4rem);
     position: relative;
     /* Added */
@@ -101,7 +98,6 @@
     border-radius: 3rem;
     box-sizing: border-box;
     padding: 0.5rem 1.2rem;
-    /* Added to include padding in width calculation */
 }
 
 
@@ -150,10 +146,9 @@
     flex: 1;
     overflow-y: auto;
     max-height: 90vh;
-    display: flex; /* Combining display properties */
-    flex-direction: column; /* Combining flex-direction properties */
-    position: relative; /* Keeping position property */
-    /* Added */
+    display: flex; 
+    flex-direction: column; 
+    position: relative;
 }
 
 #mart-forum-name {
@@ -162,7 +157,7 @@
     align-items: center;
     flex-direction: column;
     min-height: 4rem;
-    background-color: aqua; /* Adding background-color */
+    background-color: aqua; 
     text-align: center;
     gap: 0.3rem;
     position: sticky; 
@@ -185,13 +180,12 @@
 }
 
 #chat-input {
-    margin: 0 1rem 1rem 1rem; /* Merging margin property */
+    margin: 0 1rem 1rem 1rem;
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 0 1rem; /* Keeping padding */
-    /* background-color: white; */ /* Commented out to keep it disabled */
+    padding: 0 1rem;
 }
 
 i {

@@ -7,7 +7,6 @@
     flex: 2;
     min-height: 90vh;
     overflow-y: auto;
-    /* Enable vertical scrolling */
     padding-bottom: 1rem;
 }
 
@@ -49,10 +48,10 @@
     background-color: #7E9FEB;
     text-align: center;
     gap: 0.3rem;
-    position: sticky; 
-    top: 0rem; 
-    z-index: 1000; 
-    
+    position: sticky;
+    top: 0rem;
+    z-index: 1000;
+
 }
 
 #chat-forum-name a {
@@ -74,7 +73,7 @@
     color: white;
     position: relative;
     overflow-y: auto;
-    
+
 }
 
 .message {
@@ -112,7 +111,6 @@
 .chat {
     cursor: pointer;
     display: flex;
-    /* flex-direction: column; */
     align-items: center;
     height: 5rem;
     border-bottom: 1px solid #7e9feb23;
@@ -146,7 +144,7 @@
     position: sticky;
     top: 0rem;
     z-index: 1000;
-    background-color: #B6CCFE; /* Added background color */
+    background-color: #B6CCFE;
 }
 
 #mart-chat-container {
@@ -155,17 +153,17 @@
     position: relative;
     flex: 2;
     overflow-y: auto;
-    max-height: 90vh; /* This rule ensures the maximum height is set */
+    max-height: 90vh;
 }
 
 #mart-chat {
-    background-color: #C1D3FE; /* Overriding the previous aquamarine color */
+    background-color: #C1D3FE;
     flex: 1;
-    min-height: 90vh; /* Keeping the minimum height */
+    min-height: 90vh;
     overflow-y: auto;
-    padding-bottom: 3rem; /* Adjusted for chat input height */
-    max-height: calc(90vh - 4rem); /* Adjusted max-height */
-    position: relative; /* Added */
+    padding-bottom: 3rem;
+    max-height: calc(90vh - 4rem);
+    position: relative;
 }
 
 #chat-input {
@@ -174,13 +172,12 @@
     left: 0;
     right: 0;
     padding: 0 1rem;
-    margin: 0 1rem 1rem 1rem; /* Merging margin property */
-    /* background-color: white; */ /* Commented out to keep it disabled */
+    margin: 0 1rem 1rem 1rem;
 }
 
 #chat-input input {
-    width: 100%; /* Setting width to 100% */
-    border-radius: 3rem; /* Keeping border-radius */
-    box-sizing: border-box; /* Keeping box-sizing */
-    padding: 0.5rem 1.2rem; /* Keeping padding */
+    width: 100%;
+    border-radius: 3rem;
+    box-sizing: border-box;
+    padding: 0.5rem 1.2rem;
 }

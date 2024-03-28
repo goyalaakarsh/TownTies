@@ -17,81 +17,56 @@
 .join {
     min-width: 40rem;
     flex: 2;
-    
 }
 
 form {
-    
     display: flex;
     flex-direction: column;
 }
 
-/* joinforum.css */
-
-/* Style for white glassmorphism effect */
 .form-control {
     border: 2px solid rgba(255, 255, 255, 0.529);
-    /* White border with transparency */
     background-color: rgba(255, 255, 255, 0.1);
-    /* White background with transparency */
     border-radius: 10px;
-    /* Rounded corners */
     padding: 10px;
-    /* Padding around input */
     color: rgb(60, 60, 60);
-    /* Text color */
 }
 
-/* Hover effect */
 .form-control:hover {
     border: 2px solid rgba(255, 255, 255, 0.733);
-    /* Lighter border on hover */
 }
 
-/* Focus effect */
 .form-control:focus {
     border: 2px solid rgb(255, 255, 255);
-    /* Stronger border on focus */
     background-color: rgba(255, 255, 255, 0.2);
-    /* Lighter background on focus */
     outline: none;
-    /* Remove default focus outline */
 }
 
-/* Button style */
 #submit-btn {
     background-color: rgba(255, 255, 255, 0.2);
-    /* Transparent button background */
     border: 2px solid rgba(255, 255, 255, 0.811);
-    /* White border with transparency */
     color: black;
-    /* Text color */
     padding: 10px 20px;
-    /* Padding inside button */
     border-radius: 10px;
-    /* Rounded corners */
     cursor: pointer;
     transition: 0.1s;
-    /* Change cursor on hover */
 }
 
-/* Button hover effect */
 #submit-btn:hover {
     background-color: rgba(255, 255, 255, 0.3);
-    /* Lighter button background on hover */
 }
 
 form input[type="file"]::-webkit-file-upload-button {
     border: 2px solid rgba(255, 255, 255, 0.529); 
-    background-color: rgba(255, 255, 255, 0.1); /* White background with transparency */
-    border-radius: 10px; /* Rounded corners */
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
     margin-left: 0.01rem;
-    padding: 0.4rem 0.8rem; /* Padding around input */
-    color: rgb(60, 60, 60); /* Text color */
-    cursor: pointer; /* Change cursor on hover */
-    transition: background-color 0.3s ease; /* Smooth transition for background color */
+    padding: 0.4rem 0.8rem;
+    color: rgb(60, 60, 60);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 form input[type="file"]::-webkit-file-upload-button:hover {
-    background-color: rgb(255, 255, 255); /* White background with alpha 0.8 on hover */
+    background-color: rgb(255, 255, 255);
 }
