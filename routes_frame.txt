@@ -13,8 +13,6 @@ to join/create forum
 /chats
 page that displays all chats
 
-/chats/:id
-
 /forums/:id/mart
 marketplace for each forum
 
@@ -23,6 +21,9 @@ new product on marketplace
 
 /forums/:id/mart/product
 product on marketplace
+
+/mylistings
+mylistings
 
 /mylistings/:id
 product on mylistings (page same render hoga lekin product ka)
