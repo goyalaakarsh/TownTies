@@ -1,9 +1,11 @@
 #mart-parent {
     display: flex;
+    ;
 }
 
 #mart {
-    background-color: aliceblue;
+    /* background-color: aliceblue; */
+    background-color: #E2EAFC;
     flex: 2;
     min-height: 90vh;
     overflow-y: auto;
