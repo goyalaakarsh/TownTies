@@ -64,7 +64,7 @@ body {
     justify-content: center;
 }
 
-.home-illus svg {
+.home-illus #svg {
     height: 20rem;
-    margin-left: -6rem;
+    margin-left: 6rem;
 }

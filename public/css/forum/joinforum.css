@@ -9,9 +9,9 @@
     flex: 0.8;
 }
 
-.joinillus svg {
+.joinillus #svg {
     height: 20rem;
-    margin-right: -18rem;
+    margin-left: 13.5rem;
 }
 
 .join {
