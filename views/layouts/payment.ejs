@@ -4,31 +4,33 @@
 
 <div class="container center-content mb-4">
     <form class="col-4 offset-4" novalidate class="needs-validation">
-        <h3 class="text-center mt-4">Sign Up</h3>
+        <h3 class="text-center mt-4">Pay</h3>
         <div class="mb-3">
             <label for="exampleInputName1" class="form-label">Name</label>
-            <input type="text" class="form-control" id="exampleInputName1" placeholder="Enter your name">
+            <input type="text" class="form-control" name="name" id="name" placeholder="Enter your name">
         </div>
         <div class="mb-3">
-            <label for="exampleInputUsername1" class="form-label">Username</label>
-            <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Choose a username">
+            <label for="exampleInputUsername1" class="form-label">Mobile Number</label>
+            <input type="number" class="form-control" id="number" name="number" placeholder="Enter your mobile number">
         </div>
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your email address">
+            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter your email address">
             <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Choose a password">
+            <label for="exampleInputUsername1" class="form-label">Amount (In Rupees)</label>
+            <input type="number" class="form-control" id="amount" name="amount" placeholder="Enter amount" value="999">
         </div>
+        <!-- <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="Choose a password">
+        </div> -->
         <!-- <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="exampleCheck1">
             <label class="form-check-label" for="exampleCheck1">Check me out</label>
         </div> -->
-        <button type="submit" class="btn btn-primary btn-block text-center col-4 offset-4">Signup</button>
-        <div class="text-center mt-3">
-            <p>Already have an account? <a href="/users/login">Log In</a></p>
-        </div>
+        <button type="submit" class="btn btn-primary btn-block text-center col-6 offset-3">Proceed to Pay</button>
+
     </form>
 </div>

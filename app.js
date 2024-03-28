@@ -105,6 +105,10 @@ app.get("/mart", (req, res) => {
     res.render("forum/mart.ejs");
 });
 
+app.get("/payment", (req, res) => {
+    res.render("layouts/payment.ejs");
+});
+
 // app.use((err, req, res, next) => {
 //     let { statusCode, message } = err;
 //     res.render("error.ejs");
