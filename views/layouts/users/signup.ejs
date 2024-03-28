@@ -1,24 +1,24 @@
 <% layout("/layouts/boilerplate.ejs"); %>
 
 <div class="container center-content mb-4">
-    <form class="col-4 offset-4" novalidate class="needs-validation">
+    <form class="col-4 offset-4" novalidate class="needs-validation" action="/signup" method = "POST">
         <h3 class="text-center mt-4">Sign Up</h3>
         <div class="mb-3">
             <label for="exampleInputName1" class="form-label">Name</label>
-            <input type="text" class="form-control" id="exampleInputName1" placeholder="Enter your name">
+            <input type="text" class="form-control" name="name" id="name" placeholder="Enter your name">
         </div>
         <div class="mb-3">
             <label for="exampleInputUsername1" class="form-label">Username</label>
-            <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Choose a username">
+            <input type="text" class="form-control" id="username" name="username" placeholder="Choose a username">
         </div>
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your email address">
+            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter your email address">
             <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
         </div>
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Choose a password">
+            <input type="password" class="form-control" name="password" id="password" placeholder="Choose a password">
         </div>
         <!-- <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="exampleCheck1">
@@ -29,4 +29,4 @@
             <p>Already have an account? <a href="/users/login">Log In</a></p>
         </div>
     </form>
-</div>
+</div>  
