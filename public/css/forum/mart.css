@@ -1,32 +1,3 @@
-#mart-container {
-    flex: 2;
-    overflow-y: auto;
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-}
-
-
-#mart-forum-name {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    min-height: 4rem;
-    text-align: center;
-    gap: 0.3rem;
-    position: sticky; /* Make the div sticky */
-    top: 0rem; 
-    z-index: 1000; /* Ensure it's above other content */
-}
-
-#mart-chat-container {
-    flex: 1;
-    overflow-y: auto;
-    max-height: 90vh;
-}
-
 #mart-parent {
     display: flex;
 }
@@ -38,17 +9,6 @@
     overflow-y: auto;
     /* Enable vertical scrolling */
     padding-bottom: 1rem;
-}
-
-#mart-forum-name {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    min-height: 4rem;
-    background-color: aqua;
-    text-align: center;
-    gap: 0.3rem;
 }
 
 #mart-forum-name h5 {
@@ -78,27 +38,6 @@
     gap: 1em;
 }
 
-
-
-#mart-chat {
-    background-color: #C1D3FE;
-    flex: 1;
-    min-height: 90vh;
-    overflow-y: auto;
-    max-height: calc(90vh - 4rem);
-}
-
-#chat-forum-name {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    min-height: 4rem;
-    background-color: bisque;
-    text-align: center;
-    gap: 0.3rem;
-}
-
 #chat-forum-name h5 {
     margin: 0;
     padding: 0;
@@ -111,101 +50,7 @@
     padding: 1rem;
     color: white;
     position: relative;
-    overflow-y: auto;
-    
-}
-
-#chat-input {
-    margin: 0 1rem 1rem 1rem;
-}
-
-#chat-input input {
-    border-radius: 3rem;
-}
-
-
-
-
-
-
-#mart-chat-container {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    /* Added */
-}
-
-#mart-chat {
-    background-color: #C1D3FE;
-    flex: 1;
-    overflow-y: auto;
-    padding-bottom: 3rem;
-    /* Adjusted for chat input height */
-    max-height: calc(90vh - 4rem);
-    position: relative;
-    /* Added */
-}
-
-#chat-input {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 0 1rem;
-    /* background-color: white; */
-}
-
-#chat-input input {
-    width: 100%;
-    border-radius: 3rem;
-    box-sizing: border-box;
-    padding: 0.5rem 1.2rem;
-    /* Added to include padding in width calculation */
-}
-
-
-
-
-
-#mart-forum-name {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    min-height: 4rem;
-    text-align: center;
-    gap: 0.3rem;
-    position: sticky; 
-    top: 0rem;
-    z-index: 1000; 
-    background-color: #B6CCFE;
-    /* color: white; */
-}
-
-#chat-forum-name {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    min-height: 4rem;
-    background-color: #7E9FEB;
-    /* color: white; */
-    text-align: center;
-    gap: 0.3rem;
-    position: sticky; 
-    top: 0rem; 
-    z-index: 1000; 
-    
-}
-
-
-#mart-container {
-    flex: 2;
-    overflow-y: auto;
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    position: relative;
+    overflow-y: auto;   
 }
 
 .message {
@@ -240,8 +85,75 @@
     padding: 0rem 1rem;
 }
 
-/* .card {
-    background-color: #abc4ff3f;
-    border: 2px solid #ABC4FF;
-    backdrop-filter: blur(10px);
-} */
+
+#mart-container {
+    flex: 2;
+    overflow-y: auto;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+#mart-chat {
+    background-color: #C1D3FE; /* Keeping the common background color */
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 3rem; /* Keeping padding-bottom */
+    max-height: calc(90vh - 4rem); /* Keeping max-height */
+    position: relative; /* Keeping position */
+    min-height: 90vh; /* Adding min-height */
+}
+
+#chat-forum-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 4rem;
+    background-color: #7E9FEB; /* Keeping the background color from the second set */
+    text-align: center;
+    gap: 0.3rem;
+    position: sticky; 
+    top: 0rem; 
+    z-index: 1000; /* Keeping other positioning properties */
+}
+
+#chat-input {
+    margin: 0 1rem 1rem 1rem; /* Merging margin property */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 1rem; /* Keeping padding */
+}
+
+#chat-input input {
+    width: 100%; /* Keeping width */
+    border-radius: 3rem; /* Keeping border-radius */
+    box-sizing: border-box; /* Keeping box-sizing */
+    padding: 0.5rem 1.2rem; /* Keeping padding */
+}
+
+#mart-chat-container {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 90vh;
+    display: flex; /* Keeping display property */
+    flex-direction: column; /* Keeping flex-direction property */
+    position: relative; /* Keeping position property */
+}
+
+#mart-forum-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 4rem;
+    text-align: center;
+    gap: 0.3rem;
+    position: sticky; 
+    top: 0rem;
+    z-index: 1000; 
+    background-color: #B6CCFE; /* Keeping the background color from the second set */
+}
