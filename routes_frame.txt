@@ -1,0 +1,38 @@
+/
+home page
+
+/login
+login page
+
+/signup
+signup page
+
+/joinforum
+to join/create forum
+
+/chats
+page that displays all chats
+
+/forums/:id/mart
+marketplace for each forum
+
+/forums/:id/mart/newproduct
+new product on marketplace
+
+/forums/:id/mart/product
+product on marketplace
+
+/mylistings/:id
+product on mylistings (page same render hoga lekin product ka)
+
+/mylistings/:id/edit
+editing product (product id hai route mein)
+
+/myprofile
+my profile page
+
+/myprofile/edit
+my profile page ko edit karne ke liye
+
+/forums/:id/mart/product/paymentgateway
+paymentgateway page for a product
