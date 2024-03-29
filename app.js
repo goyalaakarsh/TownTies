@@ -126,7 +126,6 @@ app.get("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
 // Posting of the New Product
 app.post("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
     const { id } = req.params;
-    const forum = await Forum.findById(id).populate('marketplace');
 
     // Create a new product
     const newProduct = new Product({
@@ -155,7 +154,10 @@ app.post("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
 
 // Editing the Product
 app.get("/forms/:id/mart/product/:id/editproduct", wrapAsync(async (req,res) => {
-    res.render("layouts/product/edit-product.ejs");
+    const { id } = req.params; 
+    const forum = await Forum.findById(id).populate('marketplace');
+    
+    res.render("layouts/product/edit-product.ejs"), {forum};
 }))
 
 
