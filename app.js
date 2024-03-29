@@ -124,17 +124,21 @@ app.get("/forums/:id", wrapAsync(async (req, res) => {
 
 app.get("/forums/:id/mart", wrapAsync(async (req, res) => {
     const { id } = req.params; 
-    const forum = await Forum.findById(id).populate('marketplace'); // Populate the marketplace field
+    const forum = await Forum.findById(id).populate('marketplace'); 
 
     const allForums = await Forum.find({});
 
     res.render("forum/mart.ejs", { forum, allForums });
 }));
 
+app.get("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
+    const { id } = req.params; 
+    const forum = await Forum.findById(id).populate('marketplace'); 
 
+    const allForums = await Forum.find({});
 
-
-
+    res.render("layouts/product/new-product.ejs", { forum, allForums });
+}));
 
 app.get("/users/profile", (req, res) => {
     res.render("layouts/profile/profile.ejs");
