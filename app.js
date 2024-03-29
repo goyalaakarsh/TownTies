@@ -28,6 +28,7 @@ const { storage } = require("./cloudConfig.js");
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const Forum = require('./models/forum.js');
+const Marketplace = require('./models/marketplace.js');
 const upload = multer({ storage: storage });
 
 main()
