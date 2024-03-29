@@ -1,7 +1,6 @@
 if (process.env.NODE_ENV != "production") {
     require('dotenv').config();
 }
-
 const express = require("express");
 const router = express.Router();
 const session = require("express-session");
@@ -17,14 +16,11 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 const { productSchema } = require("./models/product.js");
-// const { reviewSchema } = require("./schema.js");
-// const Review = require("./models/review.js");
 const MONGO_URL = "mongodb://127.0.0.1:27017/townties";
 const userRouter = require("./routes/user.js");
 const multer = require('multer');
 const { log } = require('console');
 const { storage } = require("./cloudConfig.js");
-// const upload = multer({ storage });
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const Forum = require('./models/forum.js');
@@ -43,7 +39,6 @@ async function main() {
     await mongoose.connect(MONGO_URL);
 }
 
-
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
@@ -58,24 +53,15 @@ app.use(session({
     saveUninitialized: true
 }));
 
-
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
-
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// app.get("/demouser", async(req,res) => {
-//     let fakeUser = new User({
-//         email:"student@gmail.com",
-//         username: "delta-student",
-//         password: "your_password", // Add a password
-//         name: "Your Name" // Add a name
-//     });
-//     let registeredUser = await User.register(fakeUser, "helloworld"); 
-//     res.send(registeredUser);
-// });
+app.listen(3000, () => {
+    console.log("Server is listening to port 3000!");
+});
 
 // Home Page
 app.get("/", (req, res) => {
@@ -100,17 +86,10 @@ app.post("/joinforum", upload.single("forum[icon]"), async (req, res) => {
     res.redirect("/chats");
 });
 
-// app.get("/chats", wrapAsync(async (req, res) => {
-//     const allChats = await Forum.find({});
-//     res.render("forum/discussion.ejs", { allChats });
-// }))
-
-// Assuming you have fetched all forums from your database and stored them in the allForums variable
-
 // Display Page for all Forums
 app.get("/chats", wrapAsync(async (req, res) => {
     const allForums = await Forum.find({});
-    res.render("forum/discussion.ejs", { allForums }); // Pass allForums variable to the template
+    res.render("forum/discussion.ejs", { allForums }); 
 }));
 
 
@@ -144,17 +123,6 @@ app.get("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
     res.render("layouts/product/new-product.ejs", { forum, allForums });
 }));
 
-app.post("/forums/:id/mart/newproduct", upload.single("product[image]"), wrapAsync(async (req, res) => {
-
-
-    // if (!forum) {
-    //     req.flash('error', 'Forum not found');
-    //     return res.redirect('/forums');
-    // }
-
-    // const image = req.file;
-    const { title, description, category, price, contactNumber } = req.body.product;
-
 // Posting of the New Product
 app.post("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
     const { id } = req.params;
@@ -185,26 +153,16 @@ app.post("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
     res.redirect(`/forums/${id}/mart`);
 }));
 
-app.get("/forms/:id/mart/product/:id/editproduct", wrapAsync(async (req, res) => {
 // Editing the Product
 app.get("/forms/:id/mart/product/:id/editproduct", wrapAsync(async (req,res) => {
     res.render("layouts/product/edit-product.ejs");
 }))
 
 
-// app.use((err, req, res, next) => {
-    //     let { statusCode, message } = err;
-    //     res.render("error.ejs");
-    // });
-    
-    app.listen(3000, () => {
-        console.log("Server is listening to port 3000!");
-    });
-    
 
-    app.get("/users/profile", (req, res) => {
-    res.render("layouts/profile/profile.ejs");
-});
+
+// Faaltu Routes
+
 
 app.get("/mylistings", (req, res) => {
     res.render("layouts/profile/mylistings.ejs");
@@ -227,7 +185,6 @@ app.post("/new-product", upload.single("product[image]"), async (req, res) => {
     await newProduct.save();
     res.redirect("/mart");
 });
-
 
 app.get("/edit-product", (req, res) => {
     res.render("layouts/product/edit-product.ejs");
