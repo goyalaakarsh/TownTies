@@ -111,6 +111,8 @@ app.get("/chats", wrapAsync(async (req, res) => {
     res.render("forum/discussion.ejs", { allForums }); // Pass allForums variable to the template
 }));
 
+
+
 app.get("/forums/:id", wrapAsync(async (req, res) => {
     const { id } = req.params; 
     const forum = await Forum.findById(id).populate('marketplace'); // Populate the marketplace field
@@ -118,6 +120,15 @@ app.get("/forums/:id", wrapAsync(async (req, res) => {
     const allForums = await Forum.find({});
 
     res.render("forum/chat.ejs", { forum, allForums });
+}));
+
+app.get("/forums/:id/mart", wrapAsync(async (req, res) => {
+    const { id } = req.params; 
+    const forum = await Forum.findById(id).populate('marketplace'); // Populate the marketplace field
+
+    const allForums = await Forum.find({});
+
+    res.render("forum/mart.ejs", { forum, allForums });
 }));
 
 
