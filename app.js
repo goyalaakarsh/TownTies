@@ -140,6 +140,15 @@ app.get("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
     res.render("layouts/product/new-product.ejs", { forum, allForums });
 }));
 
+app.get("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
+    const { id } = req.params; 
+    const forum = await Forum.findById(id).populate('marketplace'); 
+
+    const allForums = await Forum.find({});
+
+    res.render("layouts/product/new-product.ejs", { forum, allForums });
+}));
+
 app.get("/users/profile", (req, res) => {
     res.render("layouts/profile/profile.ejs");
 });
@@ -175,7 +184,7 @@ app.get("/edit-product", (req, res) => {
     res.render("layouts/product/edit-product.ejs");
 });
 
-//Post Route-Create Product
+//Post Route- Edit Product
 app.post("/edit-product", upload.single("product[image]"), async (req, res) => {
     const newProduct = new Product(req.body.product);
     let url = req.file.path;
