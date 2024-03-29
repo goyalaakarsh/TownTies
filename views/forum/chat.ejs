@@ -1,0 +1,43 @@
+<% layout("/layouts/boilerplate.ejs"); %>
+
+    <link rel="stylesheet" href="/css/forum/discussion.css">
+
+<div id="mart-parent">
+    <div id="mart-container">
+        <div id="mart">
+            <div id="mart-forum-name">
+                <h5>Forums</h5>
+            </div>
+            <div id="chat-listing">
+                <% allForums.forEach(function(forum) { %>
+                    <div class="chat" href="/forums/<%= forum._id %>">
+                        <img src="<%= forum.icon.url %>" alt="forum-icon">
+                        <div class="card-body">
+                            <h6 class="card-title"><%= forum.name %></h6>
+                            <!-- Additional details if needed -->
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    </div>
+
+        <div id="mart-chat-container">
+            <div id="mart-chat">
+                <div id="chat-forum-name">
+                    <h5>Forum Name</h5>
+                    <a href="/mart">Marketplace <i class="fa-solid fa-shop"></i></a>
+                </div>
+                <div id="chat-area">
+                    <div class="message left">Aakarsh: Hi</div>
+                    <div class="message right">Saksham: Hello</div>
+                </div>
+            </div>
+            <div id="chat-input">
+                <form action="">
+                    <input type="text" class="form-control">
+                    <button type="submit" id="send-btn">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
