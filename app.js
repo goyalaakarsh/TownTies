@@ -146,6 +146,17 @@ app.post("/new-product", upload.single("product[image]"), async (req, res) => {
 app.get("/edit-product", (req, res) => {
     res.render("layouts/product/edit-product.ejs");
 });
+
+//Post Route-Create Product
+app.post("/edit-product", upload.single("product[image]"), async (req, res) => {
+    const newProduct = new Product(req.body.product);
+    let url = req.file.path;
+    let filename = req.file.filename;
+    newProduct.image = {url, filename};
+    await newProduct.save();
+    res.redirect("/mart");
+});
+
 app.get("/product", (req, res) => {
     res.render("layouts/product/product.ejs");
 });
