@@ -113,7 +113,7 @@ app.post("/new-product", upload.single("product[image]"), async (req, res) => {
 
     const newProduct = new Product(req.body.product);
     await newProduct.save();
-    console.log(res);
+    console.log(newProduct);
     res.redirect("/");
 });
 
