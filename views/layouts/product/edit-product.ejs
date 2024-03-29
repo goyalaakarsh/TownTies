@@ -3,7 +3,7 @@
     <div class="new-product col-8 offset-2 mt-4 mb-4">
         <div id="new-form-container">
             <h3 id="new-heading" class="text-center">Edit Your Product</h3>
-            <form action="/listings" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
+            <form action="/forums/<%= forum._id %>/mart/product/<%= product._id%>?_method=PUT" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="title">Title</label>
                     <input class="form-control" type="text" name="listing[title]" placeholder="Write a catchy title"

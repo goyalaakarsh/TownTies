@@ -149,6 +149,10 @@ app.get("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
     res.render("layouts/product/new-product.ejs", { forum, allForums });
 }));
 
+app.get("/forms/:id/mart/product/:id/editproduct", wrapAsync(async (req,res) => {
+    res.render("layouts/product/edit-product.ejs");
+}))
+
 app.get("/users/profile", (req, res) => {
     res.render("layouts/profile/profile.ejs");
 });
@@ -163,10 +167,6 @@ app.get("/users/login", (req, res) => {
 
 app.get("/users/signup", (req, res) => {
     res.render("layouts/users/signup.ejs");
-});
-
-app.get("/new-product", (req, res) => {
-    res.render("layouts/product/new-product.ejs");
 });
 
 //Post Route-Create Product
