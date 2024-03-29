@@ -120,11 +120,6 @@ app.get("/forums/:id", wrapAsync(async (req, res) => {
     res.render("forum/chat.ejs", { forum, allForums });
 }));
 
-
-
-
-
-
 app.get("/users/profile", (req, res) => {
     res.render("layouts/profile/profile.ejs");
 });
