@@ -27,3 +27,11 @@ app.post('/forums/:id/marketplace/:id/newproduct', async (req, res) => {
 });
 
 module.exports = router;
+
+
+
+
+app.get("/chats", wrapAsync(async (req, res) => {
+    const allChats = await Forum.find({});
+    res.render("forum/discussion.ejs", { allChats });
+}))

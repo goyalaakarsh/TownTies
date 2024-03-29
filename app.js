@@ -99,9 +99,18 @@ app.post("/joinforum", upload.single("forum[icon]"), async (req, res) => {
     res.redirect("/");
 });
 
-app.get("/chats", (req, res) => {
-    res.render("forum/discussion.ejs");
-});
+// app.get("/chats", wrapAsync(async (req, res) => {
+//     const allChats = await Forum.find({});
+//     res.render("forum/discussion.ejs", { allChats });
+// }))
+
+// Assuming you have fetched all forums from your database and stored them in the allForums variable
+
+app.get("/chats", wrapAsync(async (req, res) => {
+    const allForums = await Forum.find({});
+    res.render("forum/discussion.ejs", { allForums }); // Pass allForums variable to the template
+}));
+
 
 app.get("/users/profile", (req, res) => {
     res.render("layouts/profile/profile.ejs");
