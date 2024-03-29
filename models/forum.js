@@ -12,7 +12,8 @@ const forumSchema = new mongoose.Schema({
         required: true
     },
     icon: {
-        type: String
+        url: String,
+        filename: String,
     },
     members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], // Members of the forum
     discussionBoard: { type: mongoose.Schema.Types.ObjectId, ref: 'DiscussionBoard' }, // One-to-one relationship with DiscussionBoard

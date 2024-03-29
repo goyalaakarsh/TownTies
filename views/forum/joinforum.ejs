@@ -4,7 +4,6 @@
 
     <div class="gradbg">
         <div class="joinillus">
-
             <img src="/images/undraw_add_friends_re_3xte.svg" id="svg" alt="">
         </div>
 
@@ -20,15 +19,15 @@
                         </select>
                     </div>
                     <div id="joinForumInput" class="mb-3" style="display: none;">
-                        <label for="joinforum" class="form-label">Join Forum</label>
-                        <input type="text" class="form-control" id="joinforum" placeholder="Enter a referral code">
+                        <label for="forumRef" class="form-label">Join Forum</label>
+                        <input type="text" class="form-control" id="forumRef" name="forumref" placeholder="Enter a referral code">
                     </div>
                     <div id="createForumInput" class="mb-3" style="display: none;">
-                        <label for="createforum" class="form-label">Create Forum</label>
-                        <input type="text" class="form-control mb-3" id="createforum" placeholder="Enter forum name">
+                        <label for="forum[name]" class="form-label">Create Forum</label>
+                        <input type="text" class="form-control mb-3" id="forum[name]" name="forum[name]" placeholder="Enter forum name">
 
-                        <label for="imageInput" class="form-label">Set Forum Icon</label>
-                        <input class="form-control" type="file" id="imageInput" name="image" accept="image/*">
+                        <label for="forum[icon]" class="form-label">Set Forum Icon</label>
+                        <input class="form-control" type="file" id="forum[icon]" name="forum[icon]" accept="image/*">
                     </div>
                     <button type="submit" id="submit-btn">Submit</button>
                 </form>
