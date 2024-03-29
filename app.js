@@ -96,7 +96,7 @@ app.post("/joinforum", upload.single("forum[icon]"), async (req, res) => {
     const marketplace = await Marketplace.create({
         forum: newForum._id
     });
-    res.redirect("/");
+    res.redirect("/chats");
 });
 
 app.get("/chats", (req, res) => {
