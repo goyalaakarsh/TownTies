@@ -91,7 +91,7 @@ app.post("/joinforum", upload.single("forum[icon]"), async (req, res) => {
     const newForum = new Forum(req.body.forum);
     let url = req.file.path;
     let filename = req.file.filename;
-    newForum.icon = {url, filename};
+    newForum.icon = { url, filename };
     await newForum.save();
     const marketplace = await Marketplace.create({
         forum: newForum._id
@@ -114,7 +114,7 @@ app.get("/chats", wrapAsync(async (req, res) => {
 
 
 app.get("/forums/:id", wrapAsync(async (req, res) => {
-    const { id } = req.params; 
+    const { id } = req.params;
     const forum = await Forum.findById(id).populate('marketplace'); // Populate the marketplace field
 
     const allForums = await Forum.find({});
@@ -123,8 +123,8 @@ app.get("/forums/:id", wrapAsync(async (req, res) => {
 }));
 
 app.get("/forums/:id/mart", wrapAsync(async (req, res) => {
-    const { id } = req.params; 
-    const forum = await Forum.findById(id).populate('marketplace'); 
+    const { id } = req.params;
+    const forum = await Forum.findById(id).populate('marketplace');
 
     const allForums = await Forum.find({});
 
@@ -132,25 +132,27 @@ app.get("/forums/:id/mart", wrapAsync(async (req, res) => {
 }));
 
 app.get("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
-    const { id } = req.params; 
-    const forum = await Forum.findById(id).populate('marketplace'); 
+    const { id } = req.params;
+    const forum = await Forum.findById(id).populate('marketplace');
 
     const allForums = await Forum.find({});
 
     res.render("layouts/product/new-product.ejs", { forum, allForums });
 }));
 
-app.post("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
+app.post("/forums/:id/mart/newproduct", upload.single("product[image]"), wrapAsync(async (req, res) => {
+
+
+    // if (!forum) {
+    //     req.flash('error', 'Forum not found');
+    //     return res.redirect('/forums');
+    // }
+
+    // const image = req.file;
+    const { title, description, category, price, contactNumber } = req.body.product;
+
     const { id } = req.params;
     const forum = await Forum.findById(id).populate('marketplace');
-
-    if (!forum) {
-        req.flash('error', 'Forum not found');
-        return res.redirect('/forums');
-    }
-
-    const { title, description, category, price, contactNumber } = req.body.product;
-    const image = req.file;
 
     // Create a new product
     const newProduct = new Product({
@@ -159,24 +161,25 @@ app.post("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
         category,
         price,
         contactNumber,
-        user: req.user._id, // Assuming you have a logged-in user
-        marketplace: forum.marketplace._id // Assign the product to the forum's marketplace
+        // user: req.user._id, 
+        // marketplace: forum.marketplace._id 
     });
 
     // Check if an image was uploaded
-    if (image) {
-        newProduct.image = {
-            url: image.path,
-            filename: image.filename
-        };
-    }
+
+    newProduct.image = {
+        url: req.file.path,
+        filename: req.file.filename
+    };
 
     await newProduct.save();
-    req.flash('success', 'Product added successfully');
+    // req.flash('success', 'Product added successfully');
+
+    console.log(newProduct);
     res.redirect(`/forums/${id}/mart`);
 }));
 
-app.get("/forms/:id/mart/product/:id/editproduct", wrapAsync(async (req,res) => {
+app.get("/forms/:id/mart/product/:id/editproduct", wrapAsync(async (req, res) => {
     res.render("layouts/product/edit-product.ejs");
 }))
 
@@ -201,7 +204,7 @@ app.post("/new-product", upload.single("product[image]"), async (req, res) => {
     const newProduct = new Product(req.body.product);
     let url = req.file.path;
     let filename = req.file.filename;
-    newProduct.image = {url, filename};
+    newProduct.image = { url, filename };
     await newProduct.save();
     res.redirect("/mart");
 });
@@ -216,7 +219,7 @@ app.post("/edit-product", upload.single("product[image]"), async (req, res) => {
     const newProduct = new Product(req.body.product);
     let url = req.file.path;
     let filename = req.file.filename;
-    newProduct.image = {url, filename};
+    newProduct.image = { url, filename };
     await newProduct.save();
     res.redirect("/mart");
 });

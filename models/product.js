@@ -27,7 +27,7 @@ const productSchema = new mongoose.Schema({
         required: true
     },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Reference to the user who posted the product
-    marketplace: { type: mongoose.Schema.Types.ObjectId, ref: 'Marketplace' } // Reference to the marketplace where the product is posted
+    // marketplace: { type: mongoose.Schema.Types.ObjectId, ref: 'Marketplace' } 
 });
 
 const Product = mongoose.model("Product", productSchema);
