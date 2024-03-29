@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV != "production") {
+    require('dotenv').config();
+}
+
 const express = require("express");
 const router = express.Router();
 const session = require("express-session");
@@ -17,6 +21,14 @@ const { productSchema } = require("./models/product.js");
 // const Review = require("./models/review.js");
 const MONGO_URL = "mongodb://127.0.0.1:27017/townties";
 const userRouter = require("./routes/user.js");
+const multer = require('multer');
+const { log } = require('console');
+const { storage } = require("./cloudConfig.js");
+// const upload = multer({ storage });
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const upload = multer({ storage: storage });
+
 main()
     .then(() => {
         console.log("Connected to Database.");
@@ -35,7 +47,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
-app.use("/",userRouter);
+app.use("/", userRouter);
 app.engine("ejs", ejsMate);
 
 app.use(session({
@@ -95,6 +107,16 @@ app.get("/users/signup", (req, res) => {
 app.get("/new-product", (req, res) => {
     res.render("layouts/product/new-product.ejs");
 });
+
+app.post("/new-product", upload.single("product[image]"), async (req, res) => {
+    console.log(req.file);
+
+    const newProduct = new Product(req.body.product);
+    await newProduct.save();
+    console.log(res);
+});
+
+
 app.get("/edit-product", (req, res) => {
     res.render("layouts/product/edit-product.ejs");
 });

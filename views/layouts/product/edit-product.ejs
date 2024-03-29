@@ -3,7 +3,7 @@
     <div class="new-product col-8 offset-2 mt-4 mb-4">
         <div id="new-form-container">
             <h3 id="new-heading" class="text-center">Edit Your Product</h3>
-            <form action="/listings" method="POST" novalidate class="needs-validation">
+            <form action="/listings" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="title">Title</label>
                     <input class="form-control" type="text" name="listing[title]" placeholder="Write a catchy title"
@@ -50,9 +50,9 @@
                         required>
                 </div>
                 <div class="mb-3">
-                    <label for="price">Contact Number</label>
-                    <input class="form-control" type="number" name="listing[price]"
-                        placeholder="Enter your contact number" id="price" required>
+                    <label for="Contact">Contact Number</label>
+                    <input class="form-control" type="number" name="Product Contact"
+                        placeholder="Enter your contact number" id="Contact" required>
                 </div>
                 <div id="new-form-btn-div">
                     <button type="submit" class="btn btn-primary btn-block text-center col-4 offset-4"

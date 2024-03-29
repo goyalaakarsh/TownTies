@@ -2,20 +2,20 @@
     <div class="new-product col-8 offset-2 mt-4 mb-4">
         <div id="new-form-container">
             <h3 id="new-heading" class="text-center">Add New Product</h3>
-            <form action="/listings" method="POST" novalidate class="needs-validation">
+            <form action="/new-product" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="title">Title</label>
-                    <input class="form-control" type="text" name="listing[title]" placeholder="Write a catchy title"
+                    <input class="form-control" type="text" name="product[title]" placeholder="Write a catchy title"
                         id="title" required>
                 </div>
                 <div class="mb-3">
                     <label for="description">Description</label>
-                    <textarea class="form-control" name="listing[description]" id="description" cols="5" rows="2"
+                    <textarea class="form-control" name="product[description]" id="description" cols="5" rows="2"
                         placeholder="Describe your product in detail" required></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="category">Category</label>
-                    <select id="category" class="form-control">
+                    <select id="category" class="form-control" name="product[category]">
                         <option disabled selected>Select a category</option>
                         <option>Vehicles and their accessories</option>
                         <option>Real Estate</option>
@@ -39,23 +39,23 @@
                     </select>
                 </div>
                 <div id="customCategoryInput" class="mb-3" style="display: none;">
-                    <input class="form-control" type="text" name="listing[customCategory]" id="customCategory"
+                    <input class="form-control" type="text" name="product[customCategory]" id="customCategory"
                         placeholder="Enter category">
                 </div>
                 <div class="mb-3">
-                    <label for="imageInput" class="form-label">Upload Image</label>
-                    <input class="form-control" type="file" id="imageInput" name="image" accept="image/*">
+                    <label for="image" class="form-label">Upload Image</label>
+                    <input class="form-control" type="file" id="image" value="Upload" name="product[image]" accept="image/*">
                 </div>
                 <div class="mb-3">
                     <label for="price">Price</label>
-                    <input class="form-control" type="number" name="listing[price]" placeholder="Enter price" id="price"
+                    <input class="form-control" type="number" name="product[price]" placeholder="Enter price" id="price"
                         required>
                 </div>
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label for="contactNumber">Contact Number</label>
-                    <input class="form-control" type="number" name="listing[contactNumber]"
+                    <input class="form-control" type="number" name="product[contactNumber]"
                         placeholder="Enter your contact number" id="contactNumber" required>
-                </div>
+                </div> -->
                 <div id="new-form-btn-div">
                     <button type="submit" class="btn btn-primary btn-block text-center col-4 offset-4"
                         id="new-form-btn">Add</button>
