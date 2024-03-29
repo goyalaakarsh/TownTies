@@ -2,27 +2,25 @@
 
     <link rel="stylesheet" href="/css/forum/discussion.css">
 
-    <div id="mart-parent">
-        <div id="mart-container">
-            <div id="mart">
-                <div id="mart-forum-name">
-                    <h5>Discussions</h5>
-                    <!-- <h6>Forum Name</h6> -->
-                </div>
-                <div id="chat-listing">
-                    <%= allChats.forEach(function(chat){ %>
-                        <div class="chat" href="/chats/:id">
-                            <img src="<%= forum.icon %>" alt="forum-icon">
-                            <div class="card-body">
-                                <h6 class="card-title"><%= forum.title %></h6>
-                                <!-- <p class="card-text">Posted by *Owner's name*</p>
-                                <p href="#" class="btn btn-primary">$999</p> -->
-                            </div>
+<div id="mart-parent">
+    <div id="mart-container">
+        <div id="mart">
+            <div id="mart-forum-name">
+                <h5>Forums</h5>
+            </div>
+            <div id="chat-listing">
+                <% allForums.forEach(function(forum) { %>
+                    <div class="chat" href="/forums/<%= forum._id %>">
+                        <img src="<%= forum.icon.url %>" alt="forum-icon">
+                        <div class="card-body">
+                            <h6 class="card-title"><%= forum.name %></h6>
+                            <!-- Additional details if needed -->
                         </div>
-                    <% }); %>
-                </div>
+                    </div>
+                <% }); %>
             </div>
         </div>
+    </div>
 
         <div id="mart-chat-container">
             <div id="mart-chat">
