@@ -108,13 +108,17 @@ app.get("/new-product", (req, res) => {
     res.render("layouts/product/new-product.ejs");
 });
 
+//Post Route-Create Product
 app.post("/new-product", upload.single("product[image]"), async (req, res) => {
     console.log(req.file);
 
     const newProduct = new Product(req.body.product);
-    await newProduct.save();
+    let url = req.file.path;
+    let filename = req.file.filename;
+    newProduct.image = {url, filename};
     console.log(newProduct);
     res.redirect("/");
+    await newProduct.save();
 });
 
 
