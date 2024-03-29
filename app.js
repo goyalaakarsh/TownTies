@@ -87,13 +87,10 @@ app.get("/joinforum", (req, res) => {
 
 //Post Route-Create Product
 app.post("/joinforum", upload.single("forum[icon]"), async (req, res) => {
-    console.log(req.file);
-
     const newForum = new Forum(req.body.forum);
     let url = req.file.path;
     let filename = req.file.filename;
     newForum.icon = {url, filename};
-    console.log(newForum);
     await newForum.save();
     const marketplace = await Marketplace.create({
         forum: newForum._id
@@ -127,14 +124,10 @@ app.get("/new-product", (req, res) => {
 
 //Post Route-Create Product
 app.post("/new-product", upload.single("product[image]"), async (req, res) => {
-    console.log(req.file);
-
     const newProduct = new Product(req.body.product);
-
     let url = req.file.path;
     let filename = req.file.filename;
     newProduct.image = {url, filename};
-    console.log(newProduct);
     await newProduct.save();
     res.redirect("/mart");
 });
