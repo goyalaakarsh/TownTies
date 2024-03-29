@@ -140,13 +140,40 @@ app.get("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
     res.render("layouts/product/new-product.ejs", { forum, allForums });
 }));
 
-app.get("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
-    const { id } = req.params; 
-    const forum = await Forum.findById(id).populate('marketplace'); 
+app.post("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
+    const { id } = req.params;
+    const forum = await Forum.findById(id).populate('marketplace');
 
-    const allForums = await Forum.find({});
+    if (!forum) {
+        req.flash('error', 'Forum not found');
+        return res.redirect('/forums');
+    }
 
-    res.render("layouts/product/new-product.ejs", { forum, allForums });
+    const { title, description, category, price, contactNumber } = req.body.product;
+    const image = req.file;
+
+    // Create a new product
+    const newProduct = new Product({
+        title,
+        description,
+        category,
+        price,
+        contactNumber,
+        user: req.user._id, // Assuming you have a logged-in user
+        marketplace: forum.marketplace._id // Assign the product to the forum's marketplace
+    });
+
+    // Check if an image was uploaded
+    if (image) {
+        newProduct.image = {
+            url: image.path,
+            filename: image.filename
+        };
+    }
+
+    await newProduct.save();
+    req.flash('success', 'Product added successfully');
+    res.redirect(`/forums/${id}/mart`);
 }));
 
 app.get("/forms/:id/mart/product/:id/editproduct", wrapAsync(async (req,res) => {
