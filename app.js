@@ -27,6 +27,7 @@ const { storage } = require("./cloudConfig.js");
 // const upload = multer({ storage });
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const Forum = require('./models/forum.js');
 const upload = multer({ storage: storage });
 
 main()
@@ -84,6 +85,22 @@ app.get("/joinforum", (req, res) => {
     res.render("forum/joinforum.ejs");
 });
 
+//Post Route-Create Product
+app.post("/joinforum", upload.single("forum[icon]"), async (req, res) => {
+    console.log(req.file);
+
+    const newForum = new Forum(req.body.forum);
+    let url = req.file.path;
+    let filename = req.file.filename;
+    newForum.icon = {url, filename};
+    console.log(newForum);
+    await newForum.save();
+    const marketplace = await Marketplace.create({
+        forum: newForum._id
+    });
+    res.redirect("/");
+});
+
 app.get("/chats", (req, res) => {
     res.render("forum/discussion.ejs");
 });
@@ -113,12 +130,13 @@ app.post("/new-product", upload.single("product[image]"), async (req, res) => {
     console.log(req.file);
 
     const newProduct = new Product(req.body.product);
+
     let url = req.file.path;
     let filename = req.file.filename;
     newProduct.image = {url, filename};
     console.log(newProduct);
-    res.redirect("/");
     await newProduct.save();
+    res.redirect("/mart");
 });
 
 

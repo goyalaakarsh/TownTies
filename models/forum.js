@@ -6,11 +6,11 @@ const forumSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    type: {
-        type: String,
-        enum: ['join', 'create'],
-        required: true
-    },
+    // type: {
+    //     type: String,
+    //     enum: ['join', 'create'],
+    //     required: true
+    // },
     icon: {
         url: String,
         filename: String,
