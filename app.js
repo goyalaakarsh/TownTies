@@ -77,11 +77,12 @@ passport.deserializeUser(User.deserializeUser());
 //     res.send(registeredUser);
 // });
 
-
+// Home Page
 app.get("/", (req, res) => {
     res.render("layouts/home.ejs");
 });
 
+// Joining/Creating Forum
 app.get("/joinforum", (req, res) => {
     res.render("forum/joinforum.ejs");
 });
@@ -106,13 +107,14 @@ app.post("/joinforum", upload.single("forum[icon]"), async (req, res) => {
 
 // Assuming you have fetched all forums from your database and stored them in the allForums variable
 
+// Display Page for all Forums
 app.get("/chats", wrapAsync(async (req, res) => {
     const allForums = await Forum.find({});
     res.render("forum/discussion.ejs", { allForums }); // Pass allForums variable to the template
 }));
 
 
-
+// Page for a specific forum's chat
 app.get("/forums/:id", wrapAsync(async (req, res) => {
     const { id } = req.params; 
     const forum = await Forum.findById(id).populate('marketplace'); // Populate the marketplace field
@@ -122,6 +124,7 @@ app.get("/forums/:id", wrapAsync(async (req, res) => {
     res.render("forum/chat.ejs", { forum, allForums });
 }));
 
+// Marketplace of a specific Forum
 app.get("/forums/:id/mart", wrapAsync(async (req, res) => {
     const { id } = req.params; 
     const forum = await Forum.findById(id).populate('marketplace'); 
@@ -131,6 +134,7 @@ app.get("/forums/:id/mart", wrapAsync(async (req, res) => {
     res.render("forum/mart.ejs", { forum, allForums });
 }));
 
+// Adding a new Product in a specific Marketplace
 app.get("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
     const { id } = req.params; 
     const forum = await Forum.findById(id).populate('marketplace'); 
@@ -140,6 +144,7 @@ app.get("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
     res.render("layouts/product/new-product.ejs", { forum, allForums });
 }));
 
+// 
 app.get("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
     const { id } = req.params; 
     const forum = await Forum.findById(id).populate('marketplace'); 
