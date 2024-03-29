@@ -2,7 +2,7 @@
     <div class="new-product col-8 offset-2 mt-4 mb-4">
         <div id="new-form-container">
             <h3 id="new-heading" class="text-center">Add New Product</h3>
-            <form action="/forums/<%= forum._id %>/mart" method="POST" novalidate enctype="multipart/form-data">
+            <form action="/forums/<%= forum._id %>/mart/newproduct" method="POST" novalidate enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="title">Title</label>
                     <input class="form-control" type="text" name="product[title]" placeholder="Write a catchy title"
@@ -14,7 +14,7 @@
                         placeholder="Describe your product in detail" required></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="category">Category</label>
+                    <label for="category">category</label>
                     <select id="category" class="form-control" name="product[category]">
                         <option disabled selected>Select a category</option>
                         <option>Vehicles and their accessories</option>
@@ -38,10 +38,10 @@
                         <option>Other</option>
                     </select>
                 </div>
-                <div id="customCategoryInput" class="mb-3" style="display: none;">
-                    <input class="form-control" type="text" name="product[customCategory]" id="customCategory"
+                <!-- <div id="categoryInput" class="mb-3" style="display: none;">
+                    <input class="form-control" type="text" name="product[category]" id="category"
                         placeholder="Enter category">
-                </div>
+                </div> -->
                 <div class="mb-3">
                     <label for="image" class="form-label">Upload Image</label>
                     <input class="form-control" type="file" id="image" value="Upload" name="product[image]" accept="image/*">
@@ -64,17 +64,17 @@
         </div>
     </div>
 
-    <script>
+    <!-- <script>
         document.addEventListener('DOMContentLoaded', function () {
             var categorySelect = document.getElementById('category');
-            var customCategoryInput = document.getElementById('customCategoryInput');
+            var categoryInput = document.getElementById('categoryInput');
 
             categorySelect.addEventListener('change', function () {
                 if (categorySelect.value === 'Other') {
-                    customCategoryInput.style.display = 'block';
+                    categoryInput.style.display = 'block';
                 } else {
-                    customCategoryInput.style.display = 'none';
+                    categoryInput.style.display = 'none';
                 }
             });
         });
-    </script>
+    </script> -->

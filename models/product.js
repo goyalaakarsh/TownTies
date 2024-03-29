@@ -4,15 +4,15 @@ const Schema = mongoose.Schema;
 const productSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true
+        // required: true
     },
     description: {
         type: String,
-        required: true
+        // required: true
     },
     category: {
         type: String,
-        required: true
+        // required: true
     },
     image: {
         url: String,
@@ -20,11 +20,11 @@ const productSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        required: true
+        // required: true
     },
     contactNumber: {
         type: Number,
-        required: true
+        // required: true
     },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Reference to the user who posted the product
     // marketplace: { type: mongoose.Schema.Types.ObjectId, ref: 'Marketplace' } 

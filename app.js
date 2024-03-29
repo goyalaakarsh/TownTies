@@ -32,7 +32,7 @@ main()
         console.log("Connected to Database.");
     })
     .catch((err) => {
-        console.log(err);
+        
     })
 
 async function main() {
@@ -124,33 +124,27 @@ app.get("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
 }));
 
 // Posting of the New Product
-app.post("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
+app.post("/forums/:id/mart/newproduct", upload.single("product[image]"), wrapAsync(async (req, res) => {
     const { id } = req.params;
 
-    // Create a new product
-    const newProduct = new Product({
-        title,
-        description,
-        category,
-        price,
-        contactNumber,
-        // user: req.user._id, 
-        // marketplace: forum.marketplace._id 
-    });
 
-    // Check if an image was uploaded
+        const newProduct = new Product(req.body.product);
 
-    newProduct.image = {
-        url: req.file.path,
-        filename: req.file.filename
-    };
+        let url = req.file.path;
+        let filename = req.file.filename;
+        newProduct.image = { url, filename };
+        
+        console.log("Hi");
 
-    await newProduct.save();
-    // req.flash('success', 'Product added successfully');
+        // Save the new product o the database
+        await newProduct.save();
 
-    console.log(newProduct);
-    res.redirect(`/forums/${id}/mart`);
-}));
+        console.log(req.body);
+
+        // Redirect to the marketplace page
+        res.redirect(`/forums/${id}/mart`);
+    }
+));
 
 // Editing the Product
 app.get("/forms/:id/mart/product/:id/editproduct", wrapAsync(async (req,res) => {
