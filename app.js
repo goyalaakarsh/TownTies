@@ -222,6 +222,17 @@ app.post("/forums/:id/mart/newproduct", upload.single("product[image]"), wrapAsy
 ));
 
 
+app.get("/forums/:forumId/mart/products/:productId/buy", wrapAsync(async (req, res) => {
+    const { forumId, productId } = req.params;
+
+    const forum = await Forum.findById(forumId).populate('marketplace');
+
+    const product = await Product.findById(productId).populate('forum');
+
+    res.render("layouts/payment.ejs", { product, forum });
+}));
+
+
 // Faaltu Routes
 
 
