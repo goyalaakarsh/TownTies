@@ -26,6 +26,15 @@ const Product = require("./models/product.js")
 const Forum = require('./models/forum.js');
 const Marketplace = require('./models/marketplace.js');
 const upload = multer({ storage: storage });
+const {
+    chatSchemaValidation,
+    discussionBoardSchemaValidation,
+    forumSchemaValidation,
+    marketplaceSchemaValidation,
+    productSchemaValidation,
+    userSchemaValidation,
+} = require('./schema.js');
+
 
 main()
     .then(() => {
@@ -68,6 +77,18 @@ app.get("/", (req, res) => {
     res.render("layouts/home.ejs");
 });
 
+
+// Server Schema Validation Function
+const validationchat = (req, res, next) => {
+    let {error} = chatSchemaValidation.validate(req.body);
+
+    if (error) {
+        throw new ExpressError (400, error);       
+    } else {
+        next();
+    }
+}
+
 // Joining/Creating Forum
 app.get("/joinforum", (req, res) => {
     res.render("forum/joinforum.ejs");
@@ -76,9 +97,19 @@ app.get("/joinforum", (req, res) => {
 //Post Route-Create Product
 app.post("/joinforum", upload.single("forum[icon]"), async (req, res) => {
     const newForum = new Forum(req.body.forum);
-    let url = req.file.path;
-    let filename = req.file.filename;
-    newForum.icon = { url, filename };
+    
+    if (req.file) {
+        let url = req.file.path;
+        let filename = req.file.filename;
+        newForum.icon = { url, filename };
+    } else {
+        // If no file is uploaded, use default image URL
+        newForum.icon = {
+            url: "https://static.thenounproject.com/png/1526832-200.png",
+            filename: 'default_image.jpg'
+        };
+    }
+
     await newForum.save();
     const marketplace = await Marketplace.create({
         forum: newForum._id

@@ -1,62 +1,64 @@
 const Joi = require('joi');
 
-// Joi schema for Chat
-const chatSchema = Joi.object({
+// Validation schema for Chat
+const chatSchemaValidation = Joi.object({
     user: Joi.string().required(),
     message: Joi.string().required(),
-    timestamp: Joi.date().default(Date.now, 'current timestamp'),
+    timestamp: Joi.date().timestamp(),
 });
 
-// Joi schema for DiscussionBoard
-const discussionBoardSchema = Joi.object({
-    chats: Joi.array().items(Joi.string().required()), // Array of chat references
+// Validation schema for DiscussionBoard
+const discussionBoardSchemaValidation = Joi.object({
+    chats: Joi.array().items(Joi.string()),
 });
 
-// Joi schema for Forum
-const forumSchema = Joi.object({
+// Validation schema for Forum
+const forumSchemaValidation = Joi.object({
     name: Joi.string().required(),
-    type: Joi.string().valid('join', 'create').required(),
-    icon: Joi.string(),
-    members: Joi.array().items(Joi.string().required()), // Members of the forum
-    discussionBoard: Joi.string().required(), // One-to-one relationship with DiscussionBoard
-    marketplace: Joi.string().required(), // One-to-one relationship with Marketplace
+    icon: Joi.object({
+        url: Joi.string(),
+        filename: Joi.string(),
+    }),
+    members: Joi.array().items(Joi.string()),
+    discussionBoard: Joi.string(),
+    marketplace: Joi.string(),
 });
 
-// Joi schema for Marketplace
-const marketplaceSchema = Joi.object({
-    products: Joi.array().items(Joi.string().required()), // Array of product references
+// Validation schema for Marketplace
+const marketplaceSchemaValidation = Joi.object({
+    products: Joi.array().items(Joi.string()),
+    forum: Joi.string(),
 });
 
-// Joi schema for Product
-const productSchema = Joi.object({
+// Validation schema for Product
+const productSchemaValidation = Joi.object({
     title: Joi.string().required(),
     description: Joi.string().required(),
     category: Joi.string().required(),
     image: Joi.object({
-        data: Joi.binary(),
-        contentType: Joi.string(),
+        url: Joi.string(),
+        filename: Joi.string(),
     }),
-    price: Joi.number().required(),
-    contactNumber: Joi.string().required(),
-    user: Joi.string().required(), // Reference to the user who posted the product
-    forum: Joi.string().required(), // Reference to the forum where the product is posted
+    price: Joi.number().required().min(1),
+    contactNumber: Joi.number().required().length(10),
+    user: Joi.string().required(),
+    forum: Joi.string().required(),
 });
 
-// Joi schema for User
-const userSchema = Joi.object({
+// Validation schema for User
+const userSchemaValidation = Joi.object({
     name: Joi.string().required(),
     username: Joi.string().required(),
     email: Joi.string().email().required(),
-    password: Joi.string().required(),
-    forums: Joi.array().items(Joi.string().required()), // User can be a member of multiple forums
-    products: Joi.array().items(Joi.string().required()), // User can post multiple products
+    forums: Joi.array().items(Joi.string()),
+    products: Joi.array().items(Joi.string()),
 });
 
 module.exports = {
-    chatSchema,
-    discussionBoardSchema,
-    forumSchema,
-    marketplaceSchema,
-    productSchema,
-    userSchema,
+    chatSchemaValidation,
+    discussionBoardSchemaValidation,
+    forumSchemaValidation,
+    marketplaceSchemaValidation,
+    productSchemaValidation,
+    userSchemaValidation,
 };
