@@ -17,7 +17,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="category">Category</label>
-                    <select id="category" class="form-control" name="product[category] " required value="<%= product.category %>>
+                    <select id="category" class="form-control" name="product[category]" required value="<%= product.category %>>
                         <option disabled selected>Select a category</option>
                         <option value="Vehicles and their accessories">Vehicles and their accessories</option>
                         <option value="Real Estate">Real Estate</option>
@@ -42,7 +42,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="image" class="form-label">Upload Image</label>
-                    <input class="form-control" type="file" id="image" name="image" accept="image/*" value="<%= product.image.url %>">
+                    <input class="form-control" type="file" id="image" name="product[image]" accept="image/*" value="<%= product.image.url %>">
                 </div>
                 <div class="mb-3">
                     <label for="price">Price</label>

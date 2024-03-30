@@ -32,7 +32,7 @@ main()
         console.log("Connected to Database.");
     })
     .catch((err) => {
-        
+
     })
 
 async function main() {
@@ -89,7 +89,7 @@ app.post("/joinforum", upload.single("forum[icon]"), async (req, res) => {
 // Display Page for all Forums
 app.get("/chats", wrapAsync(async (req, res) => {
     const allForums = await Forum.find({});
-    res.render("forum/discussion.ejs", { allForums }); 
+    res.render("forum/discussion.ejs", { allForums });
 }));
 
 
@@ -111,16 +111,16 @@ app.get("/forums/:id/mart", wrapAsync(async (req, res) => {
     const allForums = await Forum.find({});
 
 
-    const allProducts = await Product.find({forum: id});
+    const allProducts = await Product.find({ forum: id });
 
     res.render("forum/mart.ejs", { forum, allForums, allProducts });
 }));
 
 app.get("/forums/:forumId/mart/products/:productId", wrapAsync(async (req, res) => {
     const { forumId, productId } = req.params;
-    
+
     const forum = await Forum.findById(forumId).populate('marketplace');
-    
+
     const product = await Product.findById(productId).populate('forum');
 
     res.render("layouts/product/product.ejs", { product, forum });
@@ -132,46 +132,53 @@ app.get("/forums/:forumId/mart/products/:productId", wrapAsync(async (req, res) 
 app.get("/forums/:forumId/mart/products/:productId/editproduct", wrapAsync(async (req, res) => {
     const { forumId, productId } = req.params;
     const forum = await Forum.findById(forumId).populate('marketplace');
-    
+
     const product = await Product.findById(productId).populate('forum');
 
     res.render("layouts/product/edit-product.ejs", { product, forum }); // Pass both product and forum variables
 }));
 
-app.post("/forums/:forumId/mart/products/:productId/editproduct"), upload.single("product[image]"), wrapAsync(async (req, res) => {
+app.put("/forums/:forumId/mart/products/:productId", upload.single("product[image]"), wrapAsync(async (req, res) => {
     const { forumId, productId } = req.params;
-    console.log(req.body);
-    console.log("Hi");
+    const updatedProductData = req.body.product;
 
-    const updatedProduct = new Product(req.body.product);
+    let url = req.file.path;
+    let filename = req.file.filename;
+    updatedProductData.image = { url, filename };
+    
+    try {
+        const product = await Product.findById(productId);
+        
+        if (!product) {
+            return res.status(404).send({ error: 'Product not found.' });
+        }
 
-    const product = await Product.findById(productId);
+        // Update product data
+        product.set(updatedProductData);
 
-    product.set(updatedProduct);
+        // Save the updated product
+        await product.save();
 
-    await product.save();
+        res.redirect(`/forums/${forumId}/mart/products/${productId}`);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: 'Server error.' });
+    }
+}));
 
-    // const { productId } = req.params;
-        // let{title: extitle} = req.body.title;
-        // let{description: exdescription} = req.body.description;
-        // let{category: excategory} = req.body.category;
-        // let{image: eximage} = req.body.image;
-        // let{price: exprice} = req.body.price;
-        // let{contactNumber: excontactNumber} = req.body.contactNumber;
+//Delete Route 
+app.delete("/forums/:forumId/mart/products/:productId", wrapAsync(async (req, res) => {
+    const { forumId, productId } = req.params;
 
-        // let updatedProduct = await Product.findByIdAndUpdate(
-            // id,
-            // {title: extitle},
-            // {description: exdescription},
-            // {category: excategory},
-            // {image: eximage},
-            // {price: exprice},
-            // {contactNumber: excontactNumber},
-        // );
-        console.log("Hi");  
-        console.log(product);
-        res.redirect(`/`);
-});
+    // Delete the product by ID
+    await Product.findByIdAndDelete(productId);
+
+    // Remove the product ID from the products array in Marketplace
+    await Marketplace.findOneAndUpdate({ forum: forumId }, { $pull: { products: productId } });
+
+    res.redirect(`/forums/${forumId}/mart`);
+}));
+
 
 // Adding a new Product in a specific Marketplace
 app.get("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
@@ -187,21 +194,21 @@ app.get("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
 // Posting of the New Product
 app.post("/forums/:id/mart/newproduct", upload.single("product[image]"), wrapAsync(async (req, res) => {
     const { id } = req.params;
-        const newProduct = new Product(req.body.product);
-        newProduct.forum = id;
+    const newProduct = new Product(req.body.product);
+    newProduct.forum = id;
 
-        let url = req.file.path;
-        let filename = req.file.filename;
-        newProduct.image = { url, filename };
-        
-        // Save the new product o the database
-        await newProduct.save();
+    let url = req.file.path;
+    let filename = req.file.filename;
+    newProduct.image = { url, filename };
 
-        await Marketplace.findOneAndUpdate({forum: id}, {$push: {products : newProduct._id}});
+    // Save the new product o the database
+    await newProduct.save();
 
-        // Redirect to the marketplace page
-        res.redirect(`/forums/${id}/mart`);
-    }
+    await Marketplace.findOneAndUpdate({ forum: id }, { $push: { products: newProduct._id } });
+
+    // Redirect to the marketplace page
+    res.redirect(`/forums/${id}/mart`);
+}
 ));
 
 
@@ -256,6 +263,6 @@ app.get("/payment", (req, res) => {
 });
 
 app.get("/forums", wrapAsync(async (req, res) => {
-const allForums = await Forum.find({});
-res.render("/views/forums/forums.ejs", { allListings });
+    const allForums = await Forum.find({});
+    res.render("/views/forums/forums.ejs", { allListings });
 }))
