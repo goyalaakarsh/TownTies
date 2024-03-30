@@ -76,9 +76,19 @@ app.get("/joinforum", (req, res) => {
 //Post Route-Create Product
 app.post("/joinforum", upload.single("forum[icon]"), async (req, res) => {
     const newForum = new Forum(req.body.forum);
-    let url = req.file.path;
-    let filename = req.file.filename;
-    newForum.icon = { url, filename };
+    
+    if (req.file) {
+        let url = req.file.path;
+        let filename = req.file.filename;
+        newForum.icon = { url, filename };
+    } else {
+        // If no file is uploaded, use default image URL
+        newForum.icon = {
+            url: "https://static.thenounproject.com/png/1526832-200.png",
+            filename: 'default_image.jpg'
+        };
+    }
+
     await newForum.save();
     const marketplace = await Marketplace.create({
         forum: newForum._id
