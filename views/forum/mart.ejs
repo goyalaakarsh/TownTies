@@ -2,67 +2,64 @@
 
     <link rel="stylesheet" href="/css/forum/mart.css">
 
-<div id="mart-parent">
-    <div id="mart-container">
-        <div id="mart">
-            <div id="mart-forum-name">
-                <h5>Marketplace</h5>
-                <a href="/forums/<%= forum._id %>/mart/newproduct">Add New Product <i class="fa-solid fa-plus"></i></a>
-            </div>
-            <div id="products">
-                <div>
-                    <h4 id="all-products">All Products</h4>
-                    <div id="product-listing">
-                        <% allProducts.forEach(function(product) { %>
-                        <a href="/forums/<%= forum._id %>/mart/products/<%= product._id %>">
-                            <div class="card" style="width: 18rem;" data-product-id="/forums/<%= forum._id %>/mart/products/<%= product._id %>">
-                                <img src="<%= product.image.url %>" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title"><%= product.title %></h5>
-                                    <!-- <p class="card-text">Posted by *Owner's name*</p> -->
-                                    <p href="#" class="btn btn-primary">&#x20B9;
-                                        <%= product.price %></p>
-                                </div>
-                            </div>
-                        </a>
-                        <% }) %>
+    <div id="mart-parent">
+        <div id="mart-container">
+            <div id="mart">
+                <div id="mart-forum-name">
+                    <h5>Marketplace</h5>
+                    <a href="/forums/<%= forum._id %>/mart/newproduct">Add New Product <i
+                            class="fa-solid fa-plus"></i></a>
+                </div>
+                <div id="products">
+                    <div>
+                        <h4 id="all-products">
+                            <% if (allProducts.length> 0) { %>
+                                All Products
+                                <% } else { %>
+                                    No products for sale currently
+                                    <% } %>
+                        </h4>
+                        <div id="product-listing">
+                            <% if (allProducts.length> 0) { %>
+                                <% allProducts.forEach(function(product) { %>
+                                    <a href="/forums/<%= forum._id %>/mart/products/<%= product._id %>">
+                                        <div class="card" style="width: 18rem;"
+                                            data-product-id="/forums/<%= forum._id %>/mart/products/<%= product._id %>">
+                                            <img src="<%= product.image.url %>" class="card-img-top" alt="...">
+                                            <div class="card-body">
+                                                <h5 class="card-title">
+                                                    <%= product.title %>
+                                                </h5>
+                                                <!-- <p class="card-text">Posted by *Owner's name*</p> -->
+                                                <p href="#" class="btn btn-primary">&#x20B9;<%= product.price %>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <% }) %>
+                                        <% } %>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
         <div id="mart-chat-container">
 
             <div id="mart-chat">
                 <div id="chat-forum-name">
-                    <h5><%= forum.name %></h5>
+                    <h5>
+                        <%= forum.name %>
+                    </h5>
                 </div>
 
                 <div class="under-dev">
                     <p>Chats are under development but meanwhile you can explore the Marketplace.</p>
                 </div>
 
-
-
                 <!-- <div id="chat-area">
                     <div class="message left">Aakarsh: Hi</div>
                     <div class="message right">Saksham: Hello</div>
-                    <div class="message left">Aakarsh: Hi</div>
-                    <div class="message right">Saksham: Hello</div>
-                    <div class="message left">Aakarsh: Hi</div>
-                    <div class="message right">Saksham: Hello</div>
-                    <div class="message left">Aakarsh: Hi</div>
-                    <div class="message right">Saksham: Hello</div>
-                    <div class="message left">Aakarsh: Hi</div>
-                    <div class="message right">Saksham: Hello</div>
-                    <div class="message left">Aakarsh: Hi</div>
-                    <div class="message right">Saksham: Hello</div>
-                    <div class="message left">Aakarsh: Hi</div>
-                    <div class="message right">Saksham: Hello</div>
-                    <div class="message left">Aakarsh: Hi</div>
-                    <div class="message right">Saksham: Hello</div>
-                    <div class="message left">Aakarsh: Hi</div>
                 </div> -->
             </div>
             <!-- <div id="chat-input">
@@ -76,14 +73,13 @@
 
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const productDivs = document.querySelectorAll('.card');
             productDivs.forEach(div => {
-                div.addEventListener('click', function() {
+                div.addEventListener('click', function () {
                     const productId = this.getAttribute('data-product-id');
                     window.location.href = `/forums/${forumId}`; // Redirect to the forum URL
                 });
             });
         });
     </script>
-    
