@@ -2,41 +2,35 @@
 
     <link rel="stylesheet" href="/css/forum/mart.css">
 
-    <div id="mart-parent">
-        <div id="mart-container">
-            <div id="mart">
-                <div id="mart-forum-name">
-                    <h5>Marketplace</h5>
-                    <a href="/forums/<%= forum._id %>/mart/newproduct">Add New Product <i class="fa-solid fa-plus"></i></a>
-                </div>
-                <div id="products">
-                    <div>
-                        <h4 id="all-products">All Products</h4>
-                        <div>
-                            <div id="product-listing">
-                                
-                                <% allProducts.forEach(function(product) { %>
-                                    <div class="card" style="width: 18rem;" data-product-id="<%= product._id %>">
-                                        <img src="<%= product.image.url %>"
-                                            class="card-img-top" alt="...">
-                                        <div class="card-body">
-                                            <h5 class="card-title"><%= product.title %></h5>
-                                            <!-- <p class="card-text">Posted by *Owner's name*</p> -->
-                                            <p href="#" class="btn btn-primary">$999</p>
-                                        </div>
-                                    </div>
-                                <% }) %>
-                                
-                                
-                                
-                                
-
+<div id="mart-parent">
+    <div id="mart-container">
+        <div id="mart">
+            <div id="mart-forum-name">
+                <h5>Marketplace</h5>
+                <a href="/forums/<%= forum._id %>/mart/newproduct">Add New Product <i class="fa-solid fa-plus"></i></a>
+            </div>
+            <div id="products">
+                <div>
+                    <h4 id="all-products">All Products</h4>
+                    <div id="product-listing">
+                        <% allProducts.forEach(function(product) { %>
+                        <a href="/forums/<%= forum._id %>/mart/products/<%= product._id %>">
+                            <div class="card" style="width: 18rem;" data-product-id="/forums/<%= forum._id %>/mart/products/<%= product._id %>">
+                                <img src="<%= product.image.url %>" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title"><%= product.title %></h5>
+                                    <!-- <p class="card-text">Posted by *Owner's name*</p> -->
+                                    <p href="#" class="btn btn-primary">&#x20B9;
+                                        <%= product.price %></p>
+                                </div>
                             </div>
-                        </div>
+                        </a>
+                        <% }) %>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
         <div id="mart-chat-container">
             <div id="mart-chat">

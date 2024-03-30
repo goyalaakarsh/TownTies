@@ -8,25 +8,21 @@
                 <div id="products">
                     <div>
                         <div id="all-products">
-                            <h4>Product Title <a href="/edit-product"><i class="fa-regular fa-pen-to-square"></i></a> <a
+                            <h4><%= product.title %> <a href="/forums/<%= forum._id %>/mart/products/<%= product._id %>/editproduct"><i class="fa-regular fa-pen-to-square"></i></a> <a
                                     href=""><i class="fa-solid fa-trash"></i></a></h4>
                             <p>Posted by ${SELLER'S NAME}</p>
                         </div>
 
                         <div>
                             <div id="product-listing">
-                                <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                <img src="<%= product.image.url %>"
                                     alt="" id="product-image">
 
-                                <p id="product-description">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                    Corporis iure iste, enim laboriosam magni possimus dicta facilis rem animi eaque,
-                                    dignissimos repudiandae culpa officia quos mollitia numquam quibusdam molestias aut.
-                                    Omnis debitis molestiae atque quo, id impedit officiis dolore distinctio assumenda
-                                    illo autem dolores veniam eveniet fuga aperiam natus sed? Illum saepe suscipit nisi
-                                    eum ducimus, aperiam eos error impedit.</p>
+                                <p id="product-description"><%= product.description %></p>
 
-                                <p href="#" class="btn btn-primary" id="price-btn">$999</p>
-                                <p id="product-category">Category: XYZ</p>
+                                <p href="#" class="btn btn-primary" id="price-btn">&#x20B9;
+                                    <%= product.price %></p>
+                                <p id="product-category">Category: <%= product.category %></p>
                             </div>
                         </div>
                     </div>

@@ -116,6 +116,31 @@ app.get("/forums/:id/mart", wrapAsync(async (req, res) => {
     res.render("forum/mart.ejs", { forum, allForums, allProducts });
 }));
 
+app.get("/forums/:forumId/mart/products/:productId", wrapAsync(async (req, res) => {
+    const { forumId, productId } = req.params;
+    
+    const forum = await Forum.findById(forumId).populate('marketplace');
+    
+    const product = await Product.findById(productId).populate('forum');
+
+    res.render("layouts/product/product.ejs", { product, forum });
+}));
+
+
+
+// Editing the Product
+app.get("/forums/:forumId/mart/products/:productId/editproduct", wrapAsync(async (req, res) => {
+    const { forumId, productId } = req.params;
+    const forum = await Forum.findById(forumId).populate('marketplace');
+    
+    const product = await Product.findById(productId).populate('forum');
+
+    res.render("layouts/product/edit-product.ejs", { product, forum }); // Pass both product and forum variables
+}));
+
+
+
+
 // Adding a new Product in a specific Marketplace
 app.get("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
     const { id } = req.params;
@@ -148,13 +173,7 @@ app.post("/forums/:id/mart/newproduct", upload.single("product[image]"), wrapAsy
     }
 ));
 
-// Editing the Product
-app.get("/forms/:id/mart/product/:id/editproduct", wrapAsync(async (req,res) => {
-    const { id } = req.params; 
-    const forum = await Forum.findById(id).populate('marketplace');
-    
-    res.render("layouts/product/edit-product.ejs"), {forum};
-}))
+
 
 
 

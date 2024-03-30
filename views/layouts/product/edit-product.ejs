@@ -3,60 +3,61 @@
     <div class="new-product col-8 offset-2 mt-4 mb-4">
         <div id="new-form-container">
             <h3 id="new-heading" class="text-center">Edit Your Product</h3>
-            <form action="/forums/<%= forum._id %>/mart/product/<%= product._id%>?_method=PUT" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
+            <form action="/forums/<%= forum._id %>/mart/products/<%= product._id %>?_method=PUT" method="POST"
+                novalidate class="needs-validation" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="title">Title</label>
                     <input class="form-control" type="text" name="listing[title]" placeholder="Write a catchy title"
-                        id="title" required>
-
+                        id="title" required value="<%= product.title %>">
                 </div>
                 <div class="mb-3">
                     <label for="description">Description</label>
                     <textarea class="form-control" name="listing[description]" id="description" cols="5" rows="2"
-                        placeholder="Describe your product in detail" required></textarea>
+                        placeholder="Describe your product in detail" required><%- product.description %></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="category">Category</label>
-                    <select id="category" class="form-control">
+                    <select id="category" class="form-control" name="listing[category] " required value="<%= product.category %>>
                         <option disabled selected>Select a category</option>
-                        <option>Vehicles and their accessories</option>
-                        <option>Real Estate</option>
-                        <option>Electronics & Appliances</option>
-                        <option>Furniture</option>
-                        <option>Home & Garden</option>
-                        <option>Kids & Babies</option>
-                        <option>Services</option>
-                        <option>Animals</option>
-                        <option>Clothing and Fashion</option>
-                        <option>Cosmetics</option>
-                        <option>Books and Media</option>
-                        <option>Sports and Outdoor Gear</option>
-                        <option>Toys and Games</option>
-                        <option>Health and Wellness</option>
-                        <option>Food and Groceries</option>
-                        <option>Stationery</option>
-                        <option>Travel and Luggage</option>
-                        <option>Music</option>
-                        <option>Other</option>
+                        <option value="Vehicles and their accessories">Vehicles and their accessories</option>
+                        <option value="Real Estate">Real Estate</option>
+                        <option value="Electronics & Appliances">Electronics & Appliances</option>
+                        <option value="Furniture">Furniture</option>
+                        <option value="Home & Garden">Home & Garden</option>
+                        <option value="Kids & Babies">Kids & Babies</option>
+                        <option value="Services">Services</option>
+                        <option value="Animals">Animals</option>
+                        <option value="Clothing and Fashion">Clothing and Fashion</option>
+                        <option value="Cosmetics">Cosmetics</option>
+                        <option value="Books and Media">Books and Media</option>
+                        <option value="Sports and Outdoor Gear">Sports and Outdoor Gear</option>
+                        <option value="Toys and Games">Toys and Games</option>
+                        <option value="Health and Wellness">Health and Wellness</option>
+                        <option value="Food and Groceries">Food and Groceries</option>
+                        <option value="Stationery">Stationery</option>
+                        <option value="Travel and Luggage">Travel and Luggage</option>
+                        <option value="Music">Music</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
                 <div class="mb-3">
                     <label for="imageInput" class="form-label">Upload Image</label>
-                    <input class="form-control" type="file" id="imageInput" name="image" accept="image/*">
+                    <input class="form-control" type="file" id="imageInput" name="image" accept="image/*" value="<%= product.image.url %>">
                 </div>
                 <div class="mb-3">
                     <label for="price">Price</label>
                     <input class="form-control" type="number" name="listing[price]" placeholder="Enter price" id="price"
-                        required>
+                        required value="<%= product.price %>">
                 </div>
-                <div class="mb-3">
+
+                <!-- <div class="mb-3">
                     <label for="Contact">Contact Number</label>
                     <input class="form-control" type="number" name="Product Contact"
                         placeholder="Enter your contact number" id="Contact" required>
-                </div>
+                </div> -->
                 <div id="new-form-btn-div">
                     <button type="submit" class="btn btn-primary btn-block text-center col-4 offset-4"
-                        id="new-form-btn">Add</button>
+                        id="new-form-btn">Update</button>
                 </div>
             </form>
         </div>

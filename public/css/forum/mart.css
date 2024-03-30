@@ -62,9 +62,7 @@
     padding: 0 1rem;
 }
 
-#all-products {
-    margin: 1rem 0;
-}
+
 
 #product-listing {
     display: flex;
@@ -190,4 +188,29 @@
     top: 0rem;
     z-index: 1000; 
     background-color: #B6CCFE; /* Keeping the background color from the second set */
+}
+
+.card {
+    height: 22rem !important;
+    transition: 0.15s;
+    cursor: pointer;
+}
+
+.card-img-top {
+    height: 14rem !important;
+    background-size: cover !important;
+}
+
+#product-listing a {
+    text-decoration: none !important;
+}
+
+#products #all-products {
+    margin: 1rem 0;
+    text-align: left !important;
+}
+
+.card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.301);
 }
