@@ -110,7 +110,10 @@ app.get("/forums/:id/mart", wrapAsync(async (req, res) => {
 
     const allForums = await Forum.find({});
 
-    res.render("forum/mart.ejs", { forum, allForums });
+
+    const allProducts = await Product.find({forum: id});
+
+    res.render("forum/mart.ejs", { forum, allForums, allProducts });
 }));
 
 // Adding a new Product in a specific Marketplace
@@ -126,8 +129,6 @@ app.get("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
 // Posting of the New Product
 app.post("/forums/:id/mart/newproduct", upload.single("product[image]"), wrapAsync(async (req, res) => {
     const { id } = req.params;
-
-
         const newProduct = new Product(req.body.product);
         newProduct.forum = id;
 
@@ -140,7 +141,7 @@ app.post("/forums/:id/mart/newproduct", upload.single("product[image]"), wrapAsy
         // Save the new product o the database
         await newProduct.save();
 
-        console.log(req.body);
+        console.log(newProduct);
 
         // Redirect to the marketplace page
         res.redirect(`/forums/${id}/mart`);
