@@ -7,7 +7,6 @@ const session = require("express-session");
 const path = require("path");
 const mongoose = require("mongoose");
 const app = express();
-const Product = require("./models/product.js")
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync");
@@ -15,7 +14,7 @@ const ExpressError = require("./utils/ExpressErrors.js");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
-const { productSchema } = require("./models/product.js");
+// const { productSchema } = require("./models/product.js");
 const MONGO_URL = "mongodb://127.0.0.1:27017/townties";
 const userRouter = require("./routes/user.js");
 const multer = require('multer');
@@ -23,6 +22,7 @@ const { log } = require('console');
 const { storage } = require("./cloudConfig.js");
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const Product = require("./models/product.js")
 const Forum = require('./models/forum.js');
 const Marketplace = require('./models/marketplace.js');
 const upload = multer({ storage: storage });
@@ -138,12 +138,45 @@ app.get("/forums/:forumId/mart/products/:productId/editproduct", wrapAsync(async
     res.render("layouts/product/edit-product.ejs", { product, forum }); // Pass both product and forum variables
 }));
 
+app.post("/forums/:forumId/mart/products/:productId/editproduct"), upload.single("product[image]"), wrapAsync(async (req, res) => {
+    const { forumId, productId } = req.params;
+    console.log(req.body);
+    console.log("Hi");
 
+    const updatedProduct = new Product(req.body.product);
 
+    const product = await Product.findById(productId);
+
+    product.set(updatedProduct);
+
+    await product.save();
+
+    // const { productId } = req.params;
+        // let{title: extitle} = req.body.title;
+        // let{description: exdescription} = req.body.description;
+        // let{category: excategory} = req.body.category;
+        // let{image: eximage} = req.body.image;
+        // let{price: exprice} = req.body.price;
+        // let{contactNumber: excontactNumber} = req.body.contactNumber;
+
+        // let updatedProduct = await Product.findByIdAndUpdate(
+            // id,
+            // {title: extitle},
+            // {description: exdescription},
+            // {category: excategory},
+            // {image: eximage},
+            // {price: exprice},
+            // {contactNumber: excontactNumber},
+        // );
+        console.log("Hi");  
+        console.log(product);
+        res.redirect(`/`);
+});
 
 // Adding a new Product in a specific Marketplace
 app.get("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
     const { id } = req.params;
+
     const forum = await Forum.findById(id).populate('marketplace');
 
     const allForums = await Forum.find({});
@@ -170,10 +203,6 @@ app.post("/forums/:id/mart/newproduct", upload.single("product[image]"), wrapAsy
         res.redirect(`/forums/${id}/mart`);
     }
 ));
-
-
-
-
 
 
 // Faaltu Routes

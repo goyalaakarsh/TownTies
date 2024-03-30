@@ -7,17 +7,17 @@
                 novalidate class="needs-validation" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="title">Title</label>
-                    <input class="form-control" type="text" name="listing[title]" placeholder="Write a catchy title"
+                    <input class="form-control" type="text" name="product[title]" placeholder="Write a catchy title"
                         id="title" required value="<%= product.title %>">
                 </div>
                 <div class="mb-3">
                     <label for="description">Description</label>
-                    <textarea class="form-control" name="listing[description]" id="description" cols="5" rows="2"
+                    <textarea class="form-control" name="product[description]" id="description" cols="5" rows="2"
                         placeholder="Describe your product in detail" required><%- product.description %></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="category">Category</label>
-                    <select id="category" class="form-control" name="listing[category] " required value="<%= product.category %>>
+                    <select id="category" class="form-control" name="product[category] " required value="<%= product.category %>>
                         <option disabled selected>Select a category</option>
                         <option value="Vehicles and their accessories">Vehicles and their accessories</option>
                         <option value="Real Estate">Real Estate</option>
@@ -41,20 +41,20 @@
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="imageInput" class="form-label">Upload Image</label>
-                    <input class="form-control" type="file" id="imageInput" name="image" accept="image/*" value="<%= product.image.url %>">
+                    <label for="image" class="form-label">Upload Image</label>
+                    <input class="form-control" type="file" id="image" name="image" accept="image/*" value="<%= product.image.url %>">
                 </div>
                 <div class="mb-3">
                     <label for="price">Price</label>
-                    <input class="form-control" type="number" name="listing[price]" placeholder="Enter price" id="price"
+                    <input class="form-control" type="number" name="product[price]" placeholder="Enter price" id="price"
                         required value="<%= product.price %>">
                 </div>
 
-                <!-- <div class="mb-3">
-                    <label for="Contact">Contact Number</label>
-                    <input class="form-control" type="number" name="Product Contact"
-                        placeholder="Enter your contact number" id="Contact" required>
-                </div> -->
+                <div class="mb-3">
+                    <label for="contactNumber">Contact Number</label>
+                    <input class="form-control" type="number" name="product[contactNumber]" placeholder="Enter your contact number" id="contactNumber" required value="<%= product.contactNumber %>">
+
+                </div>
                 <div id="new-form-btn-div">
                     <button type="submit" class="btn btn-primary btn-block text-center col-4 offset-4"
                         id="new-form-btn">Update</button>
