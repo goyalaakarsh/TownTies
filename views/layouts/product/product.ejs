@@ -26,14 +26,15 @@
     
                         <div>
                             <div id="product-listing">
-                                <img src="<%= product.image.url %>"
-                                    alt="" id="product-image">
+                                <img src="<%= product.image.url %>" alt="" id="product-image">
     
+                                <p id="product-price"><strong>&#x20B9;<%= product.price %></strong></p>
                                 <p id="product-description"><%= product.description %></p>
     
-                                <p href="#" class="btn btn-primary" id="price-btn">&#x20B9;
-                                    <%= product.price %></p>
+
                                 <p id="product-category">Category: <%= product.category %></p>
+                                <button onclick="window.location.href='/forums/<%= forum._id %>/mart/products/<%= product._id %>/buy'" type="button" class="btn btn-outline-primary">Buy Now</button>
+
                             </div>
                         </div>
                     </div>
