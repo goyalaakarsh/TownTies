@@ -129,6 +129,7 @@ app.post("/forums/:id/mart/newproduct", upload.single("product[image]"), wrapAsy
 
 
         const newProduct = new Product(req.body.product);
+        newProduct.forum = id;
 
         let url = req.file.path;
         let filename = req.file.filename;
