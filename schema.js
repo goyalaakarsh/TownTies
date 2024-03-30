@@ -40,7 +40,7 @@ const productSchemaValidation = Joi.object({
         filename: Joi.string(),
     }),
     price: Joi.number().required().min(1),
-    contactNumber: Joi.number().required().length(10),
+    contactNumber: Joi.number().required().min(1000000000).max(9999999999),
     user: Joi.string().required(),
     forum: Joi.string().required(),
 });
