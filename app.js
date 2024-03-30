@@ -169,7 +169,7 @@ app.get("/forums/:forumId/mart/products/:productId/editproduct", wrapAsync(async
     res.render("layouts/product/edit-product.ejs", { product, forum }); // Pass both product and forum variables
 }));
 
-app.put("/forums/:forumId/mart/products/:productId", upload.single("product[image]"), wrapAsync(async (req, res) => {
+app.put("/forums/:forumId/mart/products/:productId", productSchemaValidation(), upload.single("product[image]"), wrapAsync(async (req, res) => {
     const { forumId, productId } = req.params;
     const updatedProductData = req.body.product;
 
