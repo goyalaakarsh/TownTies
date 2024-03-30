@@ -3,26 +3,26 @@
     <link rel="stylesheet" href="css/payment.css">
 
     <div class="container center-content mb-4">
-        <form class="col-4 offset-4" novalidate class="needs-validation">
+        <form class="col-4 offset-4" novalidate class="needs-validation" novalidate>
             <h3 class="text-center mt-4">Pay</h3>
             <div class="mb-3">
                 <label for="exampleInputName1" class="form-label">Name</label>
-                <input type="text" class="form-control" name="name" id="name" placeholder="Enter your name">
+                <input type="text" class="form-control" name="name" id="name" placeholder="Enter your name" required>
             </div>
             <div class="mb-3">
                 <label for="exampleInputUsername1" class="form-label">Mobile Number</label>
                 <input type="number" class="form-control" id="number" name="number"
-                    placeholder="Enter your mobile number">
+                    placeholder="Enter your mobile number" required>
             </div>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email address</label>
                 <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
-                    placeholder="Enter your email address">
+                    placeholder="Enter your email address" required>
             </div>
             <div class="mb-3">
                 <label for="exampleInputUsername1" class="form-label">Amount (In Rupees)</label>
                 <input type="number" class="form-control" id="amount" name="amount" placeholder="Enter amount"
-                    value="999">
+                     required>
             </div>
             <button type="submit" class="btn btn-primary btn-block text-center col-6 offset-3">Proceed to Pay</button>
         </form>

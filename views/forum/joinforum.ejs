@@ -9,22 +9,28 @@
 
         <div class="join">
             <div class="container center-content">
-                <form class="col-6 offset-3" id="forumForm" enctype="multipart/form-data" method="POST" action="/joinforum">
+                <form class="needs-validation col-6 offset-3 " id="forumForm" enctype="multipart/form-data" method="POST" action="/joinforum" novalidate>
                     <h3 class="text-center mb-4">Join or Create a Forum</h3>
                     <div class="mb-3">
                         <label for="forumType" class="form-label">Select</label>
-                        <select class="form-control" id="forumType">
+                        <select class="form-control" id="forumType" required>
                             <option value="join">Join Forum</option>
                             <option value="create">Create Forum</option>
                         </select>
                     </div>
                     <div id="joinForumInput" class="mb-3" style="display: none;">
                         <label for="forumRef" class="form-label">Join Forum</label>
-                        <input type="text" class="form-control" id="forumRef" name="forumref" placeholder="Enter a referral code">
+                        <input type="text" class="form-control" id="forumRef" name="forumref" placeholder="Enter a referral code" required>
                     </div>
                     <div id="createForumInput" class="mb-3" style="display: none;">
                         <label for="forum[name]" class="form-label">Create Forum</label>
-                        <input type="text" class="form-control mb-3" id="forum[name]" name="forum[name]" placeholder="Enter forum name">
+                        <input type="text" class="form-control mb-3" id="forum[name]" name="forum[name]" placeholder="Enter forum name" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                          </div>
+                        <div class="invalid-feedback">
+                            Choose a name for your forum
+                          </div>
 
                         <label for="forum[icon]" class="form-label">Set Forum Icon</label>
                         <input class="form-control" type="file" id="forum[icon]" name="forum[icon]" accept="image/*">

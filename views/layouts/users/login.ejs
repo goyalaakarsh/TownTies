@@ -4,14 +4,22 @@
     <div class="container center-content">
         <form class="col-4 offset-4" novalidate class="needs-validation">
             <h3 class="text-center mt-4">Log In</h3>
+
             <div class="mb-3">
-                <label for="exampleInputUsername1" class="form-label">Username</label>
-                <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Enter your username">
-            </div>
+                <label for="username" class="form-label">Username</label>
+                <div class="input-group has-validation">
+                  <span class="input-group-text" id="inputGroupPrepend">@</span>
+                  <input type="text" class="form-control" id="username" name="user[username]" aria-describedby="inputGroupPrepend"  required>
+                  <div class="invalid-feedback">
+                    Enter your Username
+                  </div>
+                </div>
+              </div>
+
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1"
-                    placeholder="Enter your password">
+                <input type="password" class="form-control" id="password" name="user[password]"
+                    placeholder="Enter your password" required>
             </div>
             <button type="submit" class="btn btn-primary btn-block text-center col-4 offset-4">Login</button>
             <div class="text-center mt-3">

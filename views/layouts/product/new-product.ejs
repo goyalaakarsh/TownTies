@@ -2,7 +2,7 @@
     <div class="new-product col-8 offset-2 mt-4 mb-4">
         <div id="new-form-container">
             <h3 id="new-heading" class="text-center">Add New Product</h3>
-            <form action="/forums/<%= forum._id %>/mart/newproduct" method="POST" novalidate enctype="multipart/form-data">
+            <form action="/forums/<%= forum._id %>/mart/newproduct" method="POST" novalidate enctype="multipart/form-data" novalidate class="needs-validation">
                 <div class="mb-3">
                     <label for="title">Title</label>
                     <input class="form-control" type="text" name="product[title]" placeholder="Write a catchy title"
@@ -15,28 +15,29 @@
                 </div>
                 <div class="mb-3">
                     <label for="category">Category</label>
-                    <select id="category" class="form-control" name="product[category]">
-                        <option disabled selected>Select a category</option>
-                        <option>Vehicles and their accessories</option>
-                        <option>Real Estate</option>
-                        <option>Electronics & Appliances</option>
-                        <option>Furniture</option>
-                        <option>Home & Garden</option>
-                        <option>Kids & Babies</option>
-                        <option>Services</option>
-                        <option>Animals</option>
-                        <option>Clothing and Fashion</option>
-                        <option>Cosmetics</option>
-                        <option>Books and Media</option>
-                        <option>Sports and Outdoor Gear</option>
-                        <option>Toys and Games</option>
-                        <option>Health and Wellness</option>
-                        <option>Food and Groceries</option>
-                        <option>Stationery</option>
-                        <option>Travel and Luggage</option>
-                        <option>Music</option>
-                        <option>Other</option>
-                    </select>
+                    <select id="category" class="form-select" name="product[category]" required>
+                        <option value="" disabled selected hidden>Select a category</option>
+                        <option value="Vehicles and their accessories">Vehicles and their accessories</option>
+                        <option value="Real Estate">Real Estate</option>
+                        <option value="Electronics & Appliances">Electronics & Appliances</option>
+                        <option value="Furniture">Furniture</option>
+                        <option value="Home & Garden">Home & Garden</option>
+                        <option value="Kids & Babies">Kids & Babies</option>
+                        <option value="Services">Services</option>
+                        <option value="Animals">Animals</option>
+                        <option value="Clothing and Fashion">Clothing and Fashion</option>
+                        <option value="Cosmetics">Cosmetics</option>
+                        <option value="Books and Media">Books and Media</option>
+                        <option value="Sports and Outdoor Gear">Sports and Outdoor Gear</option>
+                        <option value="Toys and Games">Toys and Games</option>
+                        <option value="Health and Wellness">Health and Wellness</option>
+                        <option value="Food and Groceries">Food and Groceries</option>
+                        <option value="Stationery">Stationery</option>
+                        <option value="Travel and Luggage">Travel and Luggage</option>
+                        <option value="Music">Music</option>
+                        <option value="Other">Other</option>
+                      </select>
+                      
                 </div>
                 <!-- <div id="categoryInput" class="mb-3" style="display: none;">
                     <input class="form-control" type="text" name="product[category]" id="category"
@@ -44,7 +45,7 @@
                 </div> -->
                 <div class="mb-3">
                     <label for="image" class="form-label">Upload Image</label>
-                    <input class="form-control" type="file" id="image" value="Upload" name="product[image]" accept="image/*">
+                    <input class="form-control" type="file" id="image" value="Upload" name="product[image]" accept="image/*" required>
                 </div>
                 <div class="mb-3">
                     <label for="price">Price</label>
