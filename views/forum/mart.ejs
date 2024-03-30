@@ -14,87 +14,23 @@
                         <h4 id="all-products">All Products</h4>
                         <div>
                             <div id="product-listing">
-                                <div class="card" style="width: 18rem;">
-                                    <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Product Title</h5>
-                                        <p class="card-text">Posted by *Owner's name*</p>
-                                        <p href="#" class="btn btn-primary">$999</p>
+                                
+                                <% allProducts.forEach(function(product) { %>
+                                    <div class="card" style="width: 18rem;" data-product-id="<%= product._id %>">
+                                        <img src="<%= product.image.url %>"
+                                            class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><%= product.title %></h5>
+                                            <!-- <p class="card-text">Posted by *Owner's name*</p> -->
+                                            <p href="#" class="btn btn-primary">$999</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="card" style="width: 18rem;">
-                                    <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Product Title</h5>
-                                        <p class="card-text">Posted by *Owner's name*</p>
-                                        <p href="#" class="btn btn-primary">$999</p>
-                                    </div>
-                                </div>
-                                <div class="card" style="width: 18rem;">
-                                    <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Product Title</h5>
-                                        <p class="card-text">Posted by *Owner's name*</p>
-                                        <p href="#" class="btn btn-primary">$999</p>
-                                    </div>
-                                </div>
-                                <div class="card" style="width: 18rem;">
-                                    <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Product Title</h5>
-                                        <p class="card-text">Posted by *Owner's name*</p>
-                                        <p href="#" class="btn btn-primary">$999</p>
-                                    </div>
-                                </div>
-                                <div class="card" style="width: 18rem;">
-                                    <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Product Title</h5>
-                                        <p class="card-text">Posted by *Owner's name*</p>
-                                        <p href="#" class="btn btn-primary">$999</p>
-                                    </div>
-                                </div>
-                                <div class="card" style="width: 18rem;">
-                                    <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Product Title</h5>
-                                        <p class="card-text">Posted by *Owner's name*</p>
-                                        <p href="#" class="btn btn-primary">$999</p>
-                                    </div>
-                                </div>
-                                <div class="card" style="width: 18rem;">
-                                    <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Product Title</h5>
-                                        <p class="card-text">Posted by *Owner's name*</p>
-                                        <p href="#" class="btn btn-primary">$999</p>
-                                    </div>
-                                </div>
-                                <div class="card" style="width: 18rem;">
-                                    <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Product Title</h5>
-                                        <p class="card-text">Posted by *Owner's name*</p>
-                                        <p href="#" class="btn btn-primary">$999</p>
-                                    </div>
-                                </div>
-                                <div class="card" style="width: 18rem;">
-                                    <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Product Title</h5>
-                                        <p class="card-text">Posted by *Owner's name*</p>
-                                        <p href="#" class="btn btn-primary">$999</p>
-                                    </div>
-                                </div>
+                                <% }) %>
+                                
+                                
+                                
+                                
+
                             </div>
                         </div>
                     </div>
@@ -135,3 +71,17 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const productDivs = document.querySelectorAll('.card');
+            productDivs.forEach(div => {
+                div.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-product-id');
+                    window.location.href = `/forums/${forumId}`; // Redirect to the forum URL
+                });
+            });
+        });
+    </script>
+    
