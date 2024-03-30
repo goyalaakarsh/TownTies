@@ -26,6 +26,15 @@ const Product = require("./models/product.js")
 const Forum = require('./models/forum.js');
 const Marketplace = require('./models/marketplace.js');
 const upload = multer({ storage: storage });
+const {
+    chatSchemaValidation,
+    discussionBoardSchemaValidation,
+    forumSchemaValidation,
+    marketplaceSchemaValidation,
+    productSchemaValidation,
+    userSchemaValidation,
+} = require('./schema.js');
+
 
 main()
     .then(() => {
@@ -67,6 +76,18 @@ app.listen(3000, () => {
 app.get("/", (req, res) => {
     res.render("layouts/home.ejs");
 });
+
+
+// Server Schema Validation Function
+const validationchat = (req, res, next) => {
+    let {error} = chatSchemaValidation.validate(req.body);
+
+    if (error) {
+        throw new ExpressError (400, error);       
+    } else {
+        next();
+    }
+}
 
 // Joining/Creating Forum
 app.get("/joinforum", (req, res) => {

@@ -39,8 +39,8 @@ const productSchemaValidation = Joi.object({
         url: Joi.string(),
         filename: Joi.string(),
     }),
-    price: Joi.number().required(),
-    contactNumber: Joi.number().required(),
+    price: Joi.number().required().min(1),
+    contactNumber: Joi.number().required().length(10),
     user: Joi.string().required(),
     forum: Joi.string().required(),
 });
