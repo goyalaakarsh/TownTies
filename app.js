@@ -136,12 +136,10 @@ app.post("/forums/:id/mart/newproduct", upload.single("product[image]"), wrapAsy
         let filename = req.file.filename;
         newProduct.image = { url, filename };
         
-        console.log("Hi");
-
         // Save the new product o the database
         await newProduct.save();
 
-        console.log(newProduct);
+        await Marketplace.findOneAndUpdate({forum: id}, {$push: {products : newProduct._id}});
 
         // Redirect to the marketplace page
         res.redirect(`/forums/${id}/mart`);
