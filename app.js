@@ -26,6 +26,9 @@ const Product = require("./models/product.js")
 const Forum = require('./models/forum.js');
 const Marketplace = require('./models/marketplace.js');
 const upload = multer({ storage: storage });
+const sampleForum = require("./init/sample-forum.js");
+const martData = require("./init/mart-data.js");
+
 const {
     chatSchemaValidation,
     discussionBoardSchemaValidation,
@@ -33,6 +36,9 @@ const {
     productSchemaValidation,
     userSchemaValidation,
 } = require('./schema.js');
+const sampleMartData = require('./init/mart-data.js');
+
+let numberOfForums = 0;
 
 
 main()
@@ -70,6 +76,57 @@ passport.deserializeUser(User.deserializeUser());
 app.listen(3000, () => {
     console.log("Server is listening to port 3000!");
 });
+
+
+// Remove this line, as sampleForum is already imported
+// const sampleForum = new Forum.insertMany([{sampleForum}]);
+
+// Checking if the number of forums is 0, then insert sample forum data
+async function isEmpty() {
+    if (numberOfForums == 0) {
+        // Insert the sample forum
+        await Forum.insertMany([sampleForum]);
+        numberOfForums++;
+
+        // Find the newly inserted forum
+        const newForum = await Forum.findOne({ name: sampleForum.name });
+
+        // Create an array to store the product documents
+        const productDocuments = [];
+
+        // Loop through the sampleMartData array to create product documents
+        for (const productData of sampleMartData) {
+            const product = new Product({
+                ...productData,
+                forum: newForum._id, // Assign the forum's _id to the product
+                user: '60f8d91fa76fa45a18cf4d42' // Replace with the user's _id who is posting the products
+            });
+            productDocuments.push(product);
+        }
+
+        // Insert the products into the marketplace associated with the forum
+        await Marketplace.findOneAndUpdate(
+            { forum: newForum._id },
+            { $push: { products: productDocuments.map(doc => doc._id) } },
+            { upsert: true }
+        );
+
+        // Insert the product documents into the products collection
+        await Product.insertMany(productDocuments);
+    }
+}
+
+
+// Call the isEmpty function to execute the logic
+isEmpty()
+    .then(() => {
+        console.log("Sample forum inserted successfully if the number of forums was 0.");
+    })
+    .catch((err) => {
+        console.error("Error while inserting sample forum:", err);
+    });
+
+
 
 // Home Page
 app.get("/", (req, res) => {
@@ -151,6 +208,8 @@ app.post("/joinforum", validateForum, upload.single("forum[icon]"), async (req, 
     const marketplace = await Marketplace.create({
         forum: newForum._id
     });
+
+    numberOfForums++;
     res.redirect("/chats");
 });
 
