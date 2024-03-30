@@ -213,3 +213,12 @@ i {
     margin: 0;
     padding: 0;
 }
+
+#mart-chat-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Align vertically in the center */
+    align-items: center; /* Align horizontally in the center */
+    text-align: center;
+    background-color: #C1D3FE;
+}

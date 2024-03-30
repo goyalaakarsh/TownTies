@@ -150,9 +150,11 @@
 #mart-chat-container {
     display: flex;
     flex-direction: column;
+
     justify-content: center;
     align-items: center;
     text-align: center;
+    
     position: relative;
     flex: 2;
     overflow-y: auto;

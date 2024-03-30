@@ -214,3 +214,14 @@
     transform: scale(1.02);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.301);
 }
+
+.under-dev {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Align vertically in the center */
+    align-items: center; /* Align horizontally in the center */
+    text-align: center;
+    background-color: #C1D3FE;
+}
+

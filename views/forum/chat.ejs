@@ -25,24 +25,30 @@
     <div id="mart-chat-container">
         <div id="mart-chat">
             <div id="chat-forum-name">
-                <h5>Forum Name</h5>
+                <h5><%= forum.name %></h5>
                 <a href="/forums/<%= forum._id %>/mart">
                     Marketplace <i class="fa-solid fa-shop"></i>
                 </a>
                 
 
             </div>
-            <div id="chat-area">
+
+
+            <div class="under-dev">
+                <p>Chats are under development but meanwhile you can explore the Marketplace.</p>
+            </div>
+
+            <!-- <div id="chat-area">
                 <div class="message left">Aakarsh: Hi</div>
                 <div class="message right">Saksham: Hello</div>
-            </div>
+            </div> -->
         </div>
-        <div id="chat-input">
+        <!-- <div id="chat-input">
             <form action="">
                 <input type="text" class="form-control">
                 <button type="submit" id="send-btn">Send</button>
             </form>
-        </div>
+        </div> -->
     </div>
 </div>
 
