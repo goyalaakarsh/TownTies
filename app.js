@@ -30,7 +30,6 @@ const {
     chatSchemaValidation,
     discussionBoardSchemaValidation,
     forumSchemaValidation,
-    marketplaceSchemaValidation,
     productSchemaValidation,
     userSchemaValidation,
 } = require('./schema.js');
@@ -79,8 +78,46 @@ app.get("/", (req, res) => {
 
 
 // Server Schema Validation Function
-const validationchat = (req, res, next) => {
+const validateChat = (req, res, next) => {
     let {error} = chatSchemaValidation.validate(req.body);
+
+    if (error) {
+        throw new ExpressError (400, error);       
+    } else {
+        next();
+    }
+}
+
+const validateDiscussion = (req, res, next) => {
+    let {error} = discussionBoardSchemaValidation.validate(req.body);
+
+    if (error) {
+        throw new ExpressError (400, error);       
+    } else {
+        next();
+    }
+}
+const validateForum = (req, res, next) => {
+    let {error} = forumSchemaValidation.validate(req.body);
+
+    if (error) {
+        throw new ExpressError (400, error);       
+    } else {
+        next();
+    }
+}
+
+const validateProduct = (req, res, next) => {
+    let {error} = productSchemaValidation.validate(req.body);
+
+    if (error) {
+        throw new ExpressError (400, error);       
+    } else {
+        next();
+    }
+}
+const validateUser = (req, res, next) => {
+    let {error} = userSchemaValidation.validate(req.body);
 
     if (error) {
         throw new ExpressError (400, error);       
@@ -95,7 +132,7 @@ app.get("/joinforum", (req, res) => {
 });
 
 //Post Route-Create Product
-app.post("/joinforum", upload.single("forum[icon]"), async (req, res) => {
+app.post("/joinforum", validateForum, upload.single("forum[icon]"), async (req, res) => {
     const newForum = new Forum(req.body.forum);
     
     if (req.file) {
@@ -169,7 +206,7 @@ app.get("/forums/:forumId/mart/products/:productId/editproduct", wrapAsync(async
     res.render("layouts/product/edit-product.ejs", { product, forum }); // Pass both product and forum variables
 }));
 
-app.put("/forums/:forumId/mart/products/:productId", productSchemaValidation(), upload.single("product[image]"), wrapAsync(async (req, res) => {
+app.put("/forums/:forumId/mart/products/:productId", validateProduct, upload.single("product[image]"), wrapAsync(async (req, res) => {
     const { forumId, productId } = req.params;
     const updatedProductData = req.body.product;
 
@@ -223,7 +260,7 @@ app.get("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
 }));
 
 // Posting of the New Product
-app.post("/forums/:id/mart/newproduct", upload.single("product[image]"), wrapAsync(async (req, res) => {
+app.post("/forums/:id/mart/newproduct", validateProduct, upload.single("product[image]"), wrapAsync(async (req, res) => {
     const { id } = req.params;
     const newProduct = new Product(req.body.product);
     newProduct.forum = id;
