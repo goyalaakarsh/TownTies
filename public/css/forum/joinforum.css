@@ -21,6 +21,8 @@
 
 form {
     display: flex;
+    max-width: 30rem;
+    margin-left: 10rem;
     flex-direction: column;
 }
 

@@ -6,7 +6,6 @@ const forumSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    
     icon: {
         url: String,
         filename: String, 
