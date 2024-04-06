@@ -49,3 +49,23 @@ router.post("/signup", async (req, res) => {
 });
 
 module.exports = router;
+
+
+// const express = require("express");
+// const router = express.Router();
+// const passport = require("passport");
+// const User = require("../models/user.js");
+
+// // Render login form
+// router.get("/login", (req, res) => {
+//     res.render("layouts/users/login.ejs");
+// });
+
+// // Handle login logic
+// router.post("/login", passport.authenticate("local", {
+//     successRedirect: "/", // Redirect to home page on successful login
+//     failureRedirect: "/users/login", // Redirect back to login page on failed login
+//     failureFlash: true // Enable flash messages for failed login attempts
+// }));
+
+// module.exports = router;
