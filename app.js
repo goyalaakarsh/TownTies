@@ -132,6 +132,9 @@ app.listen(3000, () => {
 app.get("/", (req, res) => {
     res.render("layouts/home.ejs");
 });
+app.get("/profile", (req, res) => {
+    res.render("layouts/profile/profile.ejs");
+});
 
 
 // Server Schema Validation Function

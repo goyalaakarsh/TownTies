@@ -2,22 +2,26 @@
 
 <div class="container center-content mb-4">
     <div class="col-6 offset-3">
-        <h3 class="text-center mt-4">User Profile</h3>
+        <h3 class="text-center mt-4">Profile</h3>
         <div class="mb-3">
-            <label for="profileName" class="form-label">Name</label>
-            <input type="text" class="form-control" id="profileName" value="<%= user.name %>" readonly>
+            <label for="user-pfp" class="form-label">Name</label>
+            <img src="<%= user.pfp.url %>" alt="" id="user-pfp">
         </div>
         <div class="mb-3">
-            <label for="profileUsername" class="form-label">Username</label>
-            <input type="text" class="form-control" id="profileUsername" value="<%= user.username %>" readonly>
+            <label for="user-name" class="form-label">Name</label>
+            <p id="user-name"><%= user.name %></p>
         </div>
         <div class="mb-3">
-            <label for="profileEmail" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="profileEmail" value="<%= user.email %>" readonly>
+            <label for="user-username" class="form-label">Username</label>
+            <p id="user-username"><%= user.username %></p>
         </div>
         <div class="mb-3">
-            <label for="profilePassword" class="form-label">Password</label>
-            <input type="password" class="form-control" id="profilePassword" value="**********" readonly>
+            <label for="user-email" class="form-label">Email address</label>
+            <p id="user-email"><%= user.email %></p>
+        </div>
+        <div class="mb-3">
+            <label for="user-contactnum" class="form-label">Contact Number</label>
+            <p id="user-contactnum"><%= user.contactnum %></p>
         </div>
     </div>
 </div>
