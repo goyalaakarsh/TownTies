@@ -26,6 +26,9 @@ const Product = require("./models/product.js")
 const Forum = require('./models/forum.js');
 const Marketplace = require('./models/marketplace.js');
 const upload = multer({ storage: storage });
+const sampleForum = require("./init/sample-forum.js");
+const martData = require("./init/mart-data.js");
+
 const {
     chatSchemaValidation,
     discussionBoardSchemaValidation,
@@ -33,6 +36,9 @@ const {
     productSchemaValidation,
     userSchemaValidation,
 } = require('./schema.js');
+const sampleMartData = require('./init/mart-data.js');
+
+let numberOfForums = 0;
 
 
 main()
@@ -71,6 +77,57 @@ app.listen(3000, () => {
     console.log("Server is listening to port 3000!");
 });
 
+
+// Remove this line, as sampleForum is already imported
+// const sampleForum = new Forum.insertMany([{sampleForum}]);
+
+// Checking if the number of forums is 0, then insert sample forum data
+// async function isEmpty() {
+//     if (numberOfForums == 0) {
+//         // Insert the sample forum
+//         await Forum.insertMany([sampleForum]);
+//         numberOfForums++;
+
+//         // Find the newly inserted forum
+//         const newForum = await Forum.findOne({ name: sampleForum.name });
+
+//         // Create an array to store the product documents
+//         const productDocuments = [];
+
+//         // Loop through the sampleMartData array to create product documents
+//         for (const productData of sampleMartData) {
+//             const product = new Product({
+//                 ...productData,
+//                 forum: newForum._id, // Assign the forum's _id to the product
+//                 user: '60f8d91fa76fa45a18cf4d42' // Replace with the user's _id who is posting the products
+//             });
+//             productDocuments.push(product);
+//         }
+
+//         // Insert the products into the marketplace associated with the forum
+//         await Marketplace.findOneAndUpdate(
+//             { forum: newForum._id },
+//             { $push: { products: productDocuments.map(doc => doc._id) } },
+//             { upsert: true }
+//         );
+
+//         // Insert the product documents into the products collection
+//         await Product.insertMany(productDocuments);
+//     }
+// }
+
+
+// Call the isEmpty function to execute the logic
+// isEmpty()
+//     .then(() => {
+//         console.log("Sample forum inserted successfully if the number of forums was 0.");
+//     })
+//     .catch((err) => {
+//         console.error("Error while inserting sample forum:", err);
+//     });
+
+
+
 // Home Page
 app.get("/", (req, res) => {
     res.render("layouts/home.ejs");
@@ -79,48 +136,49 @@ app.get("/", (req, res) => {
 
 // Server Schema Validation Function
 const validateChat = (req, res, next) => {
-    let {error} = chatSchemaValidation.validate(req.body);
+    let { error } = chatSchemaValidation.validate(req.body);
 
     if (error) {
-        throw new ExpressError (400, error);       
+        throw new ExpressError(400, error);
     } else {
         next();
     }
 }
 
 const validateDiscussion = (req, res, next) => {
-    let {error} = discussionBoardSchemaValidation.validate(req.body);
+    let { error } = discussionBoardSchemaValidation.validate(req.body);
 
     if (error) {
-        throw new ExpressError (400, error);       
+        throw new ExpressError(400, error);
     } else {
         next();
     }
 }
-const validateForum = (req, res, next) => {
-    let {error} = forumSchemaValidation.validate(req.body);
+// const validateForum = (req, res, next) => {
+//     let {error} = forumSchemaValidation.validate(req.body.forum);
 
-    if (error) {
-        throw new ExpressError (400, error);       
-    } else {
-        next();
-    }
-}
+//     if (error) {
+//         throw new ExpressError (400, error);       
+//     } else {
+//         next();
+//     }
+// }
 
 const validateProduct = (req, res, next) => {
-    let {error} = productSchemaValidation.validate(req.body);
+    // console.log(req.body);
+    let { error } = productSchemaValidation.validate(req.body.product);
 
     if (error) {
-        throw new ExpressError (400, error);       
+        throw new ExpressError(400, error);
     } else {
         next();
     }
 }
 const validateUser = (req, res, next) => {
-    let {error} = userSchemaValidation.validate(req.body);
+    let { error } = userSchemaValidation.validate(req.body);
 
     if (error) {
-        throw new ExpressError (400, error);       
+        throw new ExpressError(400, error);
     } else {
         next();
     }
@@ -132,27 +190,39 @@ app.get("/joinforum", (req, res) => {
 });
 
 //Post Route-Create Product
-app.post("/joinforum", validateForum, upload.single("forum[icon]"), async (req, res) => {
-    const newForum = new Forum(req.body.forum);
-    
-    if (req.file) {
-        let url = req.file.path;
-        let filename = req.file.filename;
-        newForum.icon = { url, filename };
-    } else {
-        // If no file is uploaded, use default image URL
-        newForum.icon = {
-            url: "https://static.thenounproject.com/png/1526832-200.png",
-            filename: 'default_image.jpg'
-        };
-    }
+app.post("/joinforum", upload.single("forum[icon]"), wrapAsync(async (req, res) => {
+    console.log("hi");
 
-    await newForum.save();
-    const marketplace = await Marketplace.create({
-        forum: newForum._id
-    });
-    res.redirect("/chats");
-});
+    try {
+        console.log("Received form data:", req.body);
+        console.log("Received file data:", req.file);
+        const newForum = new Forum(req.body.forum);
+
+        if (req.file) {
+            let url = req.file.path;
+            let filename = req.file.filename;
+            newForum.icon = { url, filename };
+        } else {
+            // If no file is uploaded, use default image URL
+            newForum.icon = {
+                url: "https://static.thenounproject.com/png/1526832-200.png",
+                filename: 'default_image.jpg'
+            };
+        }
+
+        await newForum.save();
+        const marketplace = await Marketplace.create({
+            forum: newForum._id
+        });
+
+        // numberOfForums++;
+        res.redirect("/chats");
+
+    } catch (error) {
+        console.error("Error processing form data:", error);
+        res.status(500).send("Internal Server Error"); // Send an error response if something goes wrong
+    }
+}));
 
 // Display Page for all Forums
 app.get("/chats", wrapAsync(async (req, res) => {
@@ -213,10 +283,10 @@ app.put("/forums/:forumId/mart/products/:productId", validateProduct, upload.sin
     let url = req.file.path;
     let filename = req.file.filename;
     updatedProductData.image = { url, filename };
-    
+
     try {
         const product = await Product.findById(productId);
-        
+
         if (!product) {
             return res.status(404).send({ error: 'Product not found.' });
         }

@@ -1,4 +1,4 @@
-const productsData = [
+const sampleMartData = [
     {
         title: "Lord of The Rings Bookset",
         description: "Complete bookset of the Trilogy \"Lord of The Rings \" written by J. R. R. Tolkien. Bought it a year ago. Must read series. Books are in near-new condition",
@@ -34,4 +34,4 @@ const productsData = [
     }
 ];
 
-module.exports = martdata
+module.exports = sampleMartData;

@@ -74,15 +74,6 @@ Open your browser and navigate to `http://localhost:3000` to view the applicatio
 3. Make your changes and commit them (`git commit -am 'Add new feature'`).
 4. Push to the branch (`git push origin feature/new-feature`).
 5. Create a new Pull Request.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
-## Acknowledgements
-
-- Thank you to the developers and contributors of the technologies used in this project.
-- Special thanks to [Your Name] for providing guidance and support.
 ```
 
 Feel free to adjust any details or add more information as needed for your project's README.md file.

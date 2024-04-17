@@ -32,7 +32,7 @@ const marketplaceSchemaValidation = Joi.object({
 
 // Validation schema for Product
 const productSchemaValidation = Joi.object({
-    title: Joi.string().required(),
+    title: Joi.string(),
     description: Joi.string().required(),
     category: Joi.string().required(),
     image: Joi.object({
