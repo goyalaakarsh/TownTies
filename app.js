@@ -241,10 +241,6 @@ app.get("/chats", wrapAsync(async (req, res) => {
     res.render("forum/discussion.ejs", { allForums });
 }));
 
-app.get("/users/signup", (req, res) => {
-    res.render("layouts/users/signup.ejs");
-});
-
 app.get("/users/login", (req, res) => {
     res.render("layouts/users/login.ejs");
 });
