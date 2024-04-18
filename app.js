@@ -241,18 +241,19 @@ app.get("/chats", wrapAsync(async (req, res) => {
     res.render("forum/discussion.ejs", { allForums });
 }));
 
-app.get("/login", (req, res) => {
+app.get("/users/login", (req, res) => {
     res.render("layouts/users/login.ejs");
 });
 
-app.post("/login",
+app.post("/users/login",
     passport.authenticate("local", {
         failureRedirect: "/users/login", failureFlash: true,
     }),
-    async (req, res) => {
-        res.flash("success", "Welcome to townties!");
+    wrapAsync(async (req, res) => {
+        // res.flash("success", "Welcome to townties!");
         res.redirect("/");
-    });
+    }));
+    
 // Page for a specific forum's chat
 app.get("/forums/:id", wrapAsync(async (req, res) => {
     const { id } = req.params;
