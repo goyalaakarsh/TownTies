@@ -135,9 +135,16 @@ app.listen(3000, () => {
 app.get("/", (req, res) => {
     res.render("layouts/home.ejs");
 });
+app.get("/profile", (req, res) => {
+    res.render("layouts/profile/profile.ejs");
+});
 
+app.get("/mylistings", async (req, res) => {
+    const userId = req.user._id;
+    const user = await User.findById(userId).populate("products");
+    res.render("myProducts.ejs", { myProducts: user.products });
+});
 
-// Server Schema Validation Function
 const validateChat = (req, res, next) => {
     let { error } = chatSchemaValidation.validate(req.body);
 
