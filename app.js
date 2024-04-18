@@ -245,6 +245,56 @@ app.get("/users/login", (req, res) => {
     res.render("layouts/users/login.ejs");
 });
 
+// app.post("/users/login", passport.authenticate("local", {
+//     failureRedirect: "/users/login", // Redirect to login page in case of failure
+//     successRedirect: "/", // Redirect to home page on successful login
+// }), wrapAsync(async(req, res) => {
+//     console.log("Hi1");
+//     console.log(err);
+//     console.log(req.body);
+//     console.log("Hi2");
+// }));
+
+app.post("/users/login", (req, res, next) => {
+    passport.authenticate("local", async (err, user, info) => {
+        try {
+            if (err) {
+                // Handle error
+                console.error(err);
+                return res.status(500).send("Internal Server Error");
+            }
+            if (!user) {
+                // Authentication failed, redirect to login page with error message
+                req.flash("error", "Invalid username or password");
+                return res.redirect("/users/login");
+            }
+            // Log the ID of the first matching user
+            const currentUser = await User.findOne({ username: req.body.username });
+            if (!currentUser) {
+                // User not found
+                console.error("User not found");
+                return res.status(404).send("User not found");
+            }
+            console.log(currentUser.id);
+
+            // Authentication successful, log the user in
+            req.logIn(user, (err) => {
+                if (err) {
+                    // Handle error
+                    console.error(err);
+                    return res.status(500).send("Internal Server Error");
+                }
+                // Redirect to the home page or any other desired route
+                return res.redirect("/");
+            });
+        } catch (error) {
+            // Handle any errors
+            console.error(error);
+            return res.status(500).send("Internal Server Error");
+        }
+    })(req, res, next);
+});
+
 // Page for a specific forum's chat
 app.get("/forums/:id", wrapAsync(async (req, res) => {
     const { id } = req.params;
