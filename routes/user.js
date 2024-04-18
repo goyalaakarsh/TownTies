@@ -28,6 +28,9 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user.js");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const wrapAsync = require("../utils/wrapAsync");
 
 router.get("/signup", (req, res) => {
     res.render("layouts/users/signup.ejs");
@@ -47,6 +50,20 @@ router.post("/signup", async (req, res) => {
         res.render("layouts/users/signup.ejs", { error: error.message });
     }
 });
+
+router.get("/login", (req, res) => {
+    res.render("layouts/users/login.ejs");
+});
+
+router.post("/login", passport.authenticate("local", {
+    failureRedirect: "/users/login", // Redirect to login page in case of failure
+    successRedirect: "/", // Redirect to home page on successful login
+}), wrapAsync(async(req, res) => {
+    console.log("Hi");
+    res.redirect("/");
+    console.log("Hi");
+}));
+
 
 module.exports = router;
 
