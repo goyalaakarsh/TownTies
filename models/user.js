@@ -46,10 +46,6 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    // password: {
-    //     type: String,
-    //     required: true
-    // },
     forums: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Forum' }], 
     products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }] 
 });

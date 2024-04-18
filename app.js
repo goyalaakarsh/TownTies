@@ -241,18 +241,23 @@ app.get("/chats", wrapAsync(async (req, res) => {
     res.render("forum/discussion.ejs", { allForums });
 }));
 
-app.get("/login", (req, res) => {
+app.get("/users/signup", (req, res) => {
+    res.render("layouts/users/signup.ejs");
+});
+
+app.get("/users/login", (req, res) => {
     res.render("layouts/users/login.ejs");
 });
 
-app.post("/login",
-    passport.authenticate("local", {
-        failureRedirect: "/users/login", failureFlash: true,
-    }),
-    async (req, res) => {
-        res.flash("success", "Welcome to townties!");
-        res.redirect("/");
-    });
+app.post("/users/login", passport.authenticate("local", {
+    failureRedirect: "/users/login", // Redirect to login page in case of failure
+    failureFlash: true, // Enable flash messages for failure
+}), (req, res) => {
+    // If authentication succeeds, flash a success message and redirect to the home page
+    req.flash("success", "Welcome to townties!");
+    res.redirect("/");
+});
+
 // Page for a specific forum's chat
 app.get("/forums/:id", wrapAsync(async (req, res) => {
     const { id } = req.params;
@@ -386,10 +391,6 @@ app.get("/forums/:forumId/mart/products/:productId/buy", wrapAsync(async (req, r
 
 app.get("/mylistings", (req, res) => {
     res.render("layouts/profile/mylistings.ejs");
-});
-
-app.get("/users/signup", (req, res) => {
-    res.render("layouts/users/signup.ejs");
 });
 
 //Post Route-Create Product
