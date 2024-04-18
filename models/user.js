@@ -17,10 +17,7 @@
 //         required: true,
 //         unique: true 
 //     },
-//     // password: {
-//     //     type: String,
-//     //     required: true
-//     // },
+    
 //     forums: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Forum' }], // User can be a member of multiple forums
 //     products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }] // User can post multiple products
 // });
@@ -50,6 +47,11 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true 
     },
+    password: {
+        type: String,
+        required: true
+    },
+    
     forums: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Forum' }], // User can be a member of multiple forums
     products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }] // User can post multiple products
 });
