@@ -28,6 +28,7 @@ const Marketplace = require('./models/marketplace.js');
 const upload = multer({ storage: storage });
 const sampleForum = require("./init/sample-forum.js");
 const martData = require("./init/mart-data.js");
+const flash = require("connect-flash")
 
 const {
     chatSchemaValidation,
@@ -37,6 +38,12 @@ const {
     userSchemaValidation,
 } = require('./schema.js');
 const sampleMartData = require('./init/mart-data.js');
+
+const sessionOptions = {
+    secret: 'mujhekyamaintohbatakhun', // Set your own secret key
+    resave: false,
+    saveUninitialized: true
+};
 
 let numberOfForums = 0;
 
@@ -61,12 +68,8 @@ app.use(methodOverride("_method"));
 app.use("/", userRouter);
 app.engine("ejs", ejsMate);
 
-app.use(session({
-    secret: 'your_secret_key', // Set your own secret key
-    resave: false,
-    saveUninitialized: true
-}));
-
+app.use(session(sessionOptions));
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
@@ -183,6 +186,7 @@ const validateUser = (req, res, next) => {
         next();
     }
 }
+
 
 // Joining/Creating Forum
 app.get("/joinforum", (req, res) => {
@@ -368,13 +372,22 @@ app.get("/mylistings", (req, res) => {
     res.render("layouts/profile/mylistings.ejs");
 });
 
+app.get("/users/signup", (req, res) => {
+    res.render("layouts/users/signup.ejs");
+});
+
 app.get("/users/login", (req, res) => {
     res.render("layouts/users/login.ejs");
 });
 
-app.get("/users/signup", (req, res) => {
-    res.render("layouts/users/signup.ejs");
-});
+app.post("/users/login",
+    passport.authenticate("local", {
+        failureRedirect: "/users/login", failureFlash: true,
+    }),
+    async (req, res) => {
+        res.flash("success", "Welcome to townties!");
+        res.redirect("/")
+    });
 
 //Post Route-Create Product
 app.post("/new-product", upload.single("product[image]"), async (req, res) => {
