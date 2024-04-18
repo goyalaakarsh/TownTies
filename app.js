@@ -375,6 +375,9 @@ app.get("/forums/:forumId/mart/products/:productId/buy", wrapAsync(async (req, r
 
 // Faaltu Routes
 
+app.get("/users/signup", (req, res) => {
+    res.render("layouts/users/signup.ejs");
+});
 
 app.get("/mylistings", (req, res) => {
     res.render("layouts/profile/mylistings.ejs");

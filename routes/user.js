@@ -37,10 +37,10 @@ router.get("/signup", (req, res) => {
 });
 
 router.post("/signup", async (req, res) => {
-    const { name, username, email, password } = req.body; // Extract password from req.body
+    const { name, username, email, password } = req.body; 
 
     try {
-        const newUser = new User({ name, username, email }); // Use extracted data to create new user
+        const newUser = new User({ name, username, email }); 
         let registeredUser = await User.register(newUser, password);
 
         console.log(registeredUser);
