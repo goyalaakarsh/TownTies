@@ -51,19 +51,18 @@ router.post("/signup", async (req, res) => {
     }
 });
 
-router.get("/login", (req, res) => {
+router.get("/users/login", (req, res) => {
     res.render("layouts/users/login.ejs");
 });
 
-router.post("/login", passport.authenticate("local", {
-    failureRedirect: "/users/login", // Redirect to login page in case of failure
-    successRedirect: "/", // Redirect to home page on successful login
-}), wrapAsync(async(req, res) => {
-    console.log("Hi");
-    res.redirect("/");
-    console.log("Hi");
-}));
-
+// router.post("/login", passport.authenticate("local", {
+//     failureRedirect: "/users/login", // Redirect to login page in case of failure
+//     successRedirect: "/", // Redirect to home page on successful login
+// }), wrapAsync(async(req, res) => {
+//     console.log("Hi");
+//     res.redirect("/");
+//     console.log("Hi");
+// }));
 
 module.exports = router;
 
