@@ -29,6 +29,7 @@ const upload = multer({ storage: storage });
 const sampleForum = require("./init/sample-forum.js");
 const martData = require("./init/mart-data.js");
 const flash = require("connect-flash")
+const bodyParser = require("body-parser");
 
 const {
     chatSchemaValidation,
@@ -63,11 +64,12 @@ async function main() {
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
 app.use("/", userRouter);
 app.engine("ejs", ejsMate);
-
+app.use(express.json());
 app.use(session(sessionOptions));
 app.use(flash());
 app.use(passport.initialize());
@@ -135,14 +137,106 @@ app.listen(3000, () => {
 app.get("/", (req, res) => {
     res.render("layouts/home.ejs");
 });
-app.get("/profile", (req, res) => {
-    res.render("layouts/profile/profile.ejs");
+app.get("/profile", async (req, res) => {
+    if (req.isAuthenticated()) {
+        const userId = req.user._id;
+
+        try {
+            const currentUser = await User.findById(userId);
+            if (!currentUser) {
+                throw new Error("User not found");
+            }
+
+            // Check if there is a returnTo parameter in the query string
+            const returnTo = req.query.returnTo || "/"; // Default to root if returnTo is not provided
+
+            res.render("layouts/profile/profile.ejs", { currentUser, returnTo });
+        } catch (err) {
+            console.error("Error fetching user:", err);
+            res.status(500).send("Internal Server Error");
+        }
+    } else {
+        // Redirect to the login page with returnTo parameter
+        res.redirect(`/users/login?returnTo=${encodeURIComponent(req.originalUrl)}`);
+    }
 });
 
+
+
+// GET route to render the edit profile page
+app.get("/edit-profile", async (req, res) => {
+    if (req.isAuthenticated()) {
+        const userId = req.user._id;
+
+        try {
+            const currentUser = await User.findById(userId);
+            if (!currentUser) {
+                throw new Error("User not found");
+            }
+
+            res.render("layouts/profile/edit-profile.ejs", { currentUser });
+        } catch (err) {
+            console.error("Error fetching user for editing profile:", err);
+            res.status(500).send("Internal Server Error");
+        }
+    } else {
+        res.redirect("/users/login");
+    }
+});
+
+app.post("/profile", async (req, res) => {
+    if (req.isAuthenticated()) {
+        const userId = req.user._id;
+
+        try {
+            const { error } = userSchemaValidation.validate(req.body);
+            if (error) {
+                console.error("Validation error:", error.details);
+                res.status(400).send("Validation error");
+                return;
+            }
+
+            const updatedUser = await User.findByIdAndUpdate(userId, req.body, { new: true });
+            if (!updatedUser) {
+                throw new Error("User not found");
+            }
+
+            res.redirect("/profile"); // Redirect to the profile page after successful update
+        } catch (err) {
+            console.error("Error updating user profile:", err);
+            res.status(500).send("Internal Server Error");
+        }
+    } else {
+        res.redirect("/users/login");
+    }
+});
+
+
+
+
 app.get("/mylistings", async (req, res) => {
-    const userId = req.user._id;
-    const user = await User.findById(userId).populate("products");
-    res.render("myProducts.ejs", { myProducts: user.products });
+    if (req.isAuthenticated()) {
+        const userId = req.user._id;
+
+
+
+        try {
+            const currentUser = await User.findById(userId).populate("products");
+            if (!currentUser) {
+                throw new Error("User not found");
+            }
+
+            res.render("layouts/profile/mylistings.ejs", { myProducts: currentUser.products });
+        } catch (err) {
+            console.error("Error fetching user:", err);
+            res.status(500).send("Internal Server Error");
+        }
+    } else {
+        res.redirect("/users/login");
+    }
+
+
+
 });
 
 const validateChat = (req, res, next) => {
@@ -197,53 +291,112 @@ const validateUser = (req, res, next) => {
 
 // Joining/Creating Forum
 app.get("/joinforum", (req, res) => {
-    res.render("forum/joinforum.ejs");
+    if (req.isAuthenticated()) {
+        res.render("forum/joinforum.ejs");
+    } else {
+        res.redirect("/users/login"); // Redirect to the login page if user is not authenticated
+    }
 });
 
-//Post Route-Create Product
+// Post Route - Create Forum
 app.post("/joinforum", upload.single("forum[icon]"), wrapAsync(async (req, res) => {
-    console.log("hi");
+    console.log("Received form data:", req.body);
+    console.log("Received file data:", req.file);
 
     try {
-        console.log("Received form data:", req.body);
-        console.log("Received file data:", req.file);
-        const newForum = new Forum(req.body.forum);
+        const { forumType, forumReferral } = req.body;
 
-        if (req.file) {
-            let url = req.file.path;
-            let filename = req.file.filename;
-            newForum.icon = { url, filename };
-        } else {
-            // If no file is uploaded, use default image URL
-            newForum.icon = {
-                url: "https://static.thenounproject.com/png/1526832-200.png",
-                filename: 'default_image.jpg'
+        if (forumType === 'join') {
+            // Joining an existing forum using referral code
+            const existingForum = await Forum.findById(forumReferral);
+            if (!existingForum) {
+                throw new Error("Forum not found");
+            }
+
+            // Add the user's ID to the members array of the existing forum
+            existingForum.members.push(req.user._id);
+            await existingForum.save();
+
+            res.redirect("/chats"); // Redirect to chats page after joining
+        } else if (forumType === 'create') {
+            // Creating a new forum
+            const newForumData = {
+                ...req.body.forum,
+                owner: req.user._id, // Include the owner ID in the new forum data
+                members: [req.user._id] // Add the owner's ID to the members array
             };
+            const newForum = new Forum(newForumData);
+
+            if (req.file) {
+                let url = req.file.path;
+                let filename = req.file.filename;
+                newForum.icon = { url, filename };
+            } else {
+                // If no file is uploaded, use default image URL
+                newForum.icon = {
+                    url: "https://static.thenounproject.com/png/1526832-200.png",
+                    filename: 'default_image.jpg'
+                };
+            }
+            await newForum.save(); // Save the new forum to the database
+
+            // Update the user's forums array with the new forum ID
+            req.user.forums.push(newForum._id);
+            await req.user.save();
+
+            const marketplace = await Marketplace.create({
+                forum: newForum._id
+            });
+
+            res.redirect("/chats"); // Redirect to chats page after creating
+        } else {
+            throw new Error("Invalid forum type");
         }
-
-        await newForum.save();
-        const marketplace = await Marketplace.create({
-            forum: newForum._id
-        });
-
-        // numberOfForums++;
-        res.redirect("/chats");
-
     } catch (error) {
         console.error("Error processing form data:", error);
         res.status(500).send("Internal Server Error"); // Send an error response if something goes wrong
     }
 }));
 
+
+
 // Display Page for all Forums
 app.get("/chats", wrapAsync(async (req, res) => {
-    const allForums = await Forum.find({});
-    res.render("forum/discussion.ejs", { allForums });
+    if (req.isAuthenticated()) {
+        const userId = req.user._id;
+        try {
+            const currentUser = await User.findById(userId).populate({
+                path: 'forums',
+                populate: {
+                    path: 'owner',
+                    select: 'username'
+                }
+            });
+            if (!currentUser) {
+                throw new Error("User not found");
+            }
+
+            console.log("Current User:", currentUser);
+            console.log("User Forums:", currentUser.forums);
+
+            res.render("forum/discussion.ejs", { myForums: currentUser.forums });
+        } catch (err) {
+            console.error("Error fetching user:", err);
+            res.status(500).send("Internal Server Error");
+        }
+    } else {
+        res.redirect("/users/login");
+    }
 }));
 
+
+
 app.get("/users/login", (req, res) => {
+    const returnTo = req.query.returnTo || "/";
     res.render("layouts/users/login.ejs");
 });
+
+
 
 // app.post("/users/login", passport.authenticate("local", {
 //     failureRedirect: "/users/login", // Redirect to login page in case of failure
@@ -284,8 +437,10 @@ app.post("/users/login", (req, res, next) => {
                     console.error(err);
                     return res.status(500).send("Internal Server Error");
                 }
-                // Redirect to the home page or any other desired route
-                return res.redirect("/");
+                // Redirect back to the returnTo URL after successful login
+                const returnTo = req.session.returnTo || "/";
+                delete req.session.returnTo; // Clear the returnTo session variable
+                res.redirect(returnTo);
             });
         } catch (error) {
             // Handle any errors
@@ -295,15 +450,34 @@ app.post("/users/login", (req, res, next) => {
     })(req, res, next);
 });
 
+
 // Page for a specific forum's chat
 app.get("/forums/:id", wrapAsync(async (req, res) => {
-    const { id } = req.params;
-    const forum = await Forum.findById(id).populate('marketplace'); // Populate the marketplace field
+    try {
+        const { id } = req.params;
+        const forum = await Forum.findById(id).populate('marketplace'); // Populate the marketplace field
 
-    const allForums = await Forum.find({});
+        if (!forum) {
+            return res.status(404).send("Forum not found");
+        }
 
-    res.render("forum/chat.ejs", { forum, allForums });
+        // Check if the forum's owner is the current authenticated user
+        if (!forum.owner || !req.user || forum.owner.toString() !== req.user._id.toString()) {
+            return res.status(403).send("You are not authorized to view this forum");
+        }
+
+        const allForums = await Forum.find({ owner: req.user._id }); // Fetch forums owned by the current user
+
+        res.render("forum/chat.ejs", { forum, allForums });
+    } catch (err) {
+        console.error("Error fetching forum:", err);
+        res.status(500).send("Internal Server Error");
+    }
 }));
+
+
+
+
 
 // Marketplace of a specific Forum
 app.get("/forums/:id/mart", wrapAsync(async (req, res) => {
@@ -393,6 +567,8 @@ app.get("/forums/:id/mart/newproduct", wrapAsync(async (req, res) => {
 
 // Posting of the New Product
 app.post("/forums/:id/mart/newproduct", validateProduct, upload.single("product[image]"), wrapAsync(async (req, res) => {
+    console.log("Received form data:", req.body);
+    console.log("Received file data:", req.file);
     const { id } = req.params;
     const newProduct = new Product(req.body.product);
     newProduct.forum = id;
@@ -401,15 +577,25 @@ app.post("/forums/:id/mart/newproduct", validateProduct, upload.single("product[
     let filename = req.file.filename;
     newProduct.image = { url, filename };
 
-    // Save the new product o the database
+    // Save the new product to the database
     await newProduct.save();
+
+    // Check if user is authenticated and has products array
+    if (req.isAuthenticated() && req.user && req.user.products) {
+        // Update the user's products array with the new product ID
+        req.user.products.push(newProduct._id);
+        await req.user.save();
+    } else {
+        console.error("User authentication error or products array missing");
+        // Handle error or redirect as needed
+    }
 
     await Marketplace.findOneAndUpdate({ forum: id }, { $push: { products: newProduct._id } });
 
     // Redirect to the marketplace page
     res.redirect(`/forums/${id}/mart`);
-}
-));
+}));
+
 
 
 app.get("/forums/:forumId/mart/products/:productId/buy", wrapAsync(async (req, res) => {

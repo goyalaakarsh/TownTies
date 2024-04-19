@@ -3,26 +3,30 @@
     <div class="container center-content mb-4">
         <div class="col-6 offset-3">
             <h3 class="text-center mt-4">Edit Profile</h3>
-            <div class="mb-3">
-                <label for="pfp" class="form-label">Name</label>
-                <img src="<%= user.pfp.url %>" alt="" id="pfp">
-                <input class="form-control" type="file" id="image" value="Upload" name="user[pfp]" accept="image/*">
-            </div>
-            <div class="mb-3">
-                <strong><label for="name" class="form-label">Name</label></strong>
-                <input type="text" class="form-control" id="name" value="<%= user.name %>" name="user[name]">
-            </div>
-            <div class="mb-3">
-                <strong><label for="username" class="form-label">Username</label></strong>
-                <input type="text" class="form-control" id="username" value="<%= user.username %>" name="user[username]">
-            </div>
-            <div class="mb-3">
-                <strong><label for="email" class="form-label">Email address</label></strong>
-                <input type="email" class="form-control" id="email" value="<%= user.email %>" name="user[email]">
-            </div>
-            <div class="mb-3">
-                <strong><label for="contactnum" class="form-label">Contact Number</label></strong>
-                <input type="email" class="form-control" id="contactnum" value="<%= user.contactnum %>" name="user[contactnum]">
-            </div>
+
+            <form action="/profile" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <strong><label for="name" class="form-label">Name</label></strong>
+                    <input type="text" class="form-control" id="name" value="<%= currentUser.name %>" name="user[name]">
+                </div>
+                <div class="mb-3">
+                    <strong><label for="username" class="form-label">Username</label></strong>
+                    <input type="text" class="form-control" id="username" value="<%= currentUser.username %>" name="user[username]">
+                </div>
+                <div class="mb-3">
+                    <strong><label for="email" class="form-label">Email address</label></strong>
+                    <input type="email" class="form-control" id="email" value="<%= currentUser.email %>" name="user[email]">
+                </div>
+                <div class="mb-3">
+                    <strong><label for="contactnum" class="form-label">Contact Number</label></strong>
+                    <input type="text" class="form-control" id="contactnum" value="<%= currentUser.contactnum %>" name="user[contactnum]">
+                </div>
+                <div id="new-form-btn-div">
+                    <button type="submit" class="btn btn-primary btn-block text-center col-4 offset-4"
+                        id="new-form-btn">Update</button>
+                </div>
+            </form>
+            
+            
         </div>
     </div>

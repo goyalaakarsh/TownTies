@@ -1,27 +1,31 @@
 <% layout("/layouts/boilerplate.ejs"); %>
+<link rel="stylesheet" href="/css/profile/profile.css">
 
 <div class="container center-content mb-4">
     <div class="col-6 offset-3">
         <h3 class="text-center mt-4">Profile</h3>
         <div class="mb-3">
-            <strong><label for="user-pfp" class="form-label">Name</label></strong>
-            <img src="<%= user.pfp.url %>" alt="" id="user-pfp">
+            <!-- <strong><label for="user-pfp" class="form-label">Profile Picture</label></strong> -->
+            <img src="https://images.unsplash.com/photo-1713288971538-80084dbfc161?q=80&w=1886&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" id="user-pfp">
         </div>
         <div class="mb-3">
             <strong><label for="user-name" class="form-label">Name</label></strong>
-            <p id="user-name"><%= user.name %></p>
+            <p id="user-name"><%= currentUser.name %></p>
         </div>
         <div class="mb-3">
             <strong><label for="user-username" class="form-label">Username</label></strong>
-            <p id="user-username"><%= user.username %></p>
+            <p id="user-username"><%= currentUser.username %></p>
         </div>
         <div class="mb-3">
             <strong><label for="user-email" class="form-label">Email address</label></strong>
-            <p id="user-email"><%= user.email %></p>
+            <p id="user-email"><%= currentUser.email %></p>
         </div>
-        <div class="mb-3">
-            <strong><label for="user-contactnum" class="form-label">Contact Number</label></strong>
-            <p id="user-contactnum"><%= user.contactnum %></p>
-        </div>
+        <% if (currentUser.contactnum && currentUser.contactnum.trim() !== '') { %>
+            <div class="mb-3">
+                <strong><label for="user-contactnum" class="form-label">Contact Number</label></strong>
+                <p id="user-contactnum"><%= currentUser.contactnum %></p>
+            </div>
+        <% } %>
+        <button type="button" onclick="window.location.href='/edit-profile'" class="btn btn-outline-primary btn-block text-center col-2 offset-5">Edit</button>
     </div>
 </div>

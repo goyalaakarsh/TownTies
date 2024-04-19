@@ -50,6 +50,7 @@ const userSchemaValidation = Joi.object({
     name: Joi.string().required(),
     username: Joi.string().required(),
     email: Joi.string().email().required(),
+    contactnum: Joi.alternatives().try(Joi.string(), Joi.number()), 
     forums: Joi.array().items(Joi.string()),
     products: Joi.array().items(Joi.string()),
 });

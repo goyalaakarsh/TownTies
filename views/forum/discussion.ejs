@@ -9,7 +9,7 @@
                 <h5>Forums</h5>
             </div>
             <div id="chat-listing">
-                <% allForums.forEach(function(forum) { %>
+                <% myForums.forEach(function(forum) { %>
                     <div class="chat" data-forum-id="<%= forum._id %>">
                         <img src="<%= forum.icon.url %>" alt="forum-icon">
                         <div class="card-body">

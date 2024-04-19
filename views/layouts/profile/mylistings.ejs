@@ -4,13 +4,13 @@
 <div id="container">
     <h4 id="my-listings">My Listings</h4>
     <div>
-        <h4 id="all-products">
+        <p id="all-products">
             <% if (myProducts.length> 0) { %>
                 All Products
                 <% } else { %>
                     You have no products listed for sale!
                     <% } %>
-        </h4>
+        </p>
         <div id="product-listing">
             <% if (myProducts.length> 0) { %>
                 <% myProducts.forEach(function(product) { %>

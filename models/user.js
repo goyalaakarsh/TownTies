@@ -46,6 +46,9 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    contactnum: {
+        type: Number,
+    },
     forums: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Forum' }], 
     products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }] 
 });
