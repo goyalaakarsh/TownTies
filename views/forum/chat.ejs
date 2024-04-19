@@ -63,3 +63,26 @@
         });
     });
 </script>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+
+    // Get the current user's name (replace this with your actual method of getting the name)
+    const userName = "John Doe"; // Example name
+
+    // Emit the 'connection' event with the user's name
+    socket.emit('connection', userName);
+
+    // Example: send a chat message to the server
+    function sendMessage() {
+        const message = document.getElementById('messageInput').value;
+        socket.emit('chatMessage', message);
+    }
+
+    // Example: listen for chat messages from the server
+    socket.on('chatMessage', (data) => {
+        const chatBox = document.getElementById('chatBox');
+        chatBox.innerHTML += `<div><strong>${data.userName}:</strong> ${data.message}</div>`;
+    });
+</script>

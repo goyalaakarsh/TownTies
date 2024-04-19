@@ -30,6 +30,30 @@ const sampleForum = require("./init/sample-forum.js");
 const martData = require("./init/mart-data.js");
 const flash = require("connect-flash")
 const bodyParser = require("body-parser");
+const http = require('http');
+const socketIO = require('socket.io');
+const server = http.createServer(app);
+
+const io = socketIO(server); 
+
+io.on('connection', (socket) => {
+    socket.on('connection', (userName) => {
+        console.log(`${userName} connected`);
+
+        socket.on('disconnect', () => {
+            console.log(`${userName} disconnected`);
+        });
+
+        socket.on('chatMessage', (message) => {
+            io.emit('chatMessage', { userName, message }); 
+        });
+    });
+});
+
+const PORT = process.env.PORT || 3001;
+server.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
 
 const {
     chatSchemaValidation,
@@ -41,7 +65,7 @@ const {
 const sampleMartData = require('./init/mart-data.js');
 
 const sessionOptions = {
-    secret: 'mujhekyamaintohbatakhun', // Set your own secret key
+    secret: 'mujhekyamaintohbatakhun',
     resave: false,
     saveUninitialized: true
 };
@@ -226,18 +250,40 @@ app.get("/joinforum", (req, res) => {
     }
 });
 
-// Post Route - Create Forum
+// Store forum namespaces in an object
+const forumNamespaces = {};
 app.post("/joinforum", upload.single("forum[icon]"), wrapAsync(async (req, res) => {
+    console.log("Join Route Active");
     console.log("Received form data:", req.body);
     console.log("Received file data:", req.file);
 
     try {
-        const { forumType, forumReferral } = req.body;
+        const { forumType, forumref } = req.body; // Updated field name to forumref
 
         if (forumType === 'join') {
-            const existingForum = await Forum.findById(forumReferral);
+            console.log("In Join Forum Type");
+            const existingForum = await Forum.findById(forumref);
+            console.log("Forum Referral ID:", forumref);
+            console.log("Existing Forum:", existingForum);
+
             if (!existingForum) {
                 throw new Error("Forum not found");
+            }
+
+            if (req.user._id.toString() !== existingForum.owner.toString()) {
+                // Store the forum ID in the user's forums array
+                req.user.forums.push(existingForum._id);
+                await req.user.save();
+            } else {
+                res.redirect("/joinforum");
+            }
+
+            // Connect the user to the forum namespace if it exists
+            const forumNamespace = forumNamespaces[existingForum._id];
+            if (forumNamespace) {
+                forumNamespace.sockets[req.user._id] = req.user;
+            } else {
+                throw new Error("Forum namespace not found");
             }
 
             existingForum.members.push(req.user._id);
@@ -257,20 +303,25 @@ app.post("/joinforum", upload.single("forum[icon]"), wrapAsync(async (req, res) 
                 let filename = req.file.filename;
                 newForum.icon = { url, filename };
             } else {
-
                 newForum.icon = {
                     url: "https://static.thenounproject.com/png/1526832-200.png",
                     filename: 'default_image.jpg'
                 };
             }
+
             await newForum.save();
+
+            // Create a new Socket.IO namespace for the forum with forum ID as namespace name
+            const forumNamespace = io.of(`/${newForum._id}`);
+            forumNamespaces[newForum._id] = forumNamespace; // Store the namespace in forumNamespaces object
+
+            forumNamespace.on('connection', (socket) => {
+                console.log(`New client connected to forum namespace ${newForum._id}`);
+                // Handle events within this namespace
+            });
 
             req.user.forums.push(newForum._id);
             await req.user.save();
-
-            const marketplace = await Marketplace.create({
-                forum: newForum._id
-            });
 
             res.redirect("/chats");
         } else {
@@ -281,6 +332,63 @@ app.post("/joinforum", upload.single("forum[icon]"), wrapAsync(async (req, res) 
         res.status(500).send("Internal Server Error");
     }
 }));
+
+
+// Post Route - Create Forum
+// app.post("/joinforum", upload.single("forum[icon]"), wrapAsync(async (req, res) => {
+//     console.log("Received form data:", req.body);
+//     console.log("Received file data:", req.file);
+
+//     try {
+//         const { forumType, forumReferral } = req.body;
+
+//         if (forumType === 'join') {
+//             const existingForum = await Forum.findById(forumReferral);
+//             if (!existingForum) {
+//                 throw new Error("Forum not found");
+//             }
+
+//             existingForum.members.push(req.user._id);
+//             await existingForum.save();
+
+//             res.redirect("/chats");
+//         } else if (forumType === 'create') {
+//             const newForumData = {
+//                 ...req.body.forum,
+//                 owner: req.user._id,
+//                 members: [req.user._id]
+//             };
+//             const newForum = new Forum(newForumData);
+
+//             if (req.file) {
+//                 let url = req.file.path;
+//                 let filename = req.file.filename;
+//                 newForum.icon = { url, filename };
+//             } else {
+
+//                 newForum.icon = {
+//                     url: "https://static.thenounproject.com/png/1526832-200.png",
+//                     filename: 'default_image.jpg'
+//                 };
+//             }
+//             await newForum.save();
+
+//             req.user.forums.push(newForum._id);
+//             await req.user.save();
+
+//             const marketplace = await Marketplace.create({
+//                 forum: newForum._id
+//             });
+
+//             res.redirect("/chats");
+//         } else {
+//             throw new Error("Invalid forum type");
+//         }
+//     } catch (error) {
+//         console.error("Error processing form data:", error);
+//         res.status(500).send("Internal Server Error");
+//     }
+// }));
 
 // Display Page for all Forums
 app.get("/chats", wrapAsync(async (req, res) => {
@@ -362,17 +470,27 @@ app.get("/forums/:id", wrapAsync(async (req, res) => {
             return res.status(404).send("Forum not found");
         }
 
-        if (!forum.owner || !req.user || forum.owner.toString() !== req.user._id.toString()) {
-            return res.status(403).send("You are not authorized to view this forum");
-        }
+        // if ( !req.user || forum.owner.toString() !== req.user._id.toString()) {
+        //     return res.status(403).send("You are not authorized to view this forum");
+        // }
 
-        const allForums = await Forum.find({ owner: req.user._id }); // Fetch forums owned by the current user
+        const allForums = await Forum.find({ members: req.user._id }); 
         res.render("forum/chat.ejs", { forum, allForums });
     } catch (err) {
         console.error("Error fetching forum:", err);
         res.status(500).send("Internal Server Error");
     }
 }));
+
+app.post("/forums/:id", (req, res) => {
+    const { id } = req.params;
+    const message = req.body.message;
+
+    // Broadcast the message to all clients in the forum namespace
+    io.of(`/${id}`).emit('chatMessage', message);
+
+    res.status(200).send("Message sent");
+});
 
 // Marketplace of a specific Forum
 app.get("/forums/:id/mart", wrapAsync(async (req, res) => {
