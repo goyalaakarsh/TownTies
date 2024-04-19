@@ -154,6 +154,7 @@ app.get("/profile", async (req, res) => {
 
 // GET route to render the edit profile page
 app.get("/edit-profile", async (req, res) => {
+    console.log(req.body);
     if (req.isAuthenticated()) {
         const userId = req.user._id;
         try {
@@ -173,6 +174,7 @@ app.get("/edit-profile", async (req, res) => {
 });
 
 app.post("/profile", async (req, res) => {
+    // console.log(req.body);
     if (req.isAuthenticated()) {
         const userId = req.user._id;
         try {
