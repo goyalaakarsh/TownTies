@@ -141,14 +141,14 @@ app.get("/profile", async (req, res) => {
             if (!currentUser) {
                 throw new Error("User not found");
             }
-            const returnTo = req.query.returnTo || "/"; 
+            const returnTo = req.query.returnTo || "/";
             res.render("layouts/profile/profile.ejs", { currentUser, returnTo });
         } catch (err) {
             console.error("Error fetching user:", err);
             res.status(500).send("Internal Server Error");
         }
     } else {
-        res.redirect(`/users/login?returnTo=${encodeURIComponent(req.originalUrl)}`);
+        res.redirect(`/login?returnTo=${encodeURIComponent(req.originalUrl)}`);
     }
 });
 
@@ -168,7 +168,7 @@ app.get("/edit-profile", async (req, res) => {
             res.status(500).send("Internal Server Error");
         }
     } else {
-        res.redirect("/users/login");
+        res.redirect("/login");
     }
 });
 
@@ -186,13 +186,13 @@ app.post("/profile", async (req, res) => {
             if (!updatedUser) {
                 throw new Error("User not found");
             }
-            res.redirect("/profile"); 
+            res.redirect("/profile");
         } catch (err) {
             console.error("Error updating user profile:", err);
             res.status(500).send("Internal Server Error");
         }
     } else {
-        res.redirect("/users/login");
+        res.redirect("/login");
     }
 });
 
@@ -210,7 +210,7 @@ app.get("/mylistings", async (req, res) => {
             res.status(500).send("Internal Server Error");
         }
     } else {
-        res.redirect("/users/login");
+        res.redirect("/login");
     }
 
 
@@ -222,7 +222,7 @@ app.get("/joinforum", (req, res) => {
     if (req.isAuthenticated()) {
         res.render("forum/joinforum.ejs");
     } else {
-        res.redirect("/users/login");
+        res.redirect("/login");
     }
 });
 
@@ -243,12 +243,12 @@ app.post("/joinforum", upload.single("forum[icon]"), wrapAsync(async (req, res) 
             existingForum.members.push(req.user._id);
             await existingForum.save();
 
-            res.redirect("/chats"); 
+            res.redirect("/chats");
         } else if (forumType === 'create') {
             const newForumData = {
                 ...req.body.forum,
                 owner: req.user._id,
-                members: [req.user._id] 
+                members: [req.user._id]
             };
             const newForum = new Forum(newForumData);
 
@@ -257,14 +257,14 @@ app.post("/joinforum", upload.single("forum[icon]"), wrapAsync(async (req, res) 
                 let filename = req.file.filename;
                 newForum.icon = { url, filename };
             } else {
-   
+
                 newForum.icon = {
                     url: "https://static.thenounproject.com/png/1526832-200.png",
                     filename: 'default_image.jpg'
                 };
             }
-            await newForum.save(); 
-        
+            await newForum.save();
+
             req.user.forums.push(newForum._id);
             await req.user.save();
 
@@ -272,13 +272,13 @@ app.post("/joinforum", upload.single("forum[icon]"), wrapAsync(async (req, res) 
                 forum: newForum._id
             });
 
-            res.redirect("/chats"); 
+            res.redirect("/chats");
         } else {
             throw new Error("Invalid forum type");
         }
     } catch (error) {
         console.error("Error processing form data:", error);
-        res.status(500).send("Internal Server Error"); 
+        res.status(500).send("Internal Server Error");
     }
 }));
 
@@ -307,16 +307,16 @@ app.get("/chats", wrapAsync(async (req, res) => {
             res.status(500).send("Internal Server Error");
         }
     } else {
-        res.redirect("/users/login");
+        res.redirect("/login");
     }
 }));
 
-app.get("/users/login", (req, res) => {
+app.get("/login", (req, res) => {
     const returnTo = req.query.returnTo || "/";
     res.render("layouts/users/login.ejs");
 });
 
-app.post("/users/login", (req, res, next) => {
+app.post("/login", (req, res, next) => {
     passport.authenticate("local", async (err, user, info) => {
         try {
             if (err) {
@@ -325,7 +325,7 @@ app.post("/users/login", (req, res, next) => {
             }
             if (!user) {
                 req.flash("error", "Invalid username or password");
-                return res.redirect("/users/login");
+                return res.redirect("/login");
             }
             const currentUser = await User.findOne({ username: req.body.username });
             if (!currentUser) {
@@ -340,11 +340,11 @@ app.post("/users/login", (req, res, next) => {
                     return res.status(500).send("Internal Server Error");
                 }
                 const returnTo = req.session.returnTo || "/";
-                delete req.session.returnTo; 
+                delete req.session.returnTo;
                 res.redirect(returnTo);
             });
         } catch (error) {
-     
+
             console.error(error);
             return res.status(500).send("Internal Server Error");
         }
@@ -356,7 +356,7 @@ app.post("/users/login", (req, res, next) => {
 app.get("/forums/:id", wrapAsync(async (req, res) => {
     try {
         const { id } = req.params;
-        const forum = await Forum.findById(id).populate('marketplace'); 
+        const forum = await Forum.findById(id).populate('marketplace');
 
         if (!forum) {
             return res.status(404).send("Forum not found");
@@ -469,7 +469,7 @@ app.get("/forums/:forumId/mart/products/:productId/buy", wrapAsync(async (req, r
     res.render("layouts/payment.ejs", { product, forum });
 }));
 
-app.get("/users/signup", (req, res) => {
+app.get("/signup", (req, res) => {
     res.render("layouts/users/signup.ejs");
 });
 
