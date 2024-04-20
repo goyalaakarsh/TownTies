@@ -34,21 +34,24 @@
             </div>
 
 
-            <div class="under-dev">
+            <!-- <div class="under-dev">
                 <p>Chats are under development but meanwhile you can explore the Marketplace.</p>
-            </div>
-
-            <!-- <div id="chat-area">
-                <div class="message left">Aakarsh: Hi</div>
-                <div class="message right">Saksham: Hello</div>
             </div> -->
+
+            <div id="chat-area">
+                <% forum.messages.forEach(message => { %>
+                    <div class="message <%= message.sender === currentUser._id ? 'right' : 'left' %>">
+                        <%= message.sender === currentUser._id ? currentUser.name : message.senderName %>: <%= message.content %>
+                    </div>
+                <% }); %>
+            </div>
         </div>
-        <!-- <div id="chat-input">
-            <form action="">
-                <input type="text" class="form-control">
+        <div id="chat-input">
+            <form onsubmit="sendMessage(event)">
+                <input type="text" class="form-control" id="messageInput">
                 <button type="submit" id="send-btn">Send</button>
-            </form>
-        </div> -->
+            </form>            
+        </div>
     </div>
 </div>
 
@@ -68,21 +71,33 @@
 <script>
     const socket = io();
 
-    // Get the current user's name (replace this with your actual method of getting the name)
-    const userName = "John Doe"; // Example name
+    // Emit the 'joinRoom' event to join the forum namespace
+    socket.emit('joinRoom', '<%= forum._id %>');
 
-    // Emit the 'connection' event with the user's name
-    socket.emit('connection', userName);
-
-    // Example: send a chat message to the server
-    function sendMessage() {
-        const message = document.getElementById('messageInput').value;
-        socket.emit('chatMessage', message);
-    }
-
-    // Example: listen for chat messages from the server
+    // Listen for chat messages from the server
     socket.on('chatMessage', (data) => {
-        const chatBox = document.getElementById('chatBox');
-        chatBox.innerHTML += `<div><strong>${data.userName}:</strong> ${data.message}</div>`;
+        console.log('Received message:', data); // Check if this logs correctly
+    
+        const chatArea = document.getElementById('chat-area');
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', data.sender === '<%= currentUser._id %>' ? 'right' : 'left');
+        messageDiv.innerHTML = `<strong>${data.senderName}:</strong> ${data.message}`;
+        chatArea.appendChild(messageDiv);
     });
+
+    // Send a chat message to the server
+    function sendMessage(event) {
+        event.preventDefault(); 
+    
+        const message = document.getElementById('messageInput').value.trim(); 
+        console.log("Sending message:", message); // Check if this logs correctly
+    
+        if (message === '') {
+            return; 
+        }
+    
+        socket.emit('chatMessage', { message, sender: '<%= currentUser._id %>', senderName: '<%= currentUser.name %>' });
+    
+        document.getElementById('messageInput').value = ''; // Clear input field after sending
+    }
 </script>

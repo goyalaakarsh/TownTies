@@ -13,7 +13,7 @@
         </p>
         <div id="product-listing">
             <% if (myProducts.length> 0) { %>
-                <% myProducts.forEach(function(product) { %>
+                <% myProducts.forEach(function(product, forum) { %>
                     <a href="/forums/<%= forum._id %>/mart/products/<%= product._id %>">
                         <div class="card" style="width: 18rem;"
                             data-product-id="/forums/<%= forum._id %>/mart/products/<%= product._id %>">

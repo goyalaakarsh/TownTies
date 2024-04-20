@@ -33,6 +33,7 @@ const bodyParser = require("body-parser");
 const http = require('http');
 const socketIO = require('socket.io');
 const server = http.createServer(app);
+const Chat = require('./models/chat.js');
 
 const io = socketIO(server); 
 
@@ -466,33 +467,56 @@ app.post("/login", (req, res, next) => {
 app.get("/forums/:id", wrapAsync(async (req, res) => {
     try {
         const { id } = req.params;
-        const forum = await Forum.findById(id).populate('marketplace');
+        const forum = await Forum.findById(id)
+            .populate('marketplace')
+            .populate('messages.user', 'name'); // Populate the 'user' field in 'messages' with just the 'name' field
 
         if (!forum) {
             return res.status(404).send("Forum not found");
         }
 
-        // if ( !req.user || forum.owner.toString() !== req.user._id.toString()) {
-        //     return res.status(403).send("You are not authorized to view this forum");
-        // }
-
-        const allForums = await Forum.find({ members: req.user._id }); 
-        res.render("forum/chat.ejs", { forum, allForums });
+        const allForums = await Forum.find({ members: req.user._id });
+        res.render("forum/chat.ejs", { forum, allForums, currentUser: req.user });
     } catch (err) {
         console.error("Error fetching forum:", err);
         res.status(500).send("Internal Server Error");
     }
 }));
 
-app.post("/forums/:id", (req, res) => {
+
+app.post("/forums/:id", async (req, res) => {
     const { id } = req.params;
-    const message = req.body.message;
+    const { message } = req.body;
 
-    // Broadcast the message to all clients in the forum namespace
-    io.of(`/${id}`).emit('chatMessage', message);
+    try {
+        const forum = await Forum.findById(id);
 
-    res.status(200).send("Message sent");
+        if (!forum) {
+            return res.status(404).send("Forum not found");
+        }
+
+        const newChatMessage = new Chat({
+            user: req.user._id,
+            message,
+            forum: forum._id
+        });
+
+        await newChatMessage.save();
+
+        // Update the forum's messages array
+        forum.messages.push(newChatMessage);
+        await forum.save();
+
+        // Broadcast the message to all clients in the forum namespace
+        io.of(`/${id}`).emit('chatMessage', { senderName: req.user.name, message });
+
+        res.status(200).send("Message sent");
+    } catch (err) {
+        console.error("Error sending message:", err);
+        res.status(500).send("Internal Server Error");
+    }
 });
+
 
 // Marketplace of a specific Forum
 app.get("/forums/:id/mart", wrapAsync(async (req, res) => {
@@ -593,8 +617,10 @@ app.get("/signup", (req, res) => {
     res.render("layouts/users/signup.ejs");
 });
 
-app.get("/mylistings", (req, res) => {
-    res.render("layouts/profile/mylistings.ejs");
+app.get("/mylistings", async(req, res) => {
+    const forum = await Forum.findById(forumId).populate('marketplace');
+    const product = await Product.findById(productId).populate('forum');
+    res.render("layouts/profile/mylistings.ejs", { product, forum });
 });
 
 //Post Route-Create Product
