@@ -199,7 +199,7 @@ app.get("/edit-profile", async (req, res) => {
     }
 });
 
-app.post("/profile", async (req, res) => {
+app.post("/edit-profile", async (req, res) => {
     try {
         console.log(req.body);
         if (req.isAuthenticated()) {
