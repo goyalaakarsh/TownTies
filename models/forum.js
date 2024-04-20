@@ -8,16 +8,17 @@ const forumSchema = new mongoose.Schema({
     },
     icon: {
         url: String,
-        filename: String, 
+        filename: String,
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
-    members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], // Members of the forum
-    discussionBoard: { type: mongoose.Schema.Types.ObjectId, ref: 'DiscussionBoard' }, // One-to-one relationship with DiscussionBoard
-    marketplace: { type: mongoose.Schema.Types.ObjectId, ref: 'Marketplace' } // One-to-one relationship with Marketplace
+    members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    discussionBoard: { type: mongoose.Schema.Types.ObjectId, ref: 'DiscussionBoard' },
+    marketplace: { type: mongoose.Schema.Types.ObjectId, ref: 'Marketplace' },
+    messages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Chat' }] // Reference to chat messages in this forum
 });
 
 const Forum = mongoose.model('Forum', forumSchema);
