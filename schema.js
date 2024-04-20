@@ -51,9 +51,9 @@ const userSchemaValidation = Joi.object({
     username: Joi.string().required(),
     email: Joi.string().email().required(),
     contactnum: Joi.alternatives().try(Joi.string(), Joi.number()), 
-    forums: Joi.array().items(Joi.string()),
-    products: Joi.array().items(Joi.string()),
-});
+    forums: Joi.array().items(),
+    products: Joi.array().items(),
+}).unknown(true);
 
 module.exports = {
     chatSchemaValidation,
