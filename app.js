@@ -163,59 +163,59 @@ app.get("/profile", async (req, res) => {
 
 // GET route to render the edit profile page
 
-app.get("/edit-profile", async (req, res) => {
-    if (req.isAuthenticated()) {
-        const userId = req.user._id;
-        try {
-            const currentUser = await User.findById(userId);
-            if (!currentUser) {
-                throw new Error("User not found");
-            }
+// app.get("/edit-profile", async (req, res) => {
+//     if (req.isAuthenticated()) {
+//         const userId = req.user._id;
+//         try {
+//             const currentUser = await User.findById(userId);
+//             if (!currentUser) {
+//                 throw new Error("User not found");
+//             }
 
-            res.render("layouts/profile/edit-profile.ejs", { currentUser });
-        } catch (err) {
-            console.error("Error fetching user for editing profile:", err);
-            res.status(500).send("Internal Server Error");
-        }
-    } else {
-        res.redirect("/login");
-    }
-});
+//             res.render("layouts/profile/edit-profile.ejs", { currentUser });
+//         } catch (err) {
+//             console.error("Error fetching user for editing profile:", err);
+//             res.status(500).send("Internal Server Error");
+//         }
+//     } else {
+//         res.redirect("/login");
+//     }
+// });
 
-app.post("/edit-profile", async (req, res) => {
-    try {
-        console.log(req.body);
-        if (req.isAuthenticated()) {
-            const userId = req.user._id;
+// app.post("/edit-profile", async (req, res) => {
+//     try {
+//         console.log(req.body);
+//         if (req.isAuthenticated()) {
+//             const userId = req.user._id;
 
-            // Extract user data from the request body
-            const userData = req.body.user;
+//             // Extract user data from the request body
+//             const userData = req.body.user;
 
-            // Validate user data
-            const { error } = userSchemaValidation.validate(userData);
-            if (error) {
-                console.error("Validation error:", error.details);
-                return res.status(400).send("Validation error");
-            }
+//             // Validate user data
+//             const { error } = userSchemaValidation.validate(userData);
+//             if (error) {
+//                 console.error("Validation error:", error.details);
+//                 return res.status(400).send("Validation error");
+//             }
 
-            // Update user profile in the database
-            const updatedUser = await User.findByIdAndUpdate(userId, userData, { new: true });
+//             // Update user profile in the database
+//             const updatedUser = await User.findByIdAndUpdate(userId, userData, { new: true });
 
-            if (!updatedUser) {
-                throw new Error("User not found");
-            }
+//             if (!updatedUser) {
+//                 throw new Error("User not found");
+//             }
 
-            // Redirect to the profile page after successful update
-            res.redirect("/profile");
-        } else {
-            // Redirect to login page if user is not authenticated
-            res.redirect("/login");
-        }
-    } catch (err) {
-        console.error("Error updating user profile:", err);
-        res.status(500).send("Internal Server Error");
-    }
-});
+//             // Redirect to the profile page after successful update
+//             res.redirect("/profile");
+//         } else {
+//             // Redirect to login page if user is not authenticated
+//             res.redirect("/login");
+//         }
+//     } catch (err) {
+//         console.error("Error updating user profile:", err);
+//         res.status(500).send("Internal Server Error");
+//     }
+// });
 
 // app.post("/profile", async(req, res) => {
 //     console.log(req.body.user);
@@ -258,9 +258,7 @@ app.get("/mylistings", async (req, res) => {
     } else {
         res.redirect("/login");
     }
-
-
-
+    
 });
 
 // Joining/Creating Forum
@@ -354,63 +352,6 @@ app.post("/joinforum", upload.single("forum[icon]"), wrapAsync(async (req, res) 
         res.status(500).send("Internal Server Error");
     }
 }));
-
-
-// Post Route - Create Forum
-// app.post("/joinforum", upload.single("forum[icon]"), wrapAsync(async (req, res) => {
-//     console.log("Received form data:", req.body);
-//     console.log("Received file data:", req.file);
-
-//     try {
-//         const { forumType, forumReferral } = req.body;
-
-//         if (forumType === 'join') {
-//             const existingForum = await Forum.findById(forumReferral);
-//             if (!existingForum) {
-//                 throw new Error("Forum not found");
-//             }
-
-//             existingForum.members.push(req.user._id);
-//             await existingForum.save();
-
-//             res.redirect("/chats");
-//         } else if (forumType === 'create') {
-//             const newForumData = {
-//                 ...req.body.forum,
-//                 owner: req.user._id,
-//                 members: [req.user._id]
-//             };
-//             const newForum = new Forum(newForumData);
-
-//             if (req.file) {
-//                 let url = req.file.path;
-//                 let filename = req.file.filename;
-//                 newForum.icon = { url, filename };
-//             } else {
-
-//                 newForum.icon = {
-//                     url: "https://static.thenounproject.com/png/1526832-200.png",
-//                     filename: 'default_image.jpg'
-//                 };
-//             }
-//             await newForum.save();
-
-//             req.user.forums.push(newForum._id);
-//             await req.user.save();
-
-//             const marketplace = await Marketplace.create({
-//                 forum: newForum._id
-//             });
-
-//             res.redirect("/chats");
-//         } else {
-//             throw new Error("Invalid forum type");
-//         }
-//     } catch (error) {
-//         console.error("Error processing form data:", error);
-//         res.status(500).send("Internal Server Error");
-//     }
-// }));
 
 // Display Page for all Forums
 app.get("/chats", wrapAsync(async (req, res) => {
