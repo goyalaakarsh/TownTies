@@ -52,7 +52,7 @@
 
             </div>
             <div id="chat-input">
-                <form id="inputform">
+                <form id="inputform" action="/forums/<%= forum._id %>" method="POST">
                     <input type="text" class="form-control" id="messageInput">
                     <button type="submit" id="send-btn">Send</button>
                 </form>
