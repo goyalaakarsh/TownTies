@@ -38,17 +38,29 @@ const Chat = require('./models/chat.js');
 const io = socketIO(server); 
 
 io.on('connection', (socket) => {
-    socket.on('connection', (userName) => {
-        console.log(`${userName} connected`);
+    console.log('A user connected');
 
-        socket.on('disconnect', () => {
-            console.log(`${userName} disconnected`);
-        });
+    // Receive chat messages from clients
+    socket.on('send', async (data) => {
+        console.log('Received chat message:', data);
 
-        socket.on('chatMessage', (message) => {
-            io.emit('chatMessage', { userName, message }); 
-        });
+        // Save the message to your database
+        try {
+            const newChatMessage = new Chat({
+                user: data.sender,
+                message: data.message,
+                // Add any other necessary fields
+            });
+            await newChatMessage.save();
+
+            // Broadcast the message to all clients
+            socket.broadcast.emit('recieve', data); // You can refine this to only emit to specific rooms or namespaces if needed
+        } catch (err) {
+            console.error('Error saving chat message:', err);
+        }
     });
+
+    // Other socket.io event listeners as needed
 });
 
 const PORT = process.env.PORT || 3001;
@@ -100,6 +112,8 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.listen(3000, () => {
     console.log("Server is listening to port 3000!");
