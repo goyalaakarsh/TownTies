@@ -86,7 +86,7 @@ async function main() {
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(methodOverride("_method"));
 app.use("/", userRouter);
@@ -94,6 +94,7 @@ app.engine("ejs", ejsMate);
 app.use(express.json());
 app.use(session(sessionOptions));
 app.use(flash());
+app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
@@ -178,8 +179,8 @@ app.get("/profile", async (req, res) => {
 });
 
 // GET route to render the edit profile page
+
 app.get("/edit-profile", async (req, res) => {
-    console.log(req.body);
     if (req.isAuthenticated()) {
         const userId = req.user._id;
         try {
@@ -199,29 +200,64 @@ app.get("/edit-profile", async (req, res) => {
 });
 
 app.post("/profile", async (req, res) => {
-    // console.log(req.body);
-    if (req.isAuthenticated()) {
-        const userId = req.user._id;
-        try {
-            const { error } = userSchemaValidation.validate(req.body);
+    try {
+        console.log(req.body);
+        if (req.isAuthenticated()) {
+            const userId = req.user._id;
+
+            // Extract user data from the request body
+            const userData = req.body.user;
+
+            // Validate user data
+            const { error } = userSchemaValidation.validate(userData);
             if (error) {
                 console.error("Validation error:", error.details);
-                res.status(400).send("Validation error");
-                return;
+                return res.status(400).send("Validation error");
             }
-            const updatedUser = await User.findByIdAndUpdate(userId, req.body, { new: true });
+
+            // Update user profile in the database
+            const updatedUser = await User.findByIdAndUpdate(userId, userData, { new: true });
+
             if (!updatedUser) {
                 throw new Error("User not found");
             }
+
+            // Redirect to the profile page after successful update
             res.redirect("/profile");
-        } catch (err) {
-            console.error("Error updating user profile:", err);
-            res.status(500).send("Internal Server Error");
+        } else {
+            // Redirect to login page if user is not authenticated
+            res.redirect("/login");
         }
-    } else {
-        res.redirect("/login");
+    } catch (err) {
+        console.error("Error updating user profile:", err);
+        res.status(500).send("Internal Server Error");
     }
 });
+
+// app.post("/profile", async(req, res) => {
+//     console.log(req.body.user);
+//     if (req.isAuthenticated()) {
+//         const userId = req.user._id;
+//         try {
+//             const { error } = userSchemaValidation.validate(req.body.user);
+//             if (error) {
+//                 console.error("Validation error:", error.details);
+//                 res.status(400).send("Validation error");
+//                 return;
+//             }
+//             const updatedUser = await User.findByIdAndUpdate(userId, req.body.user, { new: true });
+//             if (!updatedUser) {
+//                 throw new Error("User not found");
+//             }
+//             res.redirect("/profile");
+//         } catch (err) {
+//             console.error("Error updating user profile:", err);
+//             res.status(500).send("Internal Server Error");
+//         }
+//     } else {
+//         res.redirect("/login");
+//     }
+// });
 
 app.get("/mylistings", async (req, res) => {
     if (req.isAuthenticated()) {
