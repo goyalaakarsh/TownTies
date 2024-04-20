@@ -1,103 +1,99 @@
 <% layout("/layouts/boilerplate.ejs"); %>
 
-<link rel="stylesheet" href="/css/forum/chat.css">
+    <script defer src="http://localhost:3001/socket.io/socket.io.js"></script>
 
-<div id="mart-parent">
-    <div id="mart-container">
-        <div id="mart">
-            <div id="mart-forum-name">
-                <h5>Forums</h5>
-            </div>
-            <div id="chat-listing">
-                <% allForums.forEach(function(forum) { %>
-                    <div class="chat" data-forum-id="<%= forum._id %>">
-                        <img src="<%= forum.icon.url %>" alt="forum-icon">
-                        <div class="card-body">
-                            <h6 class="card-title"><%= forum.name %></h6>
-                            <!-- Additional details if needed -->
+    <link rel="stylesheet" href="/css/forum/chat.css">
+
+    <div id="mart-parent">
+        <div id="mart-container">
+            <div id="mart">
+                <div id="mart-forum-name">
+                    <h5>Forums</h5>
+                </div>
+                <div id="chat-listing">
+                    <% allForums.forEach(function(forum) { %>
+                        <div class="chat" data-forum-id="<%= forum._id %>">
+                            <img src="<%= forum.icon.url %>" alt="forum-icon">
+                            <div class="card-body">
+                                <h6 class="card-title">
+                                    <%= forum.name %>
+                                </h6>
+                                <!-- Additional details if needed -->
+                            </div>
                         </div>
-                    </div>
-                <% }); %>
+                        <% }); %>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id="mart-chat-container">
-        <div id="mart-chat">
-            <div id="chat-forum-name">
-                <h5><%= forum.name %></h5>
-                <a href="/forums/<%= forum._id %>/mart">
-                    Marketplace <i class="fa-solid fa-shop"></i>
-                </a>
-                
-
-            </div>
+        <div id="mart-chat-container">
+            <div id="mart-chat">
+                <div id="chat-forum-name">
+                    <h5>
+                        <%= forum.name %>
+                    </h5>
+                    <a href="/forums/<%= forum._id %>/mart">
+                        Marketplace <i class="fa-solid fa-shop"></i>
+                    </a>
 
 
-            <!-- <div class="under-dev">
+                </div>
+
+
+                <!-- <div class="under-dev">
                 <p>Chats are under development but meanwhile you can explore the Marketplace.</p>
             </div> -->
 
             <div id="chat-area">
-                <% forum.messages.forEach(message => { %>
-                    <div class="message <%= message.sender === currentUser._id ? 'right' : 'left' %>">
-                        <%= message.sender === currentUser._id ? currentUser.name : message.senderName %>: <%= message.content %>
-                    </div>
-                <% }); %>
+                <div class="message left">Aakarsh: Hi</div>
+                <div class="message right">Saksham: Hello</div>
+            </div>
+
+                
+            </div>
+            <div id="chat-input">
+                <form id="inputform">
+                    <input type="text" class="form-control" id="messageInput">
+                    <button type="submit" id="send-btn">Send</button>
+                </form>
             </div>
         </div>
-        <div id="chat-input">
-            <form onsubmit="sendMessage(event)">
-                <input type="text" class="form-control" id="messageInput">
-                <button type="submit" id="send-btn">Send</button>
-            </form>            
-        </div>
     </div>
-</div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const chatDivs = document.querySelectorAll('.chat');
-        chatDivs.forEach(div => {
-            div.addEventListener('click', function() {
-                const forumId = this.getAttribute('data-forum-id');
-                window.location.href = `/forums/${forumId}`; // Redirect to the forum URL
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const chatDivs = document.querySelectorAll('.chat');
+            chatDivs.forEach(div => {
+                div.addEventListener('click', function () {
+                    const forumId = this.getAttribute('data-forum-id');
+                    window.location.href = `/forums/${forumId}`; // Redirect to the forum URL
+                });
             });
         });
-    });
-</script>
-
-<script src="/socket.io/socket.io.js"></script>
-<script>
-    const socket = io();
-
-    // Emit the 'joinRoom' event to join the forum namespace
-    socket.emit('joinRoom', '<%= forum._id %>');
-
-    // Listen for chat messages from the server
-    socket.on('chatMessage', (data) => {
-        console.log('Received message:', data); // Check if this logs correctly
-    
+    </script>
+    <script>
+        const socket = io("http://localhost:3001");
+        const form = document.getElementById("inputform");
         const chatArea = document.getElementById('chat-area');
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message', data.sender === '<%= currentUser._id %>' ? 'right' : 'left');
-        messageDiv.innerHTML = `<strong>${data.senderName}:</strong> ${data.message}`;
-        chatArea.appendChild(messageDiv);
-    });
-
-    // Send a chat message to the server
-    function sendMessage(event) {
-        event.preventDefault(); 
     
-        const message = document.getElementById('messageInput').value.trim(); 
-        console.log("Sending message:", message); // Check if this logs correctly
-    
-        if (message === '') {
-            return; 
+        function append(sender, message, position) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', position);
+            messageDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
+            chatArea.appendChild(messageDiv);
         }
     
-        socket.emit('chatMessage', { message, sender: '<%= currentUser._id %>', senderName: '<%= currentUser.name %>' });
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const message = document.getElementById('messageInput').value.trim();
+            append('You', message, 'right');
+            socket.emit('send', { message, sender: '<%= currentUser._id %>', senderName: 'You' });
+            document.getElementById('messageInput').value = '';
+        });
     
-        document.getElementById('messageInput').value = ''; // Clear input field after sending
-    }
-</script>
+        // Listen for chat messages from the server
+        socket.on('receive', (data) => {
+            append(data.senderName, data.message, 'left');
+        });
+    </script>
+    
