@@ -46,15 +46,15 @@ io.on('connection', (socket) => {
 
         // Save the message to your database
         try {
-            console.log("hi");
+            
             const newChatMessage = new Chat({
                 user: data.sender,
                 message: data.message,
                 // Add any other necessary fields
             });
-            console.log("hi");
+            
             await newChatMessage.save();
-            console.log("hi");
+            
 
             // Broadcast the message to all clients
             socket.broadcast.emit('recieve', data); // You can refine this to only emit to specific rooms or namespaces if needed
@@ -529,7 +529,7 @@ app.get("/forums/:id", wrapAsync(async (req, res) => {
         const allForums = await Forum.find({ members: req.user._id });
         
         // Fetch chat messages for the forum and pass them to the template
-        const chatMessages = forum.messages.map(message => ({
+        const chatMessages = forum.messages.map(data => ({
             senderName: data.senderName,
             message: data.content // Assuming the content of the message is stored in 'content' field
         }));
@@ -542,37 +542,38 @@ app.get("/forums/:id", wrapAsync(async (req, res) => {
 }));
 
 
-
 app.post("/forums/:id", async (req, res) => {
     const { id } = req.params;
     const { message } = req.body;
-
+    console.log("Ze message is:     ", message);
     try {
-        console.log("HI");
+        
         const forum = await Forum.findById(id);
 
         if (!forum) {
             return res.status(404).send("Forum not found");
         }
-        console.log("HI");
+        
         const newChatMessage = new Chat({
             user: req.user._id,
             message,
             forum: forum._id
         });
-        console.log("HI");
+        
         await newChatMessage.save();
 
         // Update the forum's messages array
         forum.messages.push(newChatMessage);
         await forum.save();
-        console.log("HI");
+        
         // Broadcast the message to all clients in the forum namespace
         io.of(`/${id}`).emit('receive', { senderName: req.user.name, message }); // Emit 'receive' event
-        res.status(200).send("Message sent");
+        // res.status(200).send("Message sent");
+        res.redirect(`/forums/${id}`)
     } catch (err) {
         console.error("Error sending message:", err);
         res.status(500).send("Internal Server Error");
+        console.log(err);
     }
 });
 
