@@ -57,8 +57,8 @@ io.on('connection', (socket) => {
             // Retrieve all chat messages for the current forum
             const allChatMessages = await Chat.find({ forum: data.forumId });
 
-            // Emit the updated list of messages to all clients in the forum namespace
-            io.of(`/${data.forumId}`).emit('receive', allChatMessages);
+            // Broadcast the message to all clients 
+            socket.broadcast.emit('recieve', {message: data, name: user[socket.id]}); // You can refine this to only emit to specific rooms or namespaces if needed
         } catch (err) {
             console.error('Error saving or retrieving chat message:', err);
         }
