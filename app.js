@@ -56,8 +56,8 @@ io.on('connection', (socket) => {
             await newChatMessage.save();
             
 
-            // Broadcast the message to all clients
-            socket.broadcast.emit('recieve', data); // You can refine this to only emit to specific rooms or namespaces if needed
+            // Broadcast the message to all clients 
+            socket.broadcast.emit('recieve', {message: data, name: user[socket.id]}); // You can refine this to only emit to specific rooms or namespaces if needed
         } catch (err) {
             console.error('Error saving chat message:', err);
         }

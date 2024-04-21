@@ -45,15 +45,15 @@
             </div> -->
 
                 <div id="chat-area">
-                    <div class="message left">Aakarsh: Hi</div>
-                    <div class="message right">Saksham: Hello</div>
+                        <div class="message left">Aakarsh: Hi</div>
+                        <div class="message right">Saksham: Hello</div>
                 </div>
 
 
             </div>
             <div id="chat-input">
-                <form id="inputform" action="/forums/<%= forum._id %>" method="POST">
-                    <input type="text" class="form-control" id="messageInput" name="message" required>
+                <form id="inputform">
+                    <input type="text" class="form-control" id="messageInput">
                     <button type="submit" id="send-btn">Send</button>
                 </form>
             </div>
@@ -61,44 +61,56 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const chatDivs = document.querySelectorAll('.chat');
-            chatDivs.forEach(div => {
-                div.addEventListener('click', function () {
-                    const forumId = this.getAttribute('data-forum-id');
-                    window.location.href = `/forums/${forumId}`; // Redirect to the forum URL
-                });
-            });
-        });
-    </script>
+       document.addEventListener('DOMContentLoaded', function() {
+    const chatDivs = document.querySelectorAll('.chat');
+    const form = document.getElementById('inputform');
+    const chatArea = document.getElementById('chat-area');
+    const messageInput = document.getElementById('messageInput');
+    const socket = io("http://localhost:3001");
+    const forumId = '<%= forum._id %>'; // Add the forum ID from the current context
 
-    <script>
-        const socket = io("http://localhost:3001");
-        const form = document.getElementById("inputform");
-        const chatArea = document.getElementById('chat-area');
-    
-        function append(sender, message, position) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message', position);
-            messageDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
-            chatArea.appendChild(messageDiv);
+    // Join the current forum room
+    socket.emit('joinRoom', forumId);
+
+    // Function to append a new message to the chat area
+    function appendMessage(senderName, message, position) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', position);
+        messageDiv.innerHTML = `<strong>${senderName}:</strong> ${message}`;
+        chatArea.appendChild(messageDiv);
+        chatArea.scrollTop = chatArea.scrollHeight; // Scroll to the bottom
+    }
+
+    // Event listener for chat divs
+    chatDivs.forEach(div => {
+        div.addEventListener('click', function() {
+            const forumId = this.getAttribute('data-forum-id');
+            window.location.href = `/forums/${forumId}`; // Redirect to the forum URL
+        });
+    });
+
+    // Event listener for form submission (sending a new message)
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const message = messageInput.value.trim();
+        if (message) {
+            appendMessage('You', message, 'right');
+            socket.emit('sendMessageToRoom', {
+                forumId: forumId,
+                message: message,
+                sender: '<%= currentUser._id %>',
+                senderName: 'You'
+            });
+            messageInput.value = ''; // Clear the input field
         }
-    
-        chatMessages.forEach(message => { 
-            append(data.senderName, data.message, 'left');
-        });
-    
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const message = document.getElementById('messageInput').value.trim();
-            append('You', message, 'right');
-            socket.emit('send', { message, sender: '<%= currentUser._id %>', senderName: 'You' });
-            console.log('Message sent:', { message, sender: '<%= currentUser._id %>', senderName: 'You' });
-            document.getElementById('messageInput').value = '';
-        });
-    
-        socket.on('receive', (data) => {
-            append(data.senderName, data.message, 'left');
-        });
+    });
+
+    // Event listener for receiving new messages from the server
+    socket.on('newMessage', function(data) {
+        const position = data.senderName === 'You' ? 'right' : 'left';
+        appendMessage(data.senderName, data.message, position);
+    });
+});
+
     </script>
     
