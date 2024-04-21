@@ -27,7 +27,7 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Reference to the user who posted the product
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Reference to the owner (user who listed the product)
     forum: { type: mongoose.Schema.Types.ObjectId, ref: 'Forum' } 
 });
 

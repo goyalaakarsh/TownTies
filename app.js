@@ -44,25 +44,31 @@ io.on('connection', (socket) => {
     socket.on('send', async (data) => {
         console.log('Received chat message:', data);
 
-        // Save the message to your database
         try {
-            
+            // Save the message to your database
             const newChatMessage = new Chat({
                 user: data.sender,
                 message: data.message,
-                // Add any other necessary fields
+                forum: data.forumId // Assuming you're passing forumId from the frontend
             });
-            
-            await newChatMessage.save();
-            
 
-            // Broadcast the message to all clients
-            socket.broadcast.emit('recieve', data); // You can refine this to only emit to specific rooms or namespaces if needed
+            await newChatMessage.save();
+
+            // Retrieve all chat messages for the current forum
+            const allChatMessages = await Chat.find({ forum: data.forumId });
+
+            // Emit the updated list of messages to all clients in the forum namespace
+            io.of(`/${data.forumId}`).emit('receive', allChatMessages);
         } catch (err) {
-            console.error('Error saving chat message:', err);
+            console.error('Error saving or retrieving chat message:', err);
         }
     });
+
+    // Other socket.io event listeners as needed
 });
+
+// Other routes and middleware as needed
+
 
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
