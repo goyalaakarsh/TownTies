@@ -57,56 +57,55 @@
     </div>
 
     <script>
-       document.addEventListener('DOMContentLoaded', function() {
-    const chatDivs = document.querySelectorAll('.chat');
-    const form = document.getElementById('inputform');
-    const chatArea = document.getElementById('chat-area');
-    const messageInput = document.getElementById('messageInput');
-    const socket = io("http://localhost:3001");
-    const forumId = '<%= forum._id %>'; // Add the forum ID from the current context
+        document.addEventListener('DOMContentLoaded', function () {
+            const chatDivs = document.querySelectorAll('.chat');
+            const form = document.getElementById('inputform');
+            const chatArea = document.getElementById('chat-area');
+            const messageInput = document.getElementById('messageInput');
+            const socket = io("http://localhost:3001");
+            const forumId = '<%= forum._id %>'; // Add the forum ID from the current context
 
-    // Join the current forum room
-    socket.emit('joinRoom', forumId);
+            // Join the current forum room
+            socket.emit('joinRoom', forumId);
 
-    // Function to append a new message to the chat area
-    function appendMessage(senderName, message, position) {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message', position);
-        messageDiv.innerHTML = `<strong>${senderName}:</strong> ${message}`;
-        chatArea.appendChild(messageDiv);
-        chatArea.scrollTop = chatArea.scrollHeight; // Scroll to the bottom
-    }
+            // Function to append a new message to the chat area
+            function appendMessage(senderName, message, position) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message', position);
+                messageDiv.innerHTML = `<strong>${senderName}:</strong> ${message}`;
+                chatArea.appendChild(messageDiv);
+                chatArea.scrollTop = chatArea.scrollHeight; // Scroll to the bottom
+            }
 
-    // Event listener for chat divs
-    chatDivs.forEach(div => {
-        div.addEventListener('click', function() {
-            const forumId = this.getAttribute('data-forum-id');
-            window.location.href = `/forums/${forumId}`; // Redirect to the forum URL
-        });
-    });
-
-    // Event listener for form submission (sending a new message)
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const message = messageInput.value.trim();
-        if (message) {
-            appendMessage('You', message, 'right');
-            socket.emit('sendMessageToRoom', {
-                forumId: forumId,
-                message: message,
-                sender: '<%= currentUser._id %>',
-                senderName: 'You'
+            // Event listener for chat divs
+            chatDivs.forEach(div => {
+                div.addEventListener('click', function () {
+                    const forumId = this.getAttribute('data-forum-id');
+                    window.location.href = `/forums/${forumId}`; // Redirect to the forum URL
+                });
             });
-            messageInput.value = ''; // Clear the input field
-        }
-    });
 
-    // Event listener for receiving new messages from the server
-    socket.on('newMessage', function(data) {
-        const position = data.senderName === 'You' ? 'right' : 'left';
-        appendMessage(data.senderName, data.message, position);
-    });
-});
+            // Event listener for form submission (sending a new message)
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const message = messageInput.value.trim();
+                if (message) {
+                    appendMessage('You', message, 'right');
+                    socket.emit('sendMessageToRoom', {
+                        forumId: forumId,
+                        message: message,
+                        sender: '<%= currentUser._id %>',
+                        senderName: 'You'
+                    });
+                    messageInput.value = ''; // Clear the input field
+                }
+            });
+
+            // Event listener for receiving new messages from the server
+            socket.on('newMessage', function (data) {
+                const position = data.senderName === 'You' ? 'right' : 'left';
+                appendMessage(data.senderName, data.message, position);
+            });
+        });
 
     </script>
-    

@@ -684,11 +684,18 @@ app.get("/signup", (req, res) => {
     res.render("layouts/users/signup.ejs");
 });
 
-app.get("/mylistings", async(req, res) => {
-    const forum = await Forum.findById(forumId).populate('marketplace');
-    const product = await Product.findById(productId).populate('forum');
-    res.render("layouts/profile/mylistings.ejs", { product, forum });
+app.get("/mylistings", async (req, res) => {
+    try {
+        const myProducts = await Product.find({ owner: req.user._id }).populate('forum');
+        const forumId = req.params.forumId; // Assuming forumId is available in your route handler
+
+        res.render("layouts/profile/mylistings.ejs", { myProducts, forumId });
+    } catch (err) {
+        console.error("Error fetching user's products:", err);
+        res.status(500).send("Internal Server Error");
+    }
 });
+
 
 //Post Route-Create Product
 app.post("/new-product", upload.single("product[image]"), async (req, res) => {
