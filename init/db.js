@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const initData = require("./mart-data.js");
 const Product = require("../models/product.js");
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/townties";
+const MONGO_URL = "mongodb+srv://aakarshgoyal23:town@cluster0.inrcb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 async function main() {
     try {

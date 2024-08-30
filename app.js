@@ -122,8 +122,8 @@ passport.deserializeUser(User.deserializeUser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.listen(3000, () => {
-    console.log("Server is listening to port 3000!");
+app.listen(8080, () => {
+    console.log("Server is listening to port 8080!");
 });
 
 const validateChat = (req, res, next) => {
